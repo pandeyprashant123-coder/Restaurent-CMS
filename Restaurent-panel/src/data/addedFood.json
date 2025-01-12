@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Salad",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "Veg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addon": "Coke",
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  }
+]

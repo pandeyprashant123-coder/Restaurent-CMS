@@ -1,0 +1,64 @@
+[
+  {
+    "id": "basic",
+    "name": "Basic",
+    "prices": {
+      "Monthly": "5",
+      "Annually": "50"
+    },
+    "features": [
+      "Dashboard",
+      "POS",
+      "Orders",
+      "Customers",
+      "Invoices",
+      "Menu items",
+      "Tax setup"
+    ]
+  },
+  {
+    "id": "standard",
+    "name": "Standard",
+    "prices": {
+      "Monthly": "10",
+      "Annually": "100"
+    },
+    "features": [
+      "Dashboard",
+      "POS",
+      "Orders",
+      "Kitchen",
+      "Reservations",
+      "Customers",
+      "Invoices",
+      "Reports",
+      "Menu items",
+      "Tables",
+      "Tax setup",
+      "Generate QR menu"
+    ]
+  },
+  {
+    "id": "enterprise",
+    "name": "Enterprise",
+    "prices": {
+      "Monthly": "15",
+      "Annually": "150"
+    },
+    "features": [
+      "Dashboard",
+      "POS",
+      "Orders",
+      "Kitchen",
+      "Reservations",
+      "Customers",
+      "Invoices",
+      "Reports",
+      "Menu items",
+      "Tables",
+      "Tax setup",
+      "Generate QR menu",
+      "Generate digital menu"
+    ]
+  }
+]

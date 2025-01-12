@@ -1,0 +1,58 @@
+[
+  {
+    "address": "Dhumbarahi,",
+    "fullName": "Prashnta Pandey",
+    "email": "pandey00123000@gmail.com",
+    "password": "123123",
+    "phone": "9840754358",
+    "duration": "Monthly",
+    "plan": "Basic",
+    "id": "1",
+    "hotelName": "Hotel Sunshine",
+    "subscriptionNo": "SUB1234",
+    "expiryDate": "2025-1-25",
+    "pendingStatus": "Pending"
+  },
+  {
+    "address": "Dharan",
+    "fullName": "Prashnta Pandey",
+    "email": "pandey00123000@gmail.com",
+    "password": "123123",
+    "phone": "9840754358",
+    "duration": "Annually",
+    "plan": "Basic",
+    "id": "2",
+    "hotelName": "Hotel Grand",
+    "subscriptionNo": "SUB5678",
+    "expiryDate": "2025-9-21",
+    "pendingStatus": "Pending"
+  },
+  {
+    "address": "Ithahari",
+    "fullName": "Prashnta Pandey",
+    "email": "pandey00123000@gmail.com",
+    "password": "123123",
+    "phone": "9840754358",
+    "duration": "Monthly",
+    "plan": "Basic",
+    "id": "3",
+    "hotelName": "Ocean View Inn",
+    "subscriptionNo": "SUB9101",
+    "expiryDate": "2025-1-21",
+    "pendingStatus": "Pending"
+  },
+  {
+    "address": "Biratnagar",
+    "fullName": "Prashnta Pandey",
+    "email": "pandey00123000@gmail.com",
+    "password": "123123",
+    "phone": "9840754358",
+    "duration": "Annually",
+    "plan": "Basic",
+    "id": "4",
+    "hotelName": "Mountain Retreat",
+    "subscriptionNo": "SUB1122",
+    "expiryDate": "2025-12-21",
+    "pendingStatus": "Pending"
+  }
+]

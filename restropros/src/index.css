@@ -1,0 +1,20 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+    font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  }
+@layer components{
+    .btnGreen{
+     @apply bg-[#70b56a] py-2 px-4 rounded-3xl text-white hover:bg-[#243922] duration-150
+    }
+    .btnGrey{
+        @apply py-2 px-4 rounded-3xl hover:bg-slate-100 duration-150
+    }
+  }
