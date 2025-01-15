@@ -24,6 +24,7 @@ import { RiBankFill } from "react-icons/ri";
 import { LuMails } from "react-icons/lu";
 import { MdOutlinePendingActions, MdPerson } from "react-icons/md";
 import hotelIcon from "../assets/hotelIcon.png";
+import adImg from "../assets/ad-default.png";
 
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { PiArrowLineLeft, PiArrowLineLeftBold } from "react-icons/pi";
@@ -550,10 +551,20 @@ const Dashboard = () => {
               </div>
             ))}
           </ul>
+          <div className="advertise advertiseAd bg-white relative overflow-hidden p-3 m-3  flex flex-col items-center justify-evenly gap-1 bg-[#4153b30d] rounded-md shadow">
+            <img src={adImg} alt="" />
+            <h1 className=" font-semibold text-black mt-2">
+              Want to get highlighted?
+            </h1>
+            <p className="text-center text-xs text-gray-500">
+              Create ads to get highlighted on the app and web browser
+            </p>
+            <button className="btnBlue p-2  mt-2">Create Ads</button>
+          </div>
           <div className="py-10"></div>
         </div>
       </div>
-      <div className={`${hideSideNav ? "w-full" : "w-4/5"}`}>
+      <div className={`relative ${hideSideNav ? "w-full" : "w-4/5"}`}>
         <div className="border-b sticky top-0 z-50 bg-white">
           <div className="text-gray-500 flex gap-6 justify-end py-2 px-5">
             <LuMails className="p-[.7rem] h-10 w-10 bg-slate-100 rounded-full hover:bg-slate-500 hover:text-white duration-150 cursor-pointer" />

@@ -56,7 +56,7 @@ const PointOfSale = () => {
     );
   };
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="flex flex-col bg-gray-50">
       <main className="flex gap-4 p-6 w-full">
         <div className="col-span-2 w-1/2">
           {/* <FoodSection /> */}
@@ -284,8 +284,8 @@ const PosForm: React.FC<formProps> = ({
   if (!food) return null; // Handle invalid foodId
 
   return (
-    <div className="flex items-center justify-center w-full bg-[#555252b5] absolute top-0 left-0 z-50">
-      <div className="flex flex-col gap-3 bg-white p-8 rounded-lg shadow-md max-w-lg w-full">
+    <div className="flex items-center justify-center w-full h-full bg-[#555252b5] absolute top-0 left-0 z-50">
+      <div className="flex flex-col gap-3 bg-white p-8 rounded-lg shadow-md max-w-lg h-4/5  overflow-y-scroll">
         <div
           className="font-semibold text-xl text-end translate-x-6 -translate-y-9 cursor-pointer p-1 hover:text-gray-700"
           onClick={() => setShowForm(false)}

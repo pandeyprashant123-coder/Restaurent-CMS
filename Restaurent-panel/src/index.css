@@ -38,3 +38,27 @@ input,textarea,select:focus {
 .btnBlue{
   @apply bg-[#006fbd] hover:bg-[#145482] duration-150 text-white rounded-md;
 }
+
+.advertise::before{
+  top: -30px;
+  right: -30px;
+}
+.advertise::after{
+  bottom: -30px;
+    left: -30px;
+}
+.advertise::before,
+.advertise::after{
+  content: "";
+  position: absolute;
+  /* top: -30px;
+    right: -30px; */
+  width: 126px;
+  height: 115px;
+  background: #0013560d;
+  border-radius: 50%;
+}
+.advertiseAd::before,
+.advertiseAd::after{
+  background: #ff79181a !important;
+}
