@@ -3,6 +3,8 @@ import { Pie, Bar } from "react-chartjs-2";
 import "chart.js/auto";
 import "./DashboardContent.css";
 
+import adImg from "../assets/ad-default.png";
+
 import { LuLayoutDashboard } from "react-icons/lu";
 import { MdOutlineRestaurant } from "react-icons/md";
 import { FaChartSimple } from "react-icons/fa6";
@@ -15,6 +17,7 @@ import delivered from "../assets/dashboard-imgs/all.png";
 import refunded from "../assets/dashboard-imgs/refunded.png";
 import scheduled from "../assets/dashboard-imgs/scheduled.png";
 import all from "../assets/dashboard-imgs/top-resturant.png";
+import { Link } from "react-router-dom";
 
 const DashboardContent = () => {
   const [selectedZone, setSelectedZone] = useState("All Zones");
@@ -96,101 +99,114 @@ const DashboardContent = () => {
           <MdOutlineRestaurant className="text-2xl" />
         </div>
       </div>
-
-      {/* Order Statistics Section */}
-      <div className=" border rounded-lg my-3">
-        <div className="flex items-center justify-between p-3 border-b">
-          <div className="">
-            <h2>
-              Order statistics:
-              <span className="selected-zone"> {selectedZone}</span>
-            </h2>
+      <div className="gap-2 grid grid-cols-4 relative">
+        {/* Order Statistics Section */}
+        <div className=" border rounded-lg my-3 col-span-3">
+          <div className="flex items-center justify-between p-3 border-b">
+            <div className="">
+              <h2>
+                Order statistics:
+                <span className="selected-zone"> {selectedZone}</span>
+              </h2>
+            </div>
+            <div className="statistics-right">
+              <select value={selectedTime} onChange={handleTimeChange}>
+                <option value="Overall">Overall Statistics</option>
+                <option value="This year">This year</option>
+                <option value="This month">This month</option>
+                <option value="This week">This week</option>
+                <option value="Today">Today</option>
+              </select>
+            </div>
           </div>
-          <div className="statistics-right">
-            <select value={selectedTime} onChange={handleTimeChange}>
-              <option value="Overall">Overall Statistics</option>
-              <option value="This year">This year</option>
-              <option value="This month">This month</option>
-              <option value="This week">This week</option>
-              <option value="Today">Today</option>
-            </select>
+          {/* Card Section */}
+
+          <div className="flex flex-col">
+            <div className="flex gap-3 w-full p-5">
+              <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-green-200 rounded-lg w-1/4">
+                <div className="flex justify-end">
+                  <img className=" h-7 w-7" src={confirmed} alt="confirmed" />
+                </div>
+                <h3 className="font-bold text-green-800 text-xl">1</h3>
+                <p className="font-semibold text-sm">Confirmed</p>
+              </div>
+              <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-red-50 rounded-lg w-1/4">
+                <div className="flex justify-end">
+                  <img className=" h-7 w-7" src={cooking} alt="confirmed" />
+                </div>
+                <h3 className="font-bold text-green-800 text-xl">2</h3>
+                <p className="font-semibold text-sm">Cooking</p>
+              </div>
+              <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-orange-100 rounded-lg w-1/4">
+                <div className="flex justify-end">
+                  <img className=" h-7 w-7" src={delivary} alt="confirmed" />
+                </div>
+                <h3 className="font-bold text-green-800 text-xl">5</h3>
+                <p className="font-semibold text-sm">Ready for Delivary</p>
+              </div>
+              <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-red-200 rounded-lg w-1/4">
+                <div className="flex justify-end">
+                  <img className=" h-7 w-7" src={onWay} alt="confirmed" />
+                </div>
+                <h3 className="font-bold text-green-800 text-xl">10</h3>
+                <p className="font-semibold text-sm">Food on the Way</p>
+              </div>
+            </div>
+            <div className="flex p-5 gap-3">
+              <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
+                <img
+                  className="h-5 w-5
+                "
+                  src={delivered}
+                  alt="burger"
+                />
+                <p className="font-semibold">Delivered</p>
+                <h3 className="text-xl font-semibold text-orange-500">23</h3>
+              </div>
+              <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
+                <img
+                  className="h-5 w-5
+                "
+                  src={refunded}
+                  alt="burger"
+                />
+                <p className="font-semibold">Refunded</p>
+                <h3 className="text-xl font-semibold text-orange-500">23</h3>
+              </div>
+              <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
+                <img
+                  className="h-5 w-5
+                "
+                  src={scheduled}
+                  alt="burger"
+                />
+                <p className="font-semibold">Scheduled</p>
+                <h3 className="text-xl font-semibold text-orange-500">23</h3>
+              </div>
+              <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
+                <img
+                  className="h-5 w-5
+                "
+                  src={all}
+                  alt="burger"
+                />
+                <p className="font-semibold">All</p>
+                <h3 className="text-xl font-semibold text-orange-500">23</h3>
+              </div>
+            </div>
           </div>
         </div>
-        {/* Card Section */}
-
-        <div className="flex flex-col">
-          <div className="flex gap-3 w-full p-5">
-            <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-green-200 rounded-lg w-1/4">
-              <div className="flex justify-end">
-                <img className=" h-7 w-7" src={confirmed} alt="confirmed" />
-              </div>
-              <h3 className="font-bold text-green-800 text-xl">1</h3>
-              <p className="font-semibold text-sm">Confirmed</p>
-            </div>
-            <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-red-50 rounded-lg w-1/4">
-              <div className="flex justify-end">
-                <img className=" h-7 w-7" src={cooking} alt="confirmed" />
-              </div>
-              <h3 className="font-bold text-green-800 text-xl">2</h3>
-              <p className="font-semibold text-sm">Cooking</p>
-            </div>
-            <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-orange-100 rounded-lg w-1/4">
-              <div className="flex justify-end">
-                <img className=" h-7 w-7" src={delivary} alt="confirmed" />
-              </div>
-              <h3 className="font-bold text-green-800 text-xl">5</h3>
-              <p className="font-semibold text-sm">Ready for Delivary</p>
-            </div>
-            <div className="flex flex-col p-5 gap-2 hover:shadow-md duration-150 cursor-pointer  bg-red-200 rounded-lg w-1/4">
-              <div className="flex justify-end">
-                <img className=" h-7 w-7" src={onWay} alt="confirmed" />
-              </div>
-              <h3 className="font-bold text-green-800 text-xl">10</h3>
-              <p className="font-semibold text-sm">Food on the Way</p>
-            </div>
+        <div className="advertise relative overflow-hidden px-3 m-3 py-8  flex flex-col items-center justify-evenly gap-2 bg-[#4153b30d] rounded-md shadow">
+          <img src={adImg} alt="" />
+          <div>
+            <h1 className=" font-semibold">Want to get highlighted?</h1>
+            <p className="text-center text-xs text-gray-500">
+              Create ads to get highlighted on the app and web browser
+            </p>
           </div>
-          <div className="flex p-5 gap-3">
-            <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
-              <img
-                className="h-5 w-5
-                "
-                src={delivered}
-                alt="burger"
-              />
-              <p className="font-semibold">Delivered</p>
-              <h3 className="text-xl font-semibold text-orange-500">23</h3>
-            </div>
-            <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
-              <img
-                className="h-5 w-5
-                "
-                src={refunded}
-                alt="burger"
-              />
-              <p className="font-semibold">Refunded</p>
-              <h3 className="text-xl font-semibold text-orange-500">23</h3>
-            </div>
-            <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
-              <img
-                className="h-5 w-5
-                "
-                src={scheduled}
-                alt="burger"
-              />
-              <p className="font-semibold">Scheduled</p>
-              <h3 className="text-xl font-semibold text-orange-500">23</h3>
-            </div>
-            <div className="flex gap-2 items-center justify-center  bg-gray-100 rounded-lg px-2 py-5 w-1/4 hover:shadow-md cursor-pointer">
-              <img
-                className="h-5 w-5
-                "
-                src={all}
-                alt="burger"
-              />
-              <p className="font-semibold">All</p>
-              <h3 className="text-xl font-semibold text-orange-500">23</h3>
-            </div>
-          </div>
+          <Link to="new-advertisement" className="btnBlue p-2">
+            Create Ads
+          </Link>
         </div>
       </div>
 

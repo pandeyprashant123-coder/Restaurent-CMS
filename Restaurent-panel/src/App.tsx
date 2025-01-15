@@ -22,6 +22,8 @@ import Login from "./Pages/Login";
 import AllOrders from "./components/OrderManagement/Orders/orders/AllOrders";
 import MyShop from "./components/BusinessManagement/MyShop";
 import RestaurentWallet from "./components/BusinessManagement/RestaurentWallet";
+import EmployeeRole from "./components/EmployeeSection/EmployeeRole";
+import AddEmployee from "./components/EmployeeSection/Employees/AddEmployee";
 
 function App() {
   return (
@@ -55,6 +57,14 @@ function App() {
             <Route
               path="business-management/my-wallet"
               element={<RestaurentWallet />}
+            />
+            <Route
+              path="employee-section/employee-role"
+              element={<EmployeeRole />}
+            />
+            <Route
+              path="employee-section/employee/add-new-employee"
+              element={<AddEmployee />}
             />
           </Route>
           <Route path="/login" element={<Login />} />

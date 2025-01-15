@@ -20,7 +20,7 @@ const Login = () => {
           backgroundPosition: "center",
         }}
       >
-        <div className="flex flex-col gap-5  pl-10 justify-center bg-[#ff8a09f5] text-white w-3/5 h-3/5">
+        <div className="flex flex-col gap-5  pl-10 justify-center bg-[#ff8809e4] text-white w-3/5 h-3/5">
           <div className="text-5xl font-semibold">
             <h1 className="mb-2">WELCOME TO </h1>
             <h1>FOODI</h1>
