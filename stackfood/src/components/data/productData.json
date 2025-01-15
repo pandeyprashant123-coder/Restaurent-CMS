@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "Pizza carnival",
+    "price": 540,
+    "oldPrice": 600,
+    "discount": "10% OFF",
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "restaurant": "Cheesy Restaurant",
+    "type": "veg",
+    "rating": 2,
+    "description": "loremLorem ipsum dolor sit amet consectetur adipisicing elit. Quidem vel at et, unde velit placeat eius suscipit similique modi sunt dolorum, minus quaerat vero animi itaque provident rem. Hic ut ratione sit, facilis, minus obcaecati corrupti mollitia nesciunt, officia cumque culpa? Quod nemo optio odit ducimus architecto maxime vitae tenetur.",
+    "Addons": "A B C D",
+    "optional": 20
+  },
+  {
+    "id": 2,
+    "title": "Pizza carnival",
+    "price": 540,
+    "oldPrice": 600,
+    "discount": "10% OFF",
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "restaurant": "Cheesy Restaurant",
+    "type": "veg",
+    "rating": 2,
+    "description": "loremLorem ipsum dolor sit amet consectetur adipisicing elit. Quidem vel at et, unde velit placeat eius suscipit similique modi sunt dolorum, minus quaerat vero animi itaque provident rem. Hic ut ratione sit, facilis, minus obcaecati corrupti mollitia nesciunt, officia cumque culpa? Quod nemo optio odit ducimus architecto maxime vitae tenetur.",
+    "Addons": "A B C D",
+    "optional": 20
+  },
+  {
+    "id": 3,
+    "title": "Pizza carnival",
+    "price": 540,
+    "oldPrice": 600,
+    "discount": "10% OFF",
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "restaurant": "Cheesy Restaurant",
+    "type": "veg",
+    "rating": 2,
+    "description": "loremLorem ipsum dolor sit amet consectetur adipisicing elit. Quidem vel at et, unde velit placeat eius suscipit similique modi sunt dolorum, minus quaerat vero animi itaque provident rem. Hic ut ratione sit, facilis, minus obcaecati corrupti mollitia nesciunt, officia cumque culpa? Quod nemo optio odit ducimus architecto maxime vitae tenetur.",
+    "Addons": "A B C D",
+    "optional": 20
+  },
+  {
+    "id": 4,
+    "title": "Pizza carnival",
+    "price": 540,
+    "oldPrice": 600,
+    "discount": "10% OFF",
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "restaurant": "Cheesy Restaurant",
+    "type": "veg",
+    "rating": 2,
+    "description": "loremLorem ipsum dolor sit amet consectetur adipisicing elit. Quidem vel at et, unde velit placeat eius suscipit similique modi sunt dolorum, minus quaerat vero animi itaque provident rem. Hic ut ratione sit, facilis, minus obcaecati corrupti mollitia nesciunt, officia cumque culpa? Quod nemo optio odit ducimus architecto maxime vitae tenetur.",
+    "Addons": "A B C D",
+    "optional": 20
+  }
+]
