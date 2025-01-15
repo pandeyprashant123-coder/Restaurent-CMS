@@ -9,8 +9,12 @@
   font-style: normal;
 }
 
-input,textarea,select:focus {
+img[alt]:not([src]) {
+  display: none; /* Hide images that have alt but no src */
+}
+input:focus,textarea:focus,select:focus {
   outline: none;
+  @apply focus:outline-none focus:ring-0 shadow-sm shadow-sky-300 border-sky-500;
 }
 
 /* width */

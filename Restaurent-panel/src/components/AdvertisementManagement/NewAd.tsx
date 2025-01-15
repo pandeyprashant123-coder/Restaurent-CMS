@@ -310,7 +310,7 @@ const NewAd = () => {
           <div className=" flex flex-col gap-2 bg-gray-100 p-6 rounded-md  sticky top-20">
             <h1 className="font-semibold text-base">Advertisement Preview</h1>
             <div>
-              <div className="h-40 flex rounded-md relative bg-gray-200">
+              <div className="h-40 flex rounded-t-md relative bg-gray-200">
                 <img
                   src={previewCover}
                   alt=""
