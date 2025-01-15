@@ -452,7 +452,7 @@ const Dashboard = () => {
                               </NavLink>
                             </div>
                           ) : (
-                            <div>
+                            <div className="relative">
                               <div
                                 className="flex items-center p-2  rounded cursor-pointer "
                                 onClick={() => toggleDropdown(subItem.title)}
@@ -480,18 +480,17 @@ const Dashboard = () => {
                                 )}
                               </div>
                               <ul
-                                className={`mt-1 overflow-hidden transition-all duration-300 ease-in-out ${
+                                className={`mt-1 overflow-hidden transition-all duration-300 ease-in-out z-50 ${
                                   openDropdown[subItem.title]
                                     ? "max-h-[36rem] opacity-100"
                                     : "max-h-0 opacity-0"
                                 }${
                                   hideSideNav
-                                    ? " fixed  bg-gray-700 top-44 left-20 p-6 rounded-md shadow-md h-96 overflow-y-scroll max-h-[36rem]"
+                                    ? " fixed top-44 bg-gray-700 left-20 p-6 rounded-md shadow-md overflow-y-scroll"
                                     : ""
                                 }`}
                                 style={{
                                   transitionProperty: "max-height, opacity",
-                                  zIndex: "10001",
                                 }}
                                 onMouseLeave={() =>
                                   hideSideNav && handleHoverToggle

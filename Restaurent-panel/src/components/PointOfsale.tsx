@@ -184,9 +184,9 @@ const PointOfSale = () => {
                 <p className="font-semibold mb-2">Paid by:</p>
                 <div className="flex gap-4">
                   <button
-                    className={`btnBlue px-4 py-2 rounded ${
+                    className={` px-4 py-2 rounded ${
                       paymentMethod === "Cash"
-                        ? "bg-blue-800 text-white"
+                        ? "btnBlue text-white"
                         : "bg-gray-200"
                     }`}
                     onClick={() => setPaymentMethod("Cash")}
@@ -196,7 +196,7 @@ const PointOfSale = () => {
                   <button
                     className={`px-4 py-2 rounded ${
                       paymentMethod === "Card"
-                        ? "bg-blue-800 text-white"
+                        ? "btnBlue text-white"
                         : "bg-gray-200"
                     }`}
                     onClick={() => setPaymentMethod("Card")}

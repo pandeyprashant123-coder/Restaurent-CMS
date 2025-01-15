@@ -109,8 +109,12 @@ const DashboardContent = () => {
                 <span className="selected-zone"> {selectedZone}</span>
               </h2>
             </div>
-            <div className="statistics-right">
-              <select value={selectedTime} onChange={handleTimeChange}>
+            <div>
+              <select
+                value={selectedTime}
+                onChange={handleTimeChange}
+                className="rounded-md"
+              >
                 <option value="Overall">Overall Statistics</option>
                 <option value="This year">This year</option>
                 <option value="This month">This month</option>
