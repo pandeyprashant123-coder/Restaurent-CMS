@@ -102,10 +102,10 @@ const DashboardContent = () => {
         <div className=" border rounded-lg my-3 col-span-3">
           <div className="flex items-center justify-between p-3 border-b">
             <div className="">
-              <h2>
+              <div>
                 Order statistics:
                 <span className="selected-zone"> {selectedZone}</span>
-              </h2>
+              </div>
             </div>
             <div>
               <select
@@ -280,7 +280,7 @@ const DashboardContent = () => {
                   <Image
                     height={100}
                     width={100}
-                    src="/assets/img/pasta.png"
+                    src="/assets/img/food1.png"
                     alt="Top Food"
                   />
                   <button className="top-button">Sold: 800</button>
@@ -293,23 +293,14 @@ const DashboardContent = () => {
         {/* Right Subsection: Top Selling Foods */}
         <div className="food-subsection top-rated">
           <div className="subsection-header">
-            <h2>
-              <Image
-                height={100}
-                width={100}
-                className="toprated-image"
-                src="/assets/img/user.png"
-                alt="Food"
-              />{" "}
-              Top Rated Foods
-            </h2>
+            <div>Top Rated Foods</div>
           </div>
           <div className="food-cards">
             <div className="food-card">
               <Image
                 height={100}
                 width={100}
-                src="/assets/img/pizza.png"
+                src="/assets/img/food1.png"
                 alt="Top Food"
               />
               <div className="food-details">
@@ -317,81 +308,6 @@ const DashboardContent = () => {
                 <p>
                   ⭐ <span className="rating-number">4.8</span>
                   <span className="review-number">(390 reviews)</span>
-                </p>
-              </div>
-            </div>
-            <div className="food-card">
-              <Image
-                height={100}
-                width={100}
-                src="/assets/img/Hamburger-pana.png"
-                alt="Top Food"
-              />
-              <div className="food-details">
-                <h3>Burger</h3>
-                <p>
-                  ⭐ <span className="rating-number">4.7</span>
-                  <span className="review-number">(350 reviews)</span>
-                </p>
-              </div>
-            </div>
-            <div className="food-card">
-              <Image
-                height={100}
-                width={100}
-                src="/assets/img/brownie.png"
-                alt="Top Food"
-              />
-              <div className="food-details">
-                <h3> BROWNIE</h3>
-                <p>
-                  ⭐ <span className="rating-number">4.5</span>
-                  <span className="review-number">(370 reviews)</span>
-                </p>
-              </div>
-            </div>
-            <div className="food-card">
-              <Image
-                height={100}
-                width={100}
-                src="/assets/img/noodles.png"
-                alt="Top Food"
-              />
-              <div className="food-details">
-                <h3>Veggie noodles</h3>
-                <p>
-                  ⭐ <span className="rating-number">4.7</span>
-                  <span className="review-number">(300 reviews)</span>
-                </p>
-              </div>
-            </div>
-            <div className="food-card">
-              <Image
-                height={100}
-                width={100}
-                src="/assets/img/momos.png"
-                alt="Top Food"
-              />
-              <div className="food-details">
-                <h3>Veg Momos</h3>
-                <p>
-                  ⭐ <span className="rating-number">4.2</span>
-                  <span className="review-number">(340 reviews)</span>
-                </p>
-              </div>
-            </div>
-            <div className="food-card">
-              <Image
-                height={100}
-                width={100}
-                src="/assets/img/pie.png"
-                alt="Top Food"
-              />
-              <div className="food-details">
-                <h3>Toll House Pie</h3>
-                <p>
-                  ⭐ <span className="rating-number">5</span>{" "}
-                  <span className="review-number">(350 reviews)</span>
                 </p>
               </div>
             </div>

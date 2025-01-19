@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 
 import { LuListFilter } from "react-icons/lu";
 import { FaCirclePlus, FaPen } from "react-icons/fa6";
@@ -6,10 +7,69 @@ import { MdDeleteForever } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 
 import Link from "next/link";
-
-import list from "../../../../data/addedFood.json";
+import axios from "../../../../axios";
+import Image from "next/image";
+import { toast } from "react-toastify";
 
 const List = () => {
+  const [list, setList] = useState([]);
+  const token = localStorage.getItem("authToken");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/foods");
+        setList(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleRecommended = async (id) => {
+    const updatedList = list.map((item) =>
+      item._id === id ? { ...item, recommended: !item.recommended } : item
+    );
+    setList(updatedList);
+    console.log("Updated List:", updatedList);
+
+    try {
+      await axios.put(`/foods/${id}`, updatedList, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, // Ensure token is sent with each request
+        },
+      });
+      toast("Recommended status updated successfully");
+    } catch (error) {
+      toast("Error updating recommended status:", error);
+    }
+  };
+  const handleStatus = async (id) => {
+    const updatedList = list.map((item) =>
+      item._id === id
+        ? {
+            ...item,
+            status: item.status === "active" ? "inactive" : "active",
+          }
+        : item
+    );
+    setList(updatedList);
+
+    try {
+      await axios.put(`/foods/${id}`, updatedList, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Ensure token is sent with each request
+        },
+      });
+      toast("Status updated successfully");
+    } catch (error) {
+      toast("Error updating status:", error);
+    }
+  };
+
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
       <div className="flex items-center gap-2 p-6 font-bold text-xl">
@@ -74,8 +134,16 @@ const List = () => {
                 <tr key={index} className="border-b">
                   <td className="pl-2 text-center">{index}</td>
                   <td className="pl-2 text-center">
-                    <img src="" alt="" />
-                    <h1>{item.name}</h1>
+                    <div className="flex items-center gap-2 h-20 w-20 m-2 ">
+                      <Image
+                        src={item.image}
+                        alt=""
+                        height={75}
+                        width={75}
+                        className="h-full w-full rounded-md bg-cover"
+                      />
+                      <h1>{item.name}</h1>
+                    </div>
                   </td>
                   <td className="pl-2 text-center">{item.category}</td>
                   <td className="pl-2 text-center">{item.unitPrice}</td>
@@ -84,6 +152,10 @@ const List = () => {
                       <input
                         type="checkbox"
                         value=""
+                        checked={item.recommended}
+                        onChange={() => {
+                          handleRecommended(item._id);
+                        }}
                         className="sr-only peer"
                       />
                       <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -94,6 +166,8 @@ const List = () => {
                       <input
                         type="checkbox"
                         value=""
+                        checked={item.status === "active"}
+                        onChange={() => handleStatus(item._id)}
                         className="sr-only peer"
                       />
                       <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>

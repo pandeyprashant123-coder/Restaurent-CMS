@@ -82,18 +82,20 @@ const menuItemSchema = new mongoose.Schema({
     // default: null,
     // ref: "SubCategory",
     type: String,
-    required: true,
+    required: false,
   }, // Reference to subcategory
   foodType: { type: String, required: true }, // e.g., "Vegetarian", "Non-Vegetarian"
   nutrition: { type: String, default: "" }, // Nutritional information
   allergen: { type: String, default: "" }, // Allergen information
   isItHalal: { type: Boolean, default: false }, // Is the item Halal?
-  addon: {
-    // type: mongoose.Schema.Types.ObjectId, // Add-ons can reference another schema
-    // ref: "Addon",
-    type: String,
-    required: true,
-  },
+  addons: [
+    {
+      // type: mongoose.Schema.Types.ObjectId, // Add-ons can reference another schema
+      // ref: "Addon",
+      type: String,
+      required: false,
+    },
+  ],
   availableTimeStarts: { type: String, required: true }, // Start time (HH:mm:ss)
   availableTimeEnds: { type: String, required: true }, // End time (HH:mm:ss)
   unitPrice: { type: Number, required: true }, // Base price

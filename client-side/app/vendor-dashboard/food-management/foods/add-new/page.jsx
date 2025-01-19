@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
 
 import { FiPlusCircle } from "react-icons/fi";
 import { MdOutlineDashboard } from "react-icons/md";
@@ -11,6 +10,7 @@ import { TbBoxMultipleFilled } from "react-icons/tb";
 import { MdDeleteForever } from "react-icons/md";
 
 import addons from "../../../../data/addon.json";
+import axios from "../../../../axios";
 
 // interface Option {
 //   name: string;
@@ -97,15 +97,11 @@ const AddNew = () => {
     e.preventDefault();
     console.log("Form Submitted:", { formData });
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/foods",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post("foods", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log("Post created:", response.data);
     } catch (error) {
       console.error("Error:", error);
@@ -207,7 +203,6 @@ const AddNew = () => {
     });
   };
 
-  console.log(JSON.stringify(formData));
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
       <div className="flex items-center gap-2 p-6 font-bold text-xl">
