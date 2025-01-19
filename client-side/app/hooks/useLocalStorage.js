@@ -4,10 +4,8 @@ import { useState } from "react";
 function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window !== "undefined") {
-      // Ensures we're in the client-side
       try {
-        const item = window.localStorage.getItem(key);
-        return item ? JSON.parse(item) : initialValue;
+        return window.localStorage.getItem(key) || initialValue;
       } catch (error) {
         console.error("Error reading localStorage", error);
         return initialValue;
@@ -22,7 +20,7 @@ function useLocalStorage(key, initialValue) {
         const valueToStore =
           value instanceof Function ? value(storedValue) : value;
         setStoredValue(valueToStore);
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        window.localStorage.setItem(key, valueToStore); // No JSON.stringify
       } catch (error) {
         console.error("Error writing to localStorage", error);
       }

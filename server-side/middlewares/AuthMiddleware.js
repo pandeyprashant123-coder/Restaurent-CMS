@@ -52,13 +52,12 @@ export const isUser = (req, res, next) => {
     req.user = {
       id: decoded.id,
       user_type: decoded.user_type,
-      // email: decoded.email, // Add these if they exist in your token payload
-      // name: decoded.name,
     };
 
-    next();
+    next(); // Call next only after ensuring no response is sent
   });
 };
+
 export const authenticate = (req, res, next) => {
   try {
     // Extract the token from Authorization header
@@ -76,7 +75,12 @@ export const authenticate = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Attach decoded user info to request for further use
-    req.user = decoded;
+    req.user = {
+      id: decoded.id,
+      user_type: decoded.user_type,
+      // email: decoded.email, // Add these if they exist in your token payload
+      // name: decoded.name,
+    };
     next();
   } catch (err) {
     // Handle different types of JWT errors
@@ -140,16 +144,17 @@ export const isRestroAdmin = (req, res, next) => {
 };
 
 export const isAdminOrRestroAdmin = (req, res, next) => {
-  const { user_type } = req.user; // Assuming the role is attached to the user object (from JWT or session)
+  const { user_type } = req.user;
 
-  if (user_type !== "main_admin" || role !== "vendor") {
-    return res
-      .status(403)
-      .json({ message: "Access forbidden: Not an admin or restaurant admin" });
+  if (user_type === "admin" || user_type === "vendor") {
+    return next(); // Ensure no response is sent after calling next()
   }
 
-  next(); // Proceed to the next middleware or route handler
+  return res.status(403).json({
+    message: "Access forbidden: Not an admin or restaurant admin",
+  });
 };
+
 const AuthMiddleware = {
   isUser,
   isRestroAdmin,
