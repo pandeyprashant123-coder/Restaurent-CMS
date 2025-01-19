@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "../client-side/app/components", "../client-side/app/Dashboard/Dashboard.tsx", "../client-side/app/login/Login.tsx"]
 }
