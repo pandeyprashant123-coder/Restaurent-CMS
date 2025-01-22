@@ -19,6 +19,7 @@ const Settings = () => {
     email: "",
   });
   const [passwords, setPasswords] = useState({
+    oldPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
@@ -187,6 +188,22 @@ const Settings = () => {
               Change Your Password
             </div>
             <form onSubmit={handlePasswordSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="oldPassword"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Old Password
+                </label>
+                <input
+                  type="password"
+                  id="oldPassword"
+                  value={passwords.oldPassword}
+                  onChange={handlePasswordChange}
+                  placeholder="Password length 8+"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
               <div>
                 <label
                   htmlFor="newPassword"

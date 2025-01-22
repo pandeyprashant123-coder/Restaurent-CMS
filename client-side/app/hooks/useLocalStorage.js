@@ -1,33 +1,66 @@
-// hooks/useLocalStorage.js
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function useLocalStorage(key, initialValue) {
+function useLocalStorage(key, initialValue, rememberMe = true) {
+  const isClient = typeof window !== "undefined";
+
+  const getStorage = (remember) =>
+    remember ? window.localStorage : window.sessionStorage;
+
   const [storedValue, setStoredValue] = useState(() => {
-    if (typeof window !== "undefined") {
-      try {
-        return window.localStorage.getItem(key) || initialValue;
-      } catch (error) {
-        console.error("Error reading localStorage", error);
-        return initialValue;
-      }
+    if (!isClient) return initialValue;
+    try {
+      const storage = getStorage(rememberMe);
+      const stored = storage.getItem(key);
+      return stored ? stored : initialValue;
+    } catch (error) {
+      console.error("Error reading storage", error);
+      return initialValue;
     }
-    return initialValue;
   });
 
-  const setValue = (value) => {
-    if (typeof window !== "undefined") {
-      try {
-        const valueToStore =
-          value instanceof Function ? value(storedValue) : value;
-        setStoredValue(valueToStore);
-        window.localStorage.setItem(key, valueToStore); // No JSON.stringify
-      } catch (error) {
-        console.error("Error writing to localStorage", error);
+  const setValue = (value, remember = rememberMe) => {
+    if (!isClient) return;
+    try {
+      const storage = getStorage(remember);
+      const valueToStore =
+        typeof value === "function" ? value(storedValue) : value;
+
+      setStoredValue(valueToStore);
+      if (valueToStore !== null) {
+        storage.setItem(key, valueToStore);
+      } else {
+        storage.removeItem(key);
       }
+    } catch (error) {
+      console.error("Error writing to storage", error);
     }
   };
 
-  return [storedValue, setValue];
+  const clearValue = () => {
+    if (!isClient) return;
+    try {
+      const storage = getStorage(rememberMe);
+      storage.removeItem(key);
+      setStoredValue(initialValue);
+    } catch (error) {
+      console.error("Error clearing storage", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!isClient) return;
+    try {
+      const storage = getStorage(rememberMe);
+      const stored = storage.getItem(key);
+      if (stored) {
+        setStoredValue(stored);
+      }
+    } catch (error) {
+      console.error("Error rehydrating storage", error);
+    }
+  }, [key, rememberMe]);
+
+  return [storedValue, setValue, clearValue];
 }
 
 export default useLocalStorage;

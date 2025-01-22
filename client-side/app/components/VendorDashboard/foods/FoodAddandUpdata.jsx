@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { FiPlusCircle } from "react-icons/fi";
 import { MdOutlineDashboard } from "react-icons/md";
@@ -9,49 +9,53 @@ import { RiUploadCloudFill } from "react-icons/ri";
 import { TbBoxMultipleFilled } from "react-icons/tb";
 import { MdDeleteForever } from "react-icons/md";
 
-import addons from "../../../../data/addon.json";
-import axios from "../../../../axios";
-import { useFood } from "../../../../context/FoodContext";
-import { toast, ToastContainer } from "react-toastify";
+import addons from "../../../data/addon.json";
+import axios from "../../../axios";
+import { PiPenBold } from "react-icons/pi";
 
-// interface Option {
-//   name: string;
-//   additionalPrice: string;
-// }
-
-// interface Variation {
-//   variationName: string;
-//   required: boolean;
-//   options: Option[];
-// }
-
-// interface FormData {
-//   name: string;
-//   description: string;
-//   category: string;
-//   subCategory: string;
-//   foodType: string;
-//   nutrition: string;
-//   allegren: string;
-//   isItHalal: boolean;
-//   addon: string;
-//   availableTimeStarts: string;
-//   availableTimeEnds: string;
-//   unitPrice: number;
-//   discountType: string;
-//   discount: string;
-//   purchaseLimit: string;
-//   stockType: string;
-//   variationRequired: boolean;
-//   variations: Variation[];
-// }
-
-const AddNew = () => {
-  const { foodData } = useFood();
-  const [formData, setFormData] = useState(foodData);
-
+const EditFood = ({ id }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    image: null,
+    subCategory: "",
+    foodType: "",
+    nutrition: "",
+    allegren: "",
+    isItHalal: false,
+    addon: "",
+    availableTimeStarts: "",
+    availableTimeEnds: "",
+    unitPrice: 0,
+    discountType: "",
+    discount: "",
+    purchaseLimit: "",
+    stockType: "",
+    variationRequired: false,
+    variations: [
+      {
+        variationName: "",
+        required: false,
+        options: [{ name: "", additionalPrice: "" }],
+      },
+    ],
+  });
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`foods/${id}`);
+        setFormData(res.data);
+        setPreview(res.data.image);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -69,52 +73,24 @@ const AddNew = () => {
       setPreview(URL.createObjectURL(file));
     }
   };
+  const handleRemoveImage = () => {
+    setImage(null);
+    setPreview(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form Submitted:", JSON.stringify(formData));
     try {
-      const response = await axios.post("foods", formData, {
+      const response = await axios.put(`foods/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      setFormData({
-        name: "",
-        description: "",
-        image: null,
-        category: "",
-        subCategory: "",
-        foodType: "",
-        nutrition: "",
-        allegren: "",
-        isItHalal: false,
-        addon: "",
-        availableTimeStarts: "",
-        availableTimeEnds: "",
-        unitPrice: 0,
-        discountType: "",
-        discount: "",
-        purchaseLimit: "",
-        stockType: "",
-        variationRequired: false,
-        variations: [
-          {
-            variationName: "",
-            required: false,
-            options: [{ name: "", additionalPrice: "" }],
-          },
-        ],
-      });
-      setImage(null);
-      setPreview(null);
-      toast("form Submitted");
+      console.log("Post created:", response.data);
     } catch (error) {
       console.error("Error:", error);
     }
-  };
-  const handleRemoveImage = () => {
-    setImage(null);
-    setPreview(null);
   };
 
   const handleReset = () => {
@@ -214,10 +190,9 @@ const AddNew = () => {
 
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
-      <ToastContainer />
       <div className="flex items-center gap-2 p-6 font-bold text-xl">
-        <FiPlusCircle />
-        <h1>Add New Food</h1>
+        <PiPenBold />
+        <h1>Update Food</h1>
       </div>
       <div>
         <form onSubmit={handleSubmit} className="">
@@ -273,10 +248,10 @@ const AddNew = () => {
                     <RiUploadCloudFill className="text-3xl" />
                     <input
                       type="file"
-                      id="foodImg"
                       accept="image/*"
                       onChange={handleImageChange}
                       className="hidden"
+                      id="foodImg"
                     />
                     <label
                       htmlFor="foodImg"
@@ -363,11 +338,11 @@ const AddNew = () => {
                 </div>
                 <div className="w-full">
                   <label className="block text-sm font-medium text-gray-700">
-                    Allegren Ingredients &#x24D8;
+                    Allergen Ingredients &#x24D8;
                   </label>
                   <input
                     type="text"
-                    name="allegren"
+                    name="allergen"
                     value={formData.allegren}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
@@ -400,13 +375,13 @@ const AddNew = () => {
                   Select Addon
                 </label>
                 <select
-                  name="addon"
-                  value={formData.addon}
+                  name="addons"
+                  value={formData.addons}
                   onChange={handleChange}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                 >
                   <option value=""></option>
-                  {addons.map((addon, index) => (
+                  {addons?.map((addon, index) => (
                     <option value={addon.name} key={index}>
                       {addon.name}
                     </option>
@@ -543,7 +518,7 @@ const AddNew = () => {
               </button>
             </div>
             <div className="m-6 ">
-              {formData.variations.map((variation, index) => (
+              {formData.variations?.map((variation, index) => (
                 <div
                   className="p-6 rounded-md bg-slate-50 flex flex-col gap-3"
                   key={index}
@@ -591,7 +566,7 @@ const AddNew = () => {
                       />
                     </div>
                     <div className="mr-auto flex flex-col gap-3 w-full p-6 bg-white shadow-sm rounded-lg">
-                      {variation.options.map((option, optionIndex) => (
+                      {variation.options?.map((option, optionIndex) => (
                         <div
                           className="flex gap-4 items-center"
                           key={optionIndex}
@@ -679,4 +654,4 @@ const AddNew = () => {
   );
 };
 
-export default AddNew;
+export default EditFood;

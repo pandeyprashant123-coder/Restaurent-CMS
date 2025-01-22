@@ -8,12 +8,16 @@ import { IoSearchOutline } from "react-icons/io5";
 
 import Link from "next/link";
 import axios from "../../../../axios";
+// import axios from "@/axios/axios";
 import Image from "next/image";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { useFood } from "../../../../context/FoodContext";
+import { redirect, useRouter } from "next/navigation";
 
 const List = () => {
   const [list, setList] = useState([]);
-  const token = localStorage.getItem("authToken");
+  const { setFoodData } = useFood();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,20 +37,15 @@ const List = () => {
       item._id === id ? { ...item, recommended: !item.recommended } : item
     );
     setList(updatedList);
-    console.log("Updated List:", updatedList);
-
+    const updatedData = updatedList.find((item) => item._id === id);
     try {
-      await axios.put(`/foods/${id}`, updatedList, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`, // Ensure token is sent with each request
-        },
-      });
+      await axios.put(`/foods/${id}`, updatedData);
       toast("Recommended status updated successfully");
     } catch (error) {
       toast("Error updating recommended status:", error);
     }
   };
+
   const handleStatus = async (id) => {
     const updatedList = list.map((item) =>
       item._id === id
@@ -57,21 +56,35 @@ const List = () => {
         : item
     );
     setList(updatedList);
+    const updatedData = updatedList.find((item) => item._id === id);
 
     try {
-      await axios.put(`/foods/${id}`, updatedList, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Ensure token is sent with each request
-        },
-      });
+      await axios.put(`/foods/${id}`, updatedData);
       toast("Status updated successfully");
     } catch (error) {
       toast("Error updating status:", error);
     }
   };
+  const handleEdit = async (id) => {
+    const editFood = list.find((item) => item._id === id);
+    // setFoodData(editFood);
+    router.push(`list/edit?id=${id}`);
+  };
+  const handleDelete = async (id) => {
+    const updatedList = list.filter((item) => item._id !== id);
+    setList(updatedList);
+
+    try {
+      await axios.delete(`/foods/${id}`);
+      toast("Food deleted successfully");
+    } catch (error) {
+      toast("Error deleting food:", error);
+    }
+  };
 
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
+      <ToastContainer />
       <div className="flex items-center gap-2 p-6 font-bold text-xl">
         <LuListFilter />
         <h1>Food List</h1>
@@ -174,10 +187,16 @@ const List = () => {
                     </label>
                   </td>
                   <td className="text-center flex justify-center gap-2">
-                    <button className="text-blue-500 p-1 my-5 border border-blue-300 rounded-md">
+                    <button
+                      className="text-blue-500 p-1 my-5 border border-blue-300 rounded-md"
+                      onClick={() => handleEdit(item._id)}
+                    >
                       <FaPen className="text-xl" />
                     </button>
-                    <button className="text-red-500 p-1 my-5 border border-red-300 rounded-md">
+                    <button
+                      className="text-red-500 p-1 my-5 border border-red-300 rounded-md"
+                      onClick={() => handleDelete(item._id)}
+                    >
                       <MdDeleteForever className="text-xl" />
                     </button>
                   </td>

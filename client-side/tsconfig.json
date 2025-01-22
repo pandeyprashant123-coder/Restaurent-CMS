@@ -27,8 +27,13 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx", "app/components/VendorDashboard/Promotions/Coupons.jsx"], 
+    "**/*.tsx", "**/*.jsx","**/*.js"], 
     "exclude": [
     "node_modules"
-  ]
+  ],
+  "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+
 }

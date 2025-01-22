@@ -4,7 +4,9 @@ let token = null;
 
 if (typeof window !== "undefined") {
   // Ensure we're in the client-side
-  token = localStorage.getItem("authToken");
+  token =
+    window.localStorage.getItem("authToken") ||
+    window.sessionStorage.getItem("authToken");
 }
 // console.log(token);
 

@@ -40,7 +40,7 @@ const DashboardNav = () => {
             </div>
           </div>
           <Link
-            href="../../dashboard/profile/view"
+            href="/vendor-dashboard/settings"
             className="py-3 px-5 border-b hover:bg-gray-300 duration-150 cursor-pointer"
           >
             Settings
