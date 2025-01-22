@@ -1,15 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { IoMdCart } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
 
-import foods from "../../data/addedFood.json";
+// import foods from "../../data/addedFood.json";
 import PosForm from "../../components/VendorDashboard/POS/PosForm";
+import axios from "../../axios";
 
 const PointOfSale = () => {
   const [search, setSearch] = useState("");
+  const [foods, setFoods] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("foods");
+        setFoods(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [cartData, setCartData] = useState({
     cartItemId: "",
@@ -77,11 +91,11 @@ const PointOfSale = () => {
                     key={index}
                     onClick={() => {
                       setShowForm(true);
-                      setFoodId(food.id);
+                      setFoodId(food._id);
                     }}
                   >
                     <img
-                      src="/assets/img/food1.png"
+                      src={food.image}
                       alt={food.name}
                       className="w-full object-cover rounded-t-xl  h-24"
                     />
@@ -111,8 +125,8 @@ const PointOfSale = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cart.map((item) => (
-                    <tr key={item.id} className="border-b">
+                  {cart.map((item, index) => (
+                    <tr key={index} className="border-b">
                       <td className="pl-2">{item.name}</td>
                       <td>{item.quantity}</td>
                       <td>${(item.price * item.quantity).toFixed(2)}</td>
@@ -224,6 +238,7 @@ const PointOfSale = () => {
       {showForm && (
         <PosForm
           setShowForm={setShowForm}
+          foods={foods}
           foodId={foodId}
           cartData={cartData}
           setCartData={setCartData}

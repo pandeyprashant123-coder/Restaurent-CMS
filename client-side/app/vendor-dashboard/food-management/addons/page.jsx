@@ -48,7 +48,7 @@ const Addons = () => {
     <div className="w-full flex flex-col bg-gray-50 p-3">
       <div className="flex items-center gap-2 p-6 font-bold text-xl">
         <FiPlusCircle />
-        <h1>Add New Food</h1>
+        <h1>Add New Addons</h1>
       </div>
       <div>
         <form onSubmit={handleSubmit}>

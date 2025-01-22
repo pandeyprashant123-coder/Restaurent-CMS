@@ -1,12 +1,20 @@
 "use client";
 import React, { useState } from "react";
-const { IoMdCart } = require("react-icons/io");
-import foods from "../../../data/addedFood.json";
+import { IoMdCart } from "react-icons/io";
+import { v4 as uuidv4 } from "uuid";
 
-const PosForm = ({ setShowForm, foodId, setCart, cartData, setCartData }) => {
+const PosForm = ({
+  setShowForm,
+  foods,
+  foodId,
+  setCart,
+  cartData,
+  setCartData,
+}) => {
   const [quantity, setQuantity] = useState(1);
 
-  const food = foods.find((food) => food.id === foodId);
+  const food = foods.find((food) => food._id === foodId);
+  console.log(food);
 
   const HandleCart = () => {
     if (!food) return;
