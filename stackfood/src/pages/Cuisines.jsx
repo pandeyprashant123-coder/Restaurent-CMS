@@ -1,15 +1,12 @@
-import React from 'react'
-import Footer from '../components/common/Footer'
-import Cuisine from '../components/Cuisine'
+import React from "react";
+import Cuisine from "../components/Cuisine";
 
 const Categories = () => {
   return (
     <div>
-        <Cuisine/>
-        <Footer/>
+      <Cuisine />
     </div>
-  )
+  );
+};
 
-}
-
-export default Categories
+export default Categories;

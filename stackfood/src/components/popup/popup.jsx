@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { IoMdHeart } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import itemdata from "../data/addedFood.json";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../features/cartSlice";
 
-const BestReviewed = ({ popup, setPopup, foodId, cartButton }) => {
+const Todays = ({ popup, setPopup, foodId }) => {
   const data = itemdata.find((item) => item.id === foodId);
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Hook for navigation
+  // const navigate = useNavigate(); // Hook for navigation
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [addons, setAddons] = useState([]);
@@ -52,13 +52,6 @@ const BestReviewed = ({ popup, setPopup, foodId, cartButton }) => {
     setPopup(false);
     // navigate("/cart"); // Navigate to the cart page
   };
-  const handleOrder = () => {
-    // const orderItem = { cartInfo: data, quantity, size: selectedSize, addons };
-    // console.log("Dispatching to order:", cartItem); // Log the item being dispatched
-    // dispatch(addToCart(cartItem)); // Dispatch to Redux store
-    setPopup(false);
-    navigate("/checkout"); // Navigate to the cart page
-  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40">
@@ -86,13 +79,13 @@ const BestReviewed = ({ popup, setPopup, foodId, cartButton }) => {
             <h3 className="font-semibold text-lg">Description</h3>
             <p className="text-sm text-gray-300 mt-2 ">
               {data.description} Lorem ipsum dolor sit amet consectetur,
-              adipisicing elit. accusantium at esse voluptatibus temporibus?
-              Quasi totam consequuntur commodi neque ipsum!
+              adipisicing elit. Modi accusantium at esse voluptatibus
+              temporibus? Quasi totam consequuntur commodi neque ipsum!
             </p>
           </div>
 
           {/* Size Options */}
-          {data.variations?.map((variation) => (
+          {/* {data.variations?.map((variation) => (
             <div className="mt-4">
               <h3 className="font-semibold text-lg">
                 {variation.variationName}
@@ -106,7 +99,6 @@ const BestReviewed = ({ popup, setPopup, foodId, cartButton }) => {
                       name="size option"
                       value={option.value}
                       className="form-radio"
-                      required
                       onChange={(e) => setSelectedSize(e.target.value)}
                     />
                     <span className="text-sm">
@@ -116,7 +108,7 @@ const BestReviewed = ({ popup, setPopup, foodId, cartButton }) => {
                 ))}
               </div>
             </div>
-          ))}
+          ))} */}
 
           {/* Addons */}
           <div className="mt-4">
@@ -160,21 +152,12 @@ const BestReviewed = ({ popup, setPopup, foodId, cartButton }) => {
                 +
               </button>
             </div>
-            {cartButton ? (
-              <button
-                className="sticky w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded"
-                onClick={handleCart}
-              >
-                Add To Cart
-              </button>
-            ) : (
-              <button
-                className="sticky w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded"
-                onClick={handleOrder}
-              >
-                Order now
-              </button>
-            )}
+            <button
+              className="sticky w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded"
+              onClick={handleCart}
+            >
+              Add To Cart
+            </button>
           </div>
         </div>
       </div>
@@ -182,4 +165,4 @@ const BestReviewed = ({ popup, setPopup, foodId, cartButton }) => {
   );
 };
 
-export default BestReviewed;
+export default Todays;

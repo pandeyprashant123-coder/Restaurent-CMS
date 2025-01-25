@@ -5,10 +5,12 @@ import Home from "./pages/Home";
 import Categories from "./pages/Categories";
 import Cuisines from "./pages/Cuisines";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 import Restaurents from "./pages/Restaurents";
 import DeliveryManRegistration from "./components/delivery-man-registration";
 import RestaurantRegistration from "./components/restaurant-registration";
 import DineInRestaurant from "./components/DineInRestaurant";
+import Footer from "./components/common/Footer";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -22,6 +24,7 @@ const App = () => {
         <Route path="/categories" element={<Categories />} />
         <Route path="/cuisines" element={<Cuisines />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/restaurents" element={<Restaurents />} />
         <Route path="/dine-in-restaurant" element={<DineInRestaurant />} />
         <Route
@@ -33,6 +36,7 @@ const App = () => {
           element={<RestaurantRegistration />}
         />
       </Routes>
+      <Footer />
     </div>
   );
 };

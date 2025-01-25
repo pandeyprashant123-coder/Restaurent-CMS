@@ -14,7 +14,6 @@ import NewonStack from "../components/Home/NewonStack";
 import SpecialToday from "../components/Home/SpecialToday";
 import AllRestaurants from "../components/Home/AllRestaurants";
 
-import Footer from "../components/common/Footer";
 import image1 from "../assets/images/image1.jpg";
 import image2 from "../assets/images/image2.jpg";
 
@@ -35,7 +34,9 @@ function Home() {
     <div className="bg-[#f5f6f8] dark:bg-background ">
       {/* Section 1 - Gallery */}
       <div className=" flex-col text-start mt-16 space-y-10 bg-slate-100  py-10 rounded items-center justify-center dark:bg-slate-800">
-        <div className="mx-28 text-[18px] font-bold dark:text-white">What's on Your Mind?</div>
+        <div className="mx-28 text-[18px] font-bold dark:text-white">
+          What's on Your Mind?
+        </div>
 
         {/* Scrollable Container */}
         <div className="ml-28 flex gap-4 overflow-x-auto scrollbar-hide  mt-4">
@@ -45,7 +46,9 @@ function Home() {
               className="flex-shrink-0 flex flex-col items-center justify-center rounded-md p-0.5 transform transition-transform duration-300 hover:bg-slate-200 "
             >
               {/* Dynamic Background Color */}
-              <div className={`${item.bgColor} w-[90px] h-[90px]  outline outline-2 outline-slate-300 p-4 rounded-md overflow-hidden`}>
+              <div
+                className={`${item.bgColor} w-[90px] h-[90px]  outline outline-2 outline-slate-300 p-4 rounded-md overflow-hidden`}
+              >
                 <img
                   src={item.src}
                   alt={`Food ${index + 1}`}
@@ -59,32 +62,28 @@ function Home() {
             </div>
           ))}
           <div className="flex items-center justify-end p-4">
-        <Link to="/categories">
-          <div className="border-2 border-red-500 flex items-center p-2 rounded-full hover:cursor-pointer">
-          <GrLinkNext 
-          style={{ color: "red", stroke: "red" }}
-          />
+            <Link to="/categories">
+              <div className="border-2 border-red-500 flex items-center p-2 rounded-full hover:cursor-pointer">
+                <GrLinkNext style={{ color: "red", stroke: "red" }} />
+              </div>
+            </Link>
           </div>
-        </Link>
-      </div>
         </div>
       </div>
 
       <ImageSlider />
       <Hightlight />
       <Trends />
-      <Bestreviewed/>
-      <DineIn/>
-      <HomeCuisine/>
+      <Bestreviewed />
+      <DineIn />
+      <HomeCuisine />
       {/* <Cuisine/> */}
-      <PopularRestaurent/>
-      <PopularNearby/>
-      <MiddleSection/>
-      <NewonStack/>
-      <SpecialToday/>
-      <AllRestaurants/>
-
-      <Footer />
+      <PopularRestaurent />
+      <PopularNearby />
+      <MiddleSection />
+      <NewonStack />
+      <SpecialToday />
+      <AllRestaurants />
     </div>
   );
 }

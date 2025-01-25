@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Navpopup from "../popup/Navpopup";
 import { FaChevronDown } from "react-icons/fa";
 import logo from "../../assets/images/Foodi delivery-01 (1).png";
@@ -35,6 +36,7 @@ const subLinks = [
 const Navbar = () => {
   const location = useLocation();
   const [popup, setPopup] = useState("false");
+  const cartItems = useSelector((state) => state.cart.items);
   return (
     <div className="fixed top-0 w-screen flex flex-col z-50 dark:bg-slate-800">
       {popup === true ? <Navpopup popup={popup} setPopup={setPopup} /> : ""}
@@ -81,16 +83,21 @@ const Navbar = () => {
           </ul>
         </nav>
         <Link to="subLinks.index"></Link>
-        <div className=" flex gap-x-10 text-2xl group-hover:m-4">
+        <div className=" flex gap-x-10 text-4xl group-hover:m-4">
           <Link to="/">
-            <IoIosSearch className=" rounded-full hover:text-red-400  hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400 " />
+            <IoIosSearch className=" rounded-full p-2 hover:text-red-400  hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400 " />
           </Link>
           <Link to="/">
-            <IoIosNotifications className="rounded-full hover:text-red-500  hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400" />
+            <IoIosNotifications className="rounded-full p-2 hover:text-red-500  hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400" />
           </Link>
 
-          <Link to="/">
-            <FaShoppingCart className="hover:rounded-full hover:text-red-500 hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400" />
+          <Link to="/cart" className="relative">
+            {cartItems.length > 0 && (
+              <div className="absolute top-0 text-xs font-bold right-0 rounded-full text-white px-1 bg-orange-400">
+                {cartItems.length}
+              </div>
+            )}
+            <FaShoppingCart className="rounded-full p-2 hover:text-red-500 hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400" />
           </Link>
 
           {/* <Link to="/">
@@ -99,14 +106,14 @@ const Navbar = () => {
             /> 
           </Link> */}
           <Link to="/" className=" flex flex-row items-center space-x-2">
-            <FaLock className="text-[10px] dark:text-white" />
+            <FaLock className="text-[10px] p-2 dark:text-white" />
             <span className="text-[12px] font-normal dark:text-white hover:cursor-pointer">
               Sign in
             </span>
           </Link>
 
           <Link to="/">
-            <IoMenu className="hover:rounded-full hover:text-red-500 hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400" />
+            <IoMenu className="hover:rounded-full p-2 hover:text-red-500 hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400" />
           </Link>
         </div>
       </div>

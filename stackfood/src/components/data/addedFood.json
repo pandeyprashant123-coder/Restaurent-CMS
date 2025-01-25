@@ -1,0 +1,290 @@
+[
+  {
+    "id": 1,
+    "hotelName":"Hungry puppets",
+    "rating": 2,
+    "name": "Salad",
+    "oldPrice": 1600,
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "Veg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addons":  [
+      {"name":"coke",
+      "price":"18"
+      },
+      {"name":"cheese",
+      "price":"10"
+      }
+    ],
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "hotelName":"Hungry puppets",
+    "rating": 2,
+    "name": "Salad",
+    "oldPrice": 1600,
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "nonVeg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addons":  [
+      {"name":"coke",
+      "price":"18"
+      },
+      {"name":"cheese",
+      "price":"10"
+      }
+    ],
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "hotelName":"Hungry puppets",
+    "name": "Salad",
+    "rating": 2,
+    "oldPrice": 1600,
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "Veg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addons":  [
+      {"name":"coke",
+      "price":"18"
+      },
+      {"name":"cheese",
+      "price":"10"
+      }
+    ],
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "hotelName":"Hungry puppets",
+    "name": "Salad",
+    "rating": 2,
+    "oldPrice": 1600,
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "Veg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addons":  [
+      {"name":"coke",
+      "price":"18"
+      },
+      {"name":"cheese",
+      "price":"10"
+      }
+    ],
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "hotelName":"Hungry puppets",
+    "name": "Salad",
+    "rating": 2,
+    "oldPrice": 1600,
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "Veg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addons":  [
+      {"name":"coke",
+      "price":"18"
+      },
+      {"name":"cheese",
+      "price":"10"
+      }
+    ],
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  },
+    {
+    "id": 2,
+    "hotelName":"Hungry puppets",
+    "rating": 2,
+    "name": "Salad",
+    "oldPrice": 1600,
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "nonVeg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addons":  [
+      {"name":"coke",
+      "price":"18"
+      },
+      {"name":"cheese",
+      "price":"10"
+      }
+    ],
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  },
+    {
+    "id": 2,
+    "hotelName":"Hungry puppets",
+    "rating": 2,
+    "name": "Salad",
+    "oldPrice": 1600,
+    "image": "https://th.bing.com/th?id=OIP.maQpFJiRuDMauaTZ3N7KiQHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2",
+    "description": "lkjadsjf 'kldajfla df ;lkjfl asdf",
+    "category": "Burger",
+    "subCategory": "Cake",
+    "foodType": "nonVeg",
+    "nutrition": "veg",
+    "allegren": "gluten",
+    "isItHalal": "on",
+    "addons":  [
+      {"name":"coke",
+      "price":"18"
+      },
+      {"name":"cheese",
+      "price":"10"
+      }
+    ],
+    "availableTimeStarts": "12:43",
+    "availableTimeEnds": "03:45",
+    "unitPrice": 1000,
+    "discountType": "Percent",
+    "discount": "20",
+    "purchaseLimit": "20",
+    "stockType": "Unlimited Stock",
+    "variationRequired": false,
+    "variations": [
+      {
+        "variationName": "Portion Size",
+        "required": true,
+        "options": [
+          { "name": "small", "additionalPrice": "500" },
+          { "name": "large", "additionalPrice": "1500" }
+        ]
+      }
+    ]
+  }
+
+]

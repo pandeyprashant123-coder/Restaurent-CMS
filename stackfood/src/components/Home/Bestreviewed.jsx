@@ -11,7 +11,7 @@ import { FaPlus } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 import BestReviewed from "../popup/Trendspopup";
 
-import trendsData from "../data/productData.json";
+import trendsData from "../data/addedFood.json";
 
 const Bestreviewed = () => {
   const [popup, setPopup] = useState(false);
@@ -20,7 +20,12 @@ const Bestreviewed = () => {
   return (
     <div className="py-2 mx-28 dark:bg-background">
       {popup && (
-        <BestReviewed popup={popup} setPopup={setPopup} foodId={foodId} />
+        <BestReviewed
+          popup={popup}
+          setPopup={setPopup}
+          foodId={foodId}
+          cartButton={true}
+        />
       )}
       <div className="flex justify-between items-center">
         <h2 className="flex flex-shrink-0 text-[18px] font-bold text-black mb-1 dark:text-white">
@@ -67,7 +72,7 @@ const Bestreviewed = () => {
               <div className=" relative overflow-hidden">
                 <img
                   src={item.image}
-                  alt={item.title}
+                  alt={item.name}
                   className="w-full h-40 rounded-md object-cover transform transition-transform duration-300 hover:scale-125 z-0"
                 />
                 <FaPlus className="absolute bottom-2 right-4 text-red-400 bg-white rounded-full p-1 text-[20px]" />
@@ -75,15 +80,15 @@ const Bestreviewed = () => {
 
               <div className="p-2">
                 <p className="text-sm font-normal text-gray-400">
-                  {item.restaurant}
+                  {item.hotelName}
                 </p>
                 <div className="flex relative items-center space-x-2">
                   <h3 className="w-3/4 text-base font-semibold text-gray-800 dark:text-white truncate max-w-xs">
-                    {item.title}
+                    {item.name}
                   </h3>
                   <FaCircle
                     className={`text-[10px] items-end ${
-                      item.type === "veg"
+                      item.foodType === "Veg"
                         ? "text-green-500 outline outline-green outline-2 p-0.5"
                         : "text-red-500 outline outline-red outline-2 p-0.5"
                     }`}
@@ -100,7 +105,7 @@ const Bestreviewed = () => {
                     ${item.oldPrice}
                   </span>
                   <span className="text-lg font-semibold dark:text-white">
-                    ${item.price}
+                    ${item.unitPrice}
                   </span>
                 </div>
               </div>

@@ -8,7 +8,7 @@ import { FaPinterestP } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className=" bg-[#414141] text-white w-full text-[12px]">
+    <footer className=" bg-[#414141] text-white w-full text-[12px] bottom-0 ">
       <div className="px-20 container py-0 pt-2 ">
         <div className="flex flex-col md:flex-row justify-between my-0 py-0">
           {/* Left Section */}
@@ -34,21 +34,20 @@ const Footer = () => {
             <div className=" text-gray-300 flex flex-row gap-x-4">
               {/* Add your social media icons here */}
               <div className="bg-white rounded-full">
-              <ImInstagram className="text-black text-2xl p-1"/>
+                <ImInstagram className="text-black text-2xl p-1" />
               </div>
               <div className="bg-white rounded-full">
-              <ImFacebook className="text-black text-2xl p-1"/>
+                <ImFacebook className="text-black text-2xl p-1" />
               </div>
               <div className="bg-white rounded-full">
-              <ImTwitter className="text-black text-2xl p-1"/>
+                <ImTwitter className="text-black text-2xl p-1" />
               </div>
               <div className="bg-white rounded-full">
-              <ImLinkedin2 className="text-black text-2xl p-1"/>
+                <ImLinkedin2 className="text-black text-2xl p-1" />
               </div>
               <div className="bg-white rounded-full">
-              <FaPinterestP className="text-black text-2xl p-1"/>
+                <FaPinterestP className="text-black text-2xl p-1" />
               </div>
-              
             </div>
           </div>
 
@@ -72,7 +71,9 @@ const Footer = () => {
 
             {/* Quick Links Section */}
             <div className="flex flex-col text-gray-300 gap-y-2">
-              <h1 className="text-[14px] text-white font-bold mb-2">Quick Links</h1>
+              <h1 className="text-[14px] text-white font-bold mb-2">
+                Quick Links
+              </h1>
               <ul className="flex flex-col gap-y-2">
                 <li>
                   <a href="/" className="hover:text-orange-500">
@@ -104,7 +105,9 @@ const Footer = () => {
 
             {/* For Users Section */}
             <div className="flex flex-col text-gray-300 gap-y-2">
-              <h1 className="text-[14px] text-white font-bold mb-2">For Users</h1>
+              <h1 className="text-[14px] text-white font-bold mb-2">
+                For Users
+              </h1>
               <ul className="flex flex-col gap-y-2">
                 <li>
                   <a href="/login" className="hover:text-orange-500">
@@ -129,17 +132,13 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-
         </div>
 
-
         {/* Footer Bottom Section */}
-
-
       </div>
 
       <div className="text-center text-sm text-gray-500">
-      <hr className="w-full mt-0"/>
+        <hr className="w-full mt-0" />
         <p className="mt-2">© Copyright 2024</p>
       </div>
     </footer>
