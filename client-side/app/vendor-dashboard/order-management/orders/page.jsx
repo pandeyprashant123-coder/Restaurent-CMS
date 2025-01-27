@@ -1,55 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsEyeFill, BsFiletypeCsv, BsPrinter } from "react-icons/bs";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import { LuBadgeDollarSign } from "react-icons/lu";
 import { MdFileDownload, MdKeyboardArrowDown } from "react-icons/md";
 import { PiMicrosoftExcelLogo } from "react-icons/pi";
-import Link from "next/link";
+import { format } from "date-fns";
 
-const list = [
-  {
-    name: "100105",
-    category: "31 May 2023 06:39 PM",
-    customerInfo: "Munam ShahariEr Test\n+8*********",
-    totalAmount: "$1,316.85",
-    orderStatus: "Unpaid",
-    deliveryStatus: "Pending Delivery",
-  },
-  {
-    name: "100103",
-    category: "31 May 2023 03:16 PM",
-    customerInfo: "Munam ShahariEr Test\n+8*********",
-    totalAmount: "$535.80",
-    orderStatus: "Unpaid",
-    deliveryStatus: "Pending Delivery",
-  },
-  {
-    name: "100099",
-    category: "30 May 2023 06:35 PM",
-    customerInfo: "Fufh Cgchc\n+8*********",
-    totalAmount: "$130.35",
-    orderStatus: "Unpaid",
-    deliveryStatus: "Pending Delivery",
-  },
-  {
-    name: "100074",
-    category: "26 Nov 2022 02:51 PM",
-    customerInfo: "Jane Cooper\n+8*********",
-    totalAmount: "$4,095.00",
-    orderStatus: "Paid",
-    deliveryStatus: "Delivered",
-  },
-  {
-    name: "100053",
-    category: "17 Oct 2021 03:56 PM",
-    customerInfo: "Zubair Jamil\n+9*********",
-    totalAmount: "$99.75",
-    orderStatus: "Unpaid",
-    deliveryStatus: "Accepted Delivery",
-  },
-];
+import Link from "next/link";
+import axios from "../../../axios";
 
 const AllOrders = () => {
   const [showExport, setShowExport] = useState(false);
@@ -57,6 +17,8 @@ const AllOrders = () => {
     key: null,
     direction: null,
   });
+
+  const [allOrders, setAllOrders] = useState([]);
 
   const columns = [
     { key: "index", label: "SI", sortable: true },
@@ -67,11 +29,23 @@ const AllOrders = () => {
     { key: "orderStatus", label: "Order Status", sortable: true },
     { key: "action", label: "Action", sortable: false },
   ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("orders");
+        setAllOrders(res.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const sortedList = React.useMemo(() => {
-    if (!sortConfig.key) return list;
+    if (!sortConfig.key) return allOrders;
 
-    return [...list].sort((a, b) => {
+    return [...allOrders].sort((a, b) => {
       const key = sortConfig.key;
       if (a[key] < b[key]) {
         return sortConfig.direction === "ascending" ? -1 : 1;
@@ -82,6 +56,7 @@ const AllOrders = () => {
       return 0;
     });
   }, [sortConfig]);
+  console.log(sortedList);
 
   const handleSort = (key) => {
     setSortConfig((prevState) => {
@@ -156,24 +131,60 @@ const AllOrders = () => {
               </tr>
             </thead>
             <tbody>
-              {sortedList.map((item, index) => (
+              {/* name: "100105",
+    category: "31 May 2023 06:39 PM",
+    customerInfo: "Munam ShahariEr Test\n+8*********",
+    totalAmount: "$1,316.85",
+    orderStatus: "Unpaid",
+    deliveryStatus: "Pending Delivery", */}
+              {allOrders.map((item, index) => (
                 <tr key={index} className="hover:bg-gray-100 duration-200">
                   <td className="pl-2 text-center">{index + 1}</td>
                   <td className="pl-2 text-center">
                     {" "}
-                    <Link href="orders/view-order">{item.name}</Link>
+                    <Link href={`orders/view-order?id=${item._id}`}>
+                      {item.id.slice(0, 6).toUpperCase()}
+                    </Link>
                   </td>
-                  <td className="pl-2 text-center">{item.category}</td>
-                  <td className="pl-2 text-center">{item.unitPrice}</td>
-                  <td className="pl-2 text-center">{item.totalAmount}</td>
-                  <td className="pl-2 text-center">{item.orderStatus}</td>
-                  <td className="text-center flex justify-center gap-2">
-                    <button className="text-orange-400 p-2 my-5 border border-orange-300 hover:text-white hover:bg-orange-400 duration-150 rounded-md">
-                      <BsEyeFill className="text-lg" />
-                    </button>
-                    <button className="text-blue-500 p-2 my-5 border border-blue-300 hover:text-white hover:bg-blue-600 duration-150 rounded-md">
-                      <BsPrinter className="text-lg" />
-                    </button>
+                  <td className="pl-2 text-center">
+                    {format(new Date(item.updatedAt), "PPpp")}
+                  </td>
+                  <td className="pl-2 text-left font-semibold">
+                    <p>{item.user.email}</p>
+                    <p>{item.user.mobile}</p>
+                  </td>
+                  <td className="pr-4 text-right">
+                    ${item.totalAmount}
+                    <br />
+                    <p className="text-green-400 font-bold">
+                      {item.paymentStatus}
+                    </p>
+                  </td>
+                  <td className="pl-2 text-center flex flex-col items-center justify-center mt-3">
+                    <p
+                      className={`font-semibold text-blue-500 bg-blue-50 py-1 w-20 rounded-md ${
+                        item.status === "Delivered" &&
+                        "text-green-500 bg-green-50"
+                      } ${
+                        item.status === ("Handover" || "Cancelled") &&
+                        "text-red-500 bg-red-50"
+                      } `}
+                    >
+                      {item.status}
+                    </p>
+                    <p className="text-base text-gray-600">
+                      {item.delivaryOption}
+                    </p>
+                  </td>
+                  <td className="text-center ">
+                    <div className="flex justify-center gap-2">
+                      <button className="text-orange-400 p-2 my-5 border border-orange-300 hover:text-white hover:bg-orange-400 duration-150 rounded-md">
+                        <BsEyeFill className="text-lg" />
+                      </button>
+                      <button className="text-blue-500 p-2 my-5 border border-blue-300 hover:text-white hover:bg-blue-600 duration-150 rounded-md">
+                        <BsPrinter className="text-lg" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

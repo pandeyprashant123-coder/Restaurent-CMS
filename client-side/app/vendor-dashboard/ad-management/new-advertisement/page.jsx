@@ -19,8 +19,8 @@ const NewAd = () => {
     adTitle: "",
     adDescription: "",
     adType: "",
-    review: false,
-    rating: false,
+    review: true,
+    rating: true,
   });
 
   const [dateRange, setDateRange] = useState([
@@ -309,9 +309,12 @@ const NewAd = () => {
                   alt=""
                   className="h-full w-full object-cover rounded-t-md"
                 />
-                <div className="absolute bottom-2 right-4 text-xs text-white bg-orange-500 px-1 py-[0.1rem] rounded-full border-2 border-white">
-                  <span>⭐4.7 </span> <span>(3+)</span>
-                </div>
+                {(formData.rating || formData.review) && (
+                  <div className="absolute bottom-2 font-semibold right-4 text-xs text-white bg-orange-500 px-1 py-[0.1rem] rounded-full border-2 border-white">
+                    {formData.rating && <span>⭐4.7 </span>}{" "}
+                    {formData.review && <span>(3+)</span>}
+                  </div>
+                )}
               </div>
               <div className="flex gap-2 items-center bg-white p-3">
                 <div className="w-20 h-20 bg-gray-200 rounded-full">

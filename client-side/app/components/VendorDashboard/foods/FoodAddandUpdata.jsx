@@ -9,28 +9,46 @@ import { RiUploadCloudFill } from "react-icons/ri";
 import { TbBoxMultipleFilled } from "react-icons/tb";
 import { MdDeleteForever } from "react-icons/md";
 
-import axios from "../../../../axios";
-import { useFood } from "../../../../context/FoodContext";
-import { toast, ToastContainer } from "react-toastify";
-import Select from "react-select";
+import addons from "../../../data/addon.json";
+import axios from "../../../axios";
+import { PiPenBold } from "react-icons/pi";
 
-const AddNew = () => {
-  const { foodData } = useFood();
-
-  const [formData, setFormData] = useState(foodData);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [addons, setAddons] = useState([]);
-
+const EditFood = ({ id }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    image: null,
+    subCategory: "",
+    foodType: "",
+    nutrition: "",
+    allegren: "",
+    isItHalal: false,
+    addon: "",
+    availableTimeStarts: "",
+    availableTimeEnds: "",
+    unitPrice: 0,
+    discountType: "",
+    discount: "",
+    purchaseLimit: "",
+    stockType: "",
+    variationRequired: false,
+    variations: [
+      {
+        variationName: "",
+        required: false,
+        options: [{ name: "", additionalPrice: "" }],
+      },
+    ],
+  });
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("/addons");
-
-        setAddons(res.data);
+        const res = await axios.get(`foods/${id}`);
+        setFormData(res.data);
+        setPreview(res.data.image);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -38,11 +56,7 @@ const AddNew = () => {
 
     fetchData();
   }, []);
-  const options = addons.map((addon) => ({
-    value: addon._id,
-    label: addon.name,
-  }));
-  console.log(formData);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
@@ -50,6 +64,7 @@ const AddNew = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
   const handleImageChange = (event) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -58,63 +73,24 @@ const AddNew = () => {
       setPreview(URL.createObjectURL(file));
     }
   };
-  const handleSelectChange = (selectedOptions) => {
-    // Only store the IDs of the selected countries
-    const selectedCountryIds = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    setFormData((prevState) => ({
-      ...prevState,
-      addons: selectedCountryIds, // Array of country IDs
-    }));
+  const handleRemoveImage = () => {
+    setImage(null);
+    setPreview(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    console.log(formData);
+    console.log("Form Submitted:", JSON.stringify(formData));
     try {
-      const response = await axios.post("foods", formData, {
+      const response = await axios.put(`foods/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(response.message);
-      toast("form Submitted");
+      console.log("Post created:", response.data);
     } catch (error) {
       console.error("Error:", error);
-      toast("unable to add food");
-    } finally {
-      setFormData({
-        name: "",
-        description: "",
-        image: null,
-        category: "",
-        subCategory: "",
-        foodType: "",
-        nutrition: "",
-        allegren: "",
-        isItHalal: false,
-        addon: "",
-        availableTimeStarts: "",
-        availableTimeEnds: "",
-        unitPrice: 0,
-        discountType: "",
-        discount: "",
-        purchaseLimit: "",
-        stockType: "",
-        variationRequired: false,
-        variations: [],
-      });
-
-      setImage(null);
-      setPreview(null);
-      setIsLoading(false);
     }
-  };
-  const handleRemoveImage = () => {
-    setImage(null);
-    setPreview(null);
   };
 
   const handleReset = () => {
@@ -137,7 +113,13 @@ const AddNew = () => {
       purchaseLimit: "",
       stockType: "",
       variationRequired: false,
-      variations: [],
+      variations: [
+        {
+          variationName: "",
+          required: false,
+          options: [{ name: "", additionalPrice: "" }],
+        },
+      ],
     });
     setImage(null);
     setPreview(null);
@@ -208,10 +190,9 @@ const AddNew = () => {
 
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
-      <ToastContainer />
       <div className="flex items-center gap-2 p-6 font-bold text-xl">
-        <FiPlusCircle />
-        <h1>Add New Food</h1>
+        <PiPenBold />
+        <h1>Update Food</h1>
       </div>
       <div>
         <form onSubmit={handleSubmit} className="">
@@ -225,7 +206,6 @@ const AddNew = () => {
                 name="name"
                 placeholder="New Food"
                 value={formData.name}
-                required
                 onChange={handleChange}
                 className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
               />
@@ -234,7 +214,6 @@ const AddNew = () => {
               </label>
               <textarea
                 name="description"
-                required
                 rows={6}
                 value={formData.description}
                 onChange={handleChange}
@@ -248,7 +227,7 @@ const AddNew = () => {
               </h4>
               <div
                 className="relative border-dashed border-2 border-gray-300 p-12 mt-16 rounded-md flex flex-col items-center"
-                // onClick={() => document.getElementById("foodImg")?.click()}
+                onClick={() => document.getElementById("foodImg")?.click()}
               >
                 {preview ? (
                   <>
@@ -269,14 +248,14 @@ const AddNew = () => {
                     <RiUploadCloudFill className="text-3xl" />
                     <input
                       type="file"
-                      id="foodImg"
                       accept="image/*"
                       onChange={handleImageChange}
                       className="hidden"
+                      id="foodImg"
                     />
                     <label
                       htmlFor="foodImg"
-                      className="rounded cursor-pointer absolute py-10 "
+                      className="rounded cursor-pointer absolute px-10 py-10 "
                     >
                       Upload Image
                     </label>
@@ -298,7 +277,6 @@ const AddNew = () => {
                   </label>
                   <select
                     name="category"
-                    required
                     value={formData.category}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
@@ -335,7 +313,6 @@ const AddNew = () => {
                   </label>
                   <select
                     name="foodType"
-                    required
                     value={formData.foodType}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
@@ -361,11 +338,11 @@ const AddNew = () => {
                 </div>
                 <div className="w-full">
                   <label className="block text-sm font-medium text-gray-700">
-                    Allegren Ingredients &#x24D8;
+                    Allergen Ingredients &#x24D8;
                   </label>
                   <input
                     type="text"
-                    name="allegren"
+                    name="allergen"
                     value={formData.allegren}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
@@ -397,18 +374,19 @@ const AddNew = () => {
                 <label className="block text-sm font-medium text-gray-700">
                   Select Addon
                 </label>
-                <Select
+                <select
                   name="addons"
-                  value={options?.filter((option) =>
-                    formData.addons?.includes(option.value)
-                  )}
-                  onChange={handleSelectChange}
-                  options={options}
-                  isClearable
-                  isMulti // Enables multiple selection
-                  // getOptionLabel={(e) => e.label}
-                  getOptionValue={(e) => e.value}
-                />
+                  value={formData.addons}
+                  onChange={handleChange}
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+                >
+                  <option value=""></option>
+                  {addons?.map((addon, index) => (
+                    <option value={addon.name} key={index}>
+                      {addon.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             <div className=" flex flex-col gap-3 bg-white shadow-sm rounded-lg w-1/2">
@@ -424,7 +402,6 @@ const AddNew = () => {
                   <input
                     type="time"
                     name="availableTimeStarts"
-                    required
                     value={formData.availableTimeStarts}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
@@ -436,7 +413,6 @@ const AddNew = () => {
                   </label>
                   <input
                     type="time"
-                    required
                     name="availableTimeEnds"
                     value={formData.availableTimeEnds}
                     onChange={handleChange}
@@ -459,7 +435,6 @@ const AddNew = () => {
                   </label>
                   <input
                     type="numer"
-                    required
                     name="unitPrice"
                     placeholder="Ex: 100"
                     value={formData.unitPrice}
@@ -474,10 +449,10 @@ const AddNew = () => {
                   <select
                     name="discountType"
                     value={formData.discountType}
-                    defaultValue="Percent"
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                   >
+                    <option value=""> </option>
                     <option value="Percent">Percent(%)</option>
                     <option value="Amount">Amount($)</option>
                   </select>
@@ -535,17 +510,17 @@ const AddNew = () => {
                 <TbBoxMultipleFilled />
                 <h1>Food Variations</h1>
               </div>
-              <div
-                className="text-orange-600 font-normal text-base cursor-pointer"
+              <button
+                className="text-orange-600 font-normal text-base"
                 onClick={addVariation}
               >
                 Add New Variation +
-              </div>
+              </button>
             </div>
-            <div className="">
-              {formData?.variations.map((variation, index) => (
+            <div className="m-6 ">
+              {formData.variations?.map((variation, index) => (
                 <div
-                  className="p-6 rounded-md bg-slate-50 flex flex-col gap-3 m-3"
+                  className="p-6 rounded-md bg-slate-50 flex flex-col gap-3"
                   key={index}
                 >
                   <div className="flex justify-between">
@@ -573,68 +548,25 @@ const AddNew = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-3 ">
-                    <div className="flex gap-5">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={variation.variationName}
-                          onChange={(e) =>
-                            handleVariationChange(
-                              index,
-                              "variationName",
-                              e.target.value
-                            )
-                          }
-                          className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
-                        />
-                      </div>
-                      <div>
-                        <h1 className="block text-sm font-medium text-gray-700">
-                          Variation Selection Type{" "}
-                          <span className="text-red-500">*</span>
-                        </h1>
-                        <div>
-                          <label className="block   text-gray-700">
-                            <input
-                              type="radio"
-                              name="selectionType"
-                              value="multiple"
-                              className=" pl-2 "
-                              checked={variation.selectionType === "multiple"}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  index,
-                                  "selectionType",
-                                  e.target.value
-                                )
-                              }
-                            />
-                            Multiple Selection
-                          </label>
-                          <label className="block  text-gray-700">
-                            <input
-                              type="radio"
-                              name="selectionType"
-                              value="single"
-                              checked={variation.selectionType === "single"}
-                              onChange={(e) =>
-                                handleVariationChange(
-                                  index,
-                                  "selectionType",
-                                  e.target.value
-                                )
-                              }
-                            />
-                            Single Selection
-                          </label>
-                        </div>
-                      </div>
+                    <div className="w-1/3">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={variation.variationName}
+                        onChange={(e) =>
+                          handleVariationChange(
+                            index,
+                            "variationName",
+                            e.target.value
+                          )
+                        }
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
+                      />
                     </div>
                     <div className="mr-auto flex flex-col gap-3 w-full p-6 bg-white shadow-sm rounded-lg">
-                      {variation.options.map((option, optionIndex) => (
+                      {variation.options?.map((option, optionIndex) => (
                         <div
                           className="flex gap-4 items-center"
                           key={optionIndex}
@@ -689,12 +621,12 @@ const AddNew = () => {
                           )}
                         </div>
                       ))}
-                      <div
+                      <button
                         className="w-1/5 mt-5 p-2 border border-blue-700 text-blue-700 rounded-md font-semibold"
                         onClick={() => addOptionToVariation(index)}
                       >
                         Add New Option
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -712,9 +644,8 @@ const AddNew = () => {
             <button
               type="submit"
               className="bg-indigo-700 text-white py-1 font-semibold px-5 rounded-lg "
-              disabled={isLoading}
             >
-              {isLoading ? "Loading..." : "Submit"}
+              Submit
             </button>
           </div>
         </form>
@@ -723,4 +654,4 @@ const AddNew = () => {
   );
 };
 
-export default AddNew;
+export default EditFood;

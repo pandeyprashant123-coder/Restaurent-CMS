@@ -99,7 +99,7 @@ const updateMenuItem = async (id, menuItemData) => {
 const getMenuItemById = async (id) => {
   try {
     const menuItem = await MenuItem.findById(id).populate(
-      "categoryId subCategoryId addons"
+      "category subCategory addons"
     );
     if (!menuItem) {
       throw new Error("Menu item not found");

@@ -9,7 +9,8 @@ import { MdOutlinePendingActions, MdPerson } from "react-icons/md";
 
 const DashboardNav = () => {
   const [showCard, setShowCard] = useState(false);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const userData = JSON.parse(user);
   return (
     <div className="border-b sticky top-0 z-50 bg-white">
       <div className="text-gray-500 flex gap-6 justify-end py-2 px-5">
@@ -21,8 +22,8 @@ const DashboardNav = () => {
           onMouseOver={() => setShowCard(true)}
         >
           <div>
-            <h1 className="font-bold text-sm">Name</h1>
-            <span>gmail</span>
+            <h1 className="font-bold text-sm">{userData.name || "admin"}</h1>
+            <span>{userData.email}</span>
           </div>
           <MdPerson className="p-1 text-5xl border-4 border-white rounded-full bg-gray-200" />
         </div>
@@ -35,12 +36,12 @@ const DashboardNav = () => {
           <div className="py-3 px-5 border-b flex gap-3">
             <MdPerson className="p-1 text-5xl border-4 border-white rounded-full bg-gray-200" />
             <div>
-              <h1 className="font-bold text-sm">Name</h1>
-              <span>gmail</span>
+              <h1 className="font-bold text-sm">{userData.name || "admin"}</h1>
+              <span>{userData.email}</span>
             </div>
           </div>
           <Link
-            href="../../dashboard/profile/view"
+            href="/vendor-dashboard/settings"
             className="py-3 px-5 border-b hover:bg-gray-300 duration-150 cursor-pointer"
           >
             Settings
