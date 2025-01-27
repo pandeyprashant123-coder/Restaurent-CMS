@@ -1,12 +1,13 @@
-import Cart from '../models/Cart.js';
-import Product from '../models/Product.js';
+import Cart from "../models/Cart.js";
+import Product from "../models/Product.js";
+import MenuItem from "../models/foods.js";
 
 // Add to Cart
 export const addToCart = async (req, res) => {
-  const { id, quantity } = req.body; 
+  const { food, quantity, addons, variations, totalPrice } = req.body;
   const userId = req.user.id;
 
-  if (!id || !quantity || quantity <= 0) {
+  if (!food || !quantity || quantity <= 0) {
     return res.status(400).json({
       status: "error",
       message: "ID and a valid quantity are required",
@@ -14,7 +15,7 @@ export const addToCart = async (req, res) => {
   }
 
   try {
-    const product = await Product.findById(id); 
+    const product = await MenuItem.findById(food);
     if (!product) {
       return res.status(404).json({
         status: "error",
@@ -22,10 +23,16 @@ export const addToCart = async (req, res) => {
       });
     }
 
-    if (quantity > product.countInStock) {
-      return res.status(400).json({
+    // if (quantity > product.countInStock) {
+    //   return res.status(400).json({
+    //     status: "error",
+    //     message: `Only ${product.countInStock} item(s) in stock`,
+    //   });
+    // }
+    if (!product.name || !product.unitPrice || !product.image) {
+      return res.status(500).json({
         status: "error",
-        message: `Only ${product.countInStock} item(s) in stock`,
+        message: "Product data is incomplete in the database",
       });
     }
 
@@ -34,35 +41,36 @@ export const addToCart = async (req, res) => {
       cart = new Cart({ user: userId });
     }
 
-    const existingItem = cart.items.find(item => item.product.toString() === id); // Compare with 'id'
+    const existingItem = cart.items.find(
+      (item) => item.food.toString() === food
+    ); // Compare with 'id'
 
-    if (existingItem) {
-      if (existingItem.quantity + quantity > product.countInStock) {
-        return res.status(400).json({
-          status: "error",
-          message: `Adding exceeds stock. Only ${product.countInStock - existingItem.quantity} item(s) can be added`,
-        });
-      }
-      existingItem.quantity += quantity;
-    } else {
-      cart.items.push({
-        product: id,
-        quantity,
-        productName: product.productName,
-        productPrice: product.productPrice,
-        productImage: product.productImage,
-      });
-    }
+    // if (existingItem||!variations) {
+    // if (existingItem.quantity + quantity > product.countInStock) {
+    //   return res.status(400).json({
+    //     status: "error",
+    //     message: `Adding exceeds stock. Only ${product.countInStock - existingItem.quantity} item(s) can be added`,
+    //   });
+    // }
+    //   existingItem.quantity += quantity;
+    // } else {
+    cart.items.push({
+      food: food,
+      quantity,
+      addons,
+      variations,
+      totalPrice,
+    });
 
     await cart.save();
 
     return res.status(200).json({
       status: "success",
-      message: "Product added to cart",
+      message: "Food added to cart",
       cart,
     });
   } catch (error) {
-    console.error("Error adding product to cart:", error);
+    console.error("Error adding Food to cart:", error);
     return res.status(500).json({
       status: "error",
       message: "Server error",
@@ -76,10 +84,11 @@ export const getCart = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const cart = await Cart.findOne({ user: userId }).populate("items.product", "productName productPrice productImage category brand");
+    const cart = await Cart.findOne({ user: userId })
+      .populate("items.addons.addon")
+      .populate("items.food");
     if (!cart || cart.items.length === 0) {
-      return res.status(404).json({
-        status: "error",
+      return res.status(201).json({
         message: "Cart is empty",
       });
     }
@@ -101,13 +110,13 @@ export const getCart = async (req, res) => {
 
 // Remove from Cart
 export const removeFromCart = async (req, res) => {
-  const { id } = req.params; 
+  const { id } = req.params;
   const userId = req.user.id;
 
   if (!id) {
     return res.status(400).json({
       status: "error",
-      message: "Product ID is required",
+      message: "Food ID is required",
     });
   }
 
@@ -120,7 +129,7 @@ export const removeFromCart = async (req, res) => {
       });
     }
 
-    cart.items = cart.items.filter(item => item.product.toString() !== id); // Compare with 'id'
+    cart.items = cart.items.filter((item) => item._id.toString() !== id); // Compare with 'id'
     await cart.save();
 
     return res.status(200).json({
@@ -137,11 +146,42 @@ export const removeFromCart = async (req, res) => {
     });
   }
 };
+export const clearCart = async (req, res) => {
+  const userId = req.user.id; // Get the user ID from the authenticated request
+
+  try {
+    // Find the cart associated with the user
+    const cart = await Cart.findOne({ user: userId });
+    if (!cart) {
+      return res.status(404).json({
+        status: "error",
+        message: "Cart not found",
+      });
+    }
+
+    // Clear all items from the cart
+    cart.items = [];
+    await cart.save();
+
+    return res.status(200).json({
+      status: "success",
+      message: "Cart cleared successfully",
+      cart,
+    });
+  } catch (error) {
+    console.error("Error clearing the cart:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
 // Update Cart Item Quantity
 export const updateCartItem = async (req, res) => {
-  const { id} = req.params;
-  const {quantity} = req.body; 
+  const { id } = req.params;
+  const { quantity } = req.body;
   const userId = req.user.id;
 
   if (!id || quantity == null || quantity < 0) {
@@ -152,20 +192,20 @@ export const updateCartItem = async (req, res) => {
   }
 
   try {
-    const product = await Product.findById(id); 
-    if (!product) {
-      return res.status(404).json({
-        status: "error",
-        message: "Product not found",
-      });
-    }
+    // const product = await MenuItem.findById(id);
+    // if (!product) {
+    //   return res.status(404).json({
+    //     status: "error",
+    //     message: "Product not found",
+    //   });
+    // }
 
-    if (quantity > product.countInStock) {
-      return res.status(400).json({
-        status: "error",
-        message: `Only ${product.countInStock} item(s) in stock`,
-      });
-    }
+    // if (quantity > product.countInStock) {
+    //   return res.status(400).json({
+    //     status: "error",
+    //     message: `Only ${product.countInStock} item(s) in stock`,
+    //   });
+    // }
 
     const cart = await Cart.findOne({ user: userId });
     if (!cart) {
@@ -175,7 +215,7 @@ export const updateCartItem = async (req, res) => {
       });
     }
 
-    const item = cart.items.find(item => item.product.toString() === id); // Compare with 'id'
+    const item = cart.items.find((item) => item._id.toString() === id); // Compare with 'id'
 
     if (!item) {
       return res.status(404).json({
@@ -187,7 +227,7 @@ export const updateCartItem = async (req, res) => {
     item.quantity = quantity;
 
     if (item.quantity <= 0) {
-      cart.items = cart.items.filter(item => item.product.toString() !== id);
+      cart.items = cart.items.filter((item) => item._id.toString() !== id);
     }
 
     await cart.save();

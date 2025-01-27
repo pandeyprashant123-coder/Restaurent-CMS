@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 
-import addonList from "../../../data/addon.json";
+import axios from "../../../axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const Addons = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,8 @@ const Addons = () => {
     stockType: "",
     stock: "Unlimited Stock",
   });
-  const [addons, setAddons] = useState(addonList);
-  console.log(JSON.stringify(addons));
+  const [addons, setAddons] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -22,6 +23,19 @@ const Addons = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("/addons");
+        setAddons(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     // Set stock to "Unlimited Stock" only when stockType is explicitly "Unlimited Stock"
@@ -33,9 +47,26 @@ const Addons = () => {
     }
   }, [formData.stockType]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     setAddons((prevAddon) => [...prevAddon, formData]);
+    try {
+      await axios.post("addons", formData);
+      toast("addon added");
+    } catch (error) {
+      toast("unable to add addon");
+    } finally {
+      setFormData({
+        name: "",
+        price: "",
+        stockType: "",
+        stock: "",
+      });
+      setIsLoading(false);
+    }
+  };
+  const handleReset = () => {
     setFormData({
       name: "",
       price: "",
@@ -43,12 +74,23 @@ const Addons = () => {
       stock: "",
     });
   };
-  const handleReset = () => {};
+  const handleDelete = async (id) => {
+    const updatedList = addons.filter((item) => item._id !== id);
+    setAddons(updatedList);
+
+    try {
+      await axios.delete(`/addons/${id}`);
+      toast("Addon deleted successfully");
+    } catch (error) {
+      toast("Error deleting:", error);
+    }
+  };
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
+      <ToastContainer />
       <div className="flex items-center gap-2 p-6 font-bold text-xl">
         <FiPlusCircle />
-        <h1>Add New Food</h1>
+        <h1>Add New Addons</h1>
       </div>
       <div>
         <form onSubmit={handleSubmit}>
@@ -63,6 +105,7 @@ const Addons = () => {
                     type="text"
                     name="name"
                     placeholder=""
+                    required
                     value={formData.name}
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
@@ -75,6 +118,7 @@ const Addons = () => {
                   <input
                     type="number"
                     name="price"
+                    required
                     placeholder="Ex: 100"
                     value={formData.price}
                     onChange={handleChange}
@@ -90,6 +134,7 @@ const Addons = () => {
                   <select
                     name="stockType"
                     value={formData.stockType}
+                    required
                     onChange={handleChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                   >
@@ -109,6 +154,7 @@ const Addons = () => {
                       type="number"
                       name="stock"
                       placeholder="Ex: 100"
+                      required
                       value={formData.stock}
                       onChange={(e) =>
                         setFormData((prevState) => ({
@@ -132,9 +178,10 @@ const Addons = () => {
                   </button>
                   <button
                     type="submit"
+                    disabled={isLoading}
                     className="bg-indigo-700 text-white py-1 font-semibold px-5 rounded-lg "
                   >
-                    Submit
+                    {isLoading ? "Loading..." : "Submit"}
                   </button>
                 </div>
               </div>
@@ -144,7 +191,7 @@ const Addons = () => {
         <div className="m-3 flex flex-col gap-3 w-full bg-white shadow-sm rounded-lg">
           <div className="flex justify-between items-center p-6">
             <h1 className="text-gray-500 font-semibold">
-              Addon List <span>1</span>
+              Addon List <span></span>
             </h1>
             <div>
               <input type="text" name="" id="" />
@@ -163,7 +210,7 @@ const Addons = () => {
                 </tr>
               </thead>
               <tbody>
-                {addons.map((item, index) => (
+                {addons?.map((item, index) => (
                   <tr key={index} className="border-b">
                     <td className="pl-2">{index}</td>
                     <td className="pl-2">{item.name}</td>
@@ -171,7 +218,10 @@ const Addons = () => {
                     <td>{item.stockType}</td>
                     <td>{item.stock}</td>
                     <td>
-                      <button className="text-red-500 p-1 m-3 border border-red-300 rounded-md">
+                      <button
+                        className="text-red-500 p-1 m-3 border border-red-300 rounded-md"
+                        onClick={() => handleDelete(item._id)}
+                      >
                         <MdDeleteForever className="text-xl" />
                       </button>
                     </td>

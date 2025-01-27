@@ -22,6 +22,17 @@ input[type="search"] {
   @apply focus:outline-none focus:ring-0 p-2 m-0 shadow-none !important;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 3px;

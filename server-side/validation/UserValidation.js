@@ -56,14 +56,12 @@ export const validateUpdateProfile = [
 
 // Validation for changing password
 export const validateChangePassword = [
-  body("current_password")
-    .notEmpty()
-    .withMessage("Current password is required"),
-  body("new_password")
+  body("oldPassword").notEmpty().withMessage("Current password is required"),
+  body("newPassword")
     .isLength({ min: 6 })
     .withMessage("New password must be at least 6 characters"),
-  body("confirm_password")
-    .custom((value, { req }) => value === req.body.new_password)
+  body("confirmPassword")
+    .custom((value, { req }) => value === req.body.newPassword)
     .withMessage("Passwords do not match"),
 ];
 

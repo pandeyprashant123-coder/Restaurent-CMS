@@ -1,52 +1,176 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { IoMdCart } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
 
-import foods from "../../data/addedFood.json";
+// import foods from "../../data/addedFood.json";
 import PosForm from "../../components/VendorDashboard/POS/PosForm";
+import axios from "../../axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const PointOfSale = () => {
   const [search, setSearch] = useState("");
-
-  const [cartData, setCartData] = useState({
-    cartItemId: "",
-    id: 0,
-    price: 0,
-    name: "",
-    quantity: 0,
-    addonPrice: 0,
-  });
+  const [foods, setFoods] = useState([]);
+  const [cartId, setCartId] = useState("");
   const [cart, setCart] = useState([]);
-  const [discount, setDiscount] = useState(0);
+  // const [discount, setDiscount] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(0);
   const [extraDiscount, setExtraDiscount] = useState(0);
   const [vat, setVat] = useState(0);
   const [serviceCharge, setServiceCharge] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("Cash");
+  // const [quantity, setQuantity] = useState(0);
 
   const [showForm, setShowForm] = useState(false);
   const [foodId, setFoodId] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("foods");
+        setFoods(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  const addonPrice = cart
-    .map((item) => item.addonPrice)
-    .reduce((a, b) => a + b, 0);
-  // Calculate subtotal
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get("cart");
+        setCart(res.data.cart?.items);
+        setCartId(res.data.cart._id);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [showForm]);
+
+  const handleQuantityChange = async (type, quantity, id) => {
+    let newQuantity = 0;
+    if (type === "decrease") {
+      newQuantity = Math.max(1, quantity - 1);
+    } else {
+      newQuantity = quantity + 1;
+    }
+    setCart((prev) =>
+      prev.map((item) =>
+        item._id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
+    try {
+      const res = await axios.put(`cart/${id}`, { quantity: newQuantity });
+      toast(res.data.message);
+    } catch (error) {
+      console.log(error);
+      toast("Unable to update quantity");
+    }
+  };
+
+  const deleteCart = async (id) => {
+    const food = cart.filter((item) => item._id !== id);
+    setCart(food);
+    try {
+      const res = await axios.delete(`cart/${id}`);
+      toast(res.data.message);
+    } catch (error) {
+      console.log(error);
+      toast("Unable to delete Item");
+    }
+  };
+  const handleClearCart = async () => {
+    setCart([]);
+    setDiscount(0);
+    setDeliveryFee(0);
+    setExtraDiscount(0);
+    setVat(0);
+    setServiceCharge(0);
+    try {
+      const res = await axios.delete(`clear-cart`);
+      toast(res.data.message);
+    } catch (error) {
+      console.log(error);
+      toast("Unable to delete Item");
+    }
+  };
+  // console.log(JSON.stringify(cart));
+
+  const totalAddonPrice = () => {
+    return cart?.reduce(
+      (total, item) =>
+        total +
+        item.addons.reduce(
+          (addonTotal, addon) =>
+            addonTotal + parseInt(addon.addon.price, 10) * addon.quantity,
+          0
+        ),
+      0
+    );
+  };
   const calculateSubtotal = () => {
-    return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    return cart?.reduce(
+      (acc, item) => acc + item.food.unitPrice * item.quantity,
+      0
+    );
+  };
+  const calculateDiscount = () => {
+    return cart?.reduce((totalDiscount, item) => {
+      const discount =
+        item.food.discountType === "Amount"
+          ? parseFloat(item.food.discount || 0)
+          : (item.food.unitPrice * parseFloat(item.food.discount || 0)) / 100;
+      return totalDiscount + discount * item.quantity;
+    }, 0);
   };
 
   // Calculate total
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
+    const addonPrice = totalAddonPrice();
+    const discount = calculateDiscount();
     return (
-      subtotal + vat + serviceCharge + deliveryFee - discount - extraDiscount
+      subtotal +
+      addonPrice +
+      vat +
+      serviceCharge +
+      deliveryFee -
+      discount -
+      extraDiscount
     );
+  };
+
+  // cartId,
+  //     shippingAddress,
+  //     paymentMethod,
+  //     delivaryOption,
+  //     totalPrice,
+
+  const handlePlaceOrder = async () => {
+    const orderDetails = {
+      cartId,
+      // shippingAddress,
+      paymentMethod: "COD",
+      delivaryOption: "Take Away",
+      totalPrice: calculateTotal(),
+    };
+    try {
+      const res = await axios.post("orders", orderDetails);
+      toast(res.data.message);
+    } catch (error) {
+      toast("unable to place order");
+      console.log(error);
+    }
+    setCart([]);
   };
   return (
     <div className="flex flex-col bg-gray-50">
+      <ToastContainer />
       <main className="flex gap-4 p-6 w-full">
         <div className="col-span-2 w-1/2">
           {/* <FoodSection /> */}
@@ -71,24 +195,24 @@ const PointOfSale = () => {
                 .filter((food) =>
                   food.name.toLowerCase().includes(search.toLowerCase())
                 )
-                .map((food, index) => (
+                ?.map((food, index) => (
                   <div
                     className="border rounded-xl  hover:shadow-lg cursor-pointer"
                     key={index}
                     onClick={() => {
                       setShowForm(true);
-                      setFoodId(food.id);
+                      setFoodId(food._id);
                     }}
                   >
                     <img
-                      src="/assets/img/food1.png"
+                      src={food.image}
                       alt={food.name}
                       className="w-full object-cover rounded-t-xl  h-24"
                     />
                     <div className="px-4 py-2 flex flex-col items-center">
                       <h3 className="mt-2 font-semibold">{food.name}</h3>
                       <p className="text-orange-500 font-semibold">
-                        ${food.unitPrice.toFixed(2)}
+                        ${food.unitPrice}
                       </p>
                     </div>
                   </div>
@@ -104,29 +228,48 @@ const PointOfSale = () => {
               <table className="w-full text-sm">
                 <thead>
                   <tr className=" bg-slate-200 border font-semibold">
-                    <th className="text-left py-2 pl-5">Item</th>
-                    <th className="text-left py-2">Qty</th>
+                    <th className="text-center py-2 pl-5">Item</th>
+                    <th className="text-center py-2">Qty</th>
                     <th className="text-left py-2">Price</th>
                     <th className="text-left py-2">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {cart.map((item) => (
-                    <tr key={item.id} className="border-b">
-                      <td className="pl-2">{item.name}</td>
-                      <td>{item.quantity}</td>
-                      <td>${(item.price * item.quantity).toFixed(2)}</td>
-                      <td>
+                  {cart?.map((item, index) => (
+                    <tr key={index} className="border-b">
+                      <td className="pl-3 text-center">{item.food.name}</td>
+                      <td className="font-semibold text-center">
                         <button
-                          className="text-red-500 p-1 m-3 border border-red-300 rounded-md"
                           onClick={() =>
-                            setCart(
-                              cart.filter(
-                                (cartItem) =>
-                                  cartItem.cartItemId !== item.cartItemId
-                              )
+                            handleQuantityChange(
+                              "decrease",
+                              item.quantity,
+                              item._id
                             )
                           }
+                          className="px-3 py-1 text-gray-500 hover:text-gray-700"
+                        >
+                          <p className="text-2xl font-semibold">-</p>
+                        </button>
+                        {item.quantity}
+                        <button
+                          onClick={() =>
+                            handleQuantityChange(
+                              "increase",
+                              item.quantity,
+                              item._id
+                            )
+                          }
+                          className="px-3 py-1 text-gray-500 hover:text-gray-700"
+                        >
+                          <p className="text-xl font-semibold">+</p>
+                        </button>
+                      </td>
+                      <td>${item.food.unitPrice * item.quantity}</td>
+                      <td>
+                        <button
+                          className="text-red-500 p-1 m-3 border border-red-300 rounded-md hover:text-white hover:bg-red-500"
+                          onClick={() => deleteCart(item._id)}
                         >
                           <MdDeleteForever className="text-xl" />
                         </button>
@@ -139,35 +282,35 @@ const PointOfSale = () => {
             <div className="p-5">
               <div className="flex justify-between mb-2">
                 <p>Addon:</p>
-                <p>${addonPrice}</p>
+                <p>${totalAddonPrice()}</p>
               </div>
               <div className="flex justify-between mb-2">
                 <p>Subtotal:</p>
-                <p>${calculateSubtotal().toFixed(2)}</p>
+                <p>${calculateSubtotal()}</p>
               </div>
               <div className="flex justify-between mb-2">
                 <p>Discount:</p>
-                <p>-${discount.toFixed(2)}</p>
+                <p>-${calculateDiscount()}</p>
               </div>
               <div className="flex justify-between mb-2">
                 <p>Delivery Fee:</p>
-                <p>${deliveryFee.toFixed(2)}</p>
+                <p>${deliveryFee}</p>
               </div>
               <div className="flex justify-between mb-2">
                 <p>Extra Discount:</p>
-                <p>-${extraDiscount.toFixed(2)}</p>
+                <p>-${extraDiscount}</p>
               </div>
               <div className="flex justify-between mb-2">
                 <p>Vat/Tax:</p>
-                <p>${vat.toFixed(2)}</p>
+                <p>${vat}</p>
               </div>
               <div className="flex justify-between mb-3">
                 <p>Service Charge:</p>
-                <p>${serviceCharge.toFixed(2)}</p>
+                <p>${serviceCharge}</p>
               </div>
               <div className="flex justify-between font-bold border-t pt-2">
                 <p>Total:</p>
-                <p>${calculateTotal().toFixed(2)}</p>
+                <p>${calculateTotal()}</p>
               </div>
 
               {/* Payment Method */}
@@ -199,19 +342,15 @@ const PointOfSale = () => {
 
               {/* Actions */}
               <div className="pt-6 pb-2 flex justify-between sticky bottom-0 bg-white">
-                <button className="btnBlue px-6 py-2 rounded">
+                <button
+                  className="btnBlue px-6 py-2 rounded"
+                  onClick={handlePlaceOrder}
+                >
                   Place Order
                 </button>
                 <button
                   className="bg-gray-200 px-6 py-2 rounded"
-                  onClick={() => {
-                    setCart([]);
-                    setDiscount(0);
-                    setDeliveryFee(0);
-                    setExtraDiscount(0);
-                    setVat(0);
-                    setServiceCharge(0);
-                  }}
+                  onClick={handleClearCart}
                 >
                   Clear Cart
                 </button>
@@ -221,15 +360,18 @@ const PointOfSale = () => {
           </div>
         </div>
       </main>
-      {showForm && (
+      <div
+        className={`flex items-center justify-center w-full h-full bg-[#555252b5] fixed top-0 left-0 z-50 transition-all duration-300 ease-in ${
+          showForm ? "opacity-100 max-h-full" : "opacity-0 max-h-0"
+        }`}
+      >
         <PosForm
           setShowForm={setShowForm}
+          foods={foods}
           foodId={foodId}
-          cartData={cartData}
-          setCartData={setCartData}
           setCart={setCart}
         />
-      )}
+      </div>
     </div>
   );
 };
