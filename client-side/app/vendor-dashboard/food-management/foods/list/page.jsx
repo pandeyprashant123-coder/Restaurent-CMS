@@ -18,6 +18,7 @@ const List = () => {
   const [list, setList] = useState([]);
   const { setFoodData } = useFood();
   const router = useRouter();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +95,7 @@ const List = () => {
           Out of Stock Foods{" "}
         </button>
         <Link
-          href="../food-management/Addnew"
+          href="/vendor-dashboard/food-management/foods/add-new"
           replace={true}
           className="flex gap-2 items-center bg-indigo-400 p-2 rounded-md"
         >
@@ -109,6 +110,8 @@ const List = () => {
             <input
               type="search"
               placeholder="Ex : Search food Name"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               className="text-sm text-gray-700 border-none"
             />
             <IoSearchOutline className="bg-slate-300 p-3 h-10 w-10 text-white rounded-e-md cursor-pointer hover:bg-gray-400" />
@@ -143,65 +146,71 @@ const List = () => {
               </tr>
             </thead>
             <tbody>
-              {list.map((item, index) => (
-                <tr key={index} className="border-b">
-                  <td className="pl-2 text-center">{index}</td>
-                  <td className="pl-2 text-center">
-                    <div className="flex items-center gap-2 h-20 w-20 m-2 ">
-                      <Image
-                        src={item.image}
-                        alt=""
-                        height={75}
-                        width={75}
-                        className="h-full w-full rounded-md bg-cover"
-                      />
-                      <h1>{item.name}</h1>
-                    </div>
-                  </td>
-                  <td className="pl-2 text-center">{item.category}</td>
-                  <td className="pl-2 text-center">{item.unitPrice}</td>
-                  <td className="pl-2 text-center">
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        value=""
-                        checked={item.recommended}
-                        onChange={() => {
-                          handleRecommended(item._id);
-                        }}
-                        className="sr-only peer"
-                      />
-                      <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    </label>
-                  </td>
-                  <td className="pl-2 text-center">
-                    <label className="inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        value=""
-                        checked={item.status === "active"}
-                        onChange={() => handleStatus(item._id)}
-                        className="sr-only peer"
-                      />
-                      <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                    </label>
-                  </td>
-                  <td className="text-center flex justify-center gap-2">
-                    <button
-                      className="text-blue-500 p-1 my-5 border border-blue-300 rounded-md"
-                      onClick={() => handleEdit(item._id)}
-                    >
-                      <FaPen className="text-xl" />
-                    </button>
-                    <button
-                      className="text-red-500 p-1 my-5 border border-red-300 rounded-md"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      <MdDeleteForever className="text-xl" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {list
+                .filter((food) =>
+                  food.name.toLowerCase()?.includes(search.toLowerCase())
+                )
+                .map((item, index) => (
+                  <tr key={index} className="border-b">
+                    <td className="pl-2 text-center">{index}</td>
+                    <td className="pl-2 text-center">
+                      <div className="flex items-center gap-2 h-20 w-20 m-2 ">
+                        {item.image && (
+                          <Image
+                            src={item.image}
+                            alt="image"
+                            height={75}
+                            width={75}
+                            className="h-full w-full rounded-md bg-cover"
+                          />
+                        )}
+                        <h1 className="font-semibold">{item.name}</h1>
+                      </div>
+                    </td>
+                    <td className="pl-2 text-center">{item.category}</td>
+                    <td className="pl-2 text-center">{item.unitPrice}</td>
+                    <td className="pl-2 text-center">
+                      <label className="inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          value=""
+                          checked={item.recommended}
+                          onChange={() => {
+                            handleRecommended(item._id);
+                          }}
+                          className="sr-only peer"
+                        />
+                        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                      </label>
+                    </td>
+                    <td className="pl-2 text-center">
+                      <label className="inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          value=""
+                          checked={item.status === "active"}
+                          onChange={() => handleStatus(item._id)}
+                          className="sr-only peer"
+                        />
+                        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none  rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                      </label>
+                    </td>
+                    <td className="text-center flex justify-center gap-2">
+                      <button
+                        className="text-blue-500 hover:bg-blue-500 hover:text-white  duration-150 p-1 my-5 border border-blue-300 rounded-md"
+                        onClick={() => handleEdit(item._id)}
+                      >
+                        <FaPen className="text-xl " />
+                      </button>
+                      <button
+                        className="text-red-500 p-1 my-5 border border-red-300 hover:bg-red-500 hover:text-white  duration-150 rounded-md"
+                        onClick={() => handleDelete(item._id)}
+                      >
+                        <MdDeleteForever className="text-xl" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

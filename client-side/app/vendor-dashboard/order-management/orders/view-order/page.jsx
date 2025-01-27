@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { FcViewDetails } from "react-icons/fc";
 import {
   IoIosArrowForward,
@@ -12,8 +13,27 @@ import { IoPerson } from "react-icons/io5";
 import { FaJediOrder } from "react-icons/fa6";
 import { BiShoppingBag } from "react-icons/bi";
 import { HiShoppingCart } from "react-icons/hi";
+import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
+import axios from "../../../../axios";
 
 const OrderView = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const [order, setOrder] = useState({});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`orders/${id}`);
+        setOrder(res.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log(order);
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
       <div className="flex items-center gap-2 p-6 justify-between font-semibold text-xl">
@@ -54,15 +74,24 @@ const OrderView = () => {
         <div className="border  rounded-md w-2/3">
           <div className="grid grid-cols-2 py-4">
             <div className="flex flex-col gap-2 px-4">
-              <h1 className="font-semibold text-xl">Order #100160</h1>
+              <h1 className="font-semibold text-xl">
+                Order #{order.id?.slice(0, 6).toUpperCase()}
+              </h1>
               <div className="flex gap-2 text-sm">
                 <p>Placed Date :</p>{" "}
-                <p className="font-semibold"> 03 Dec 2024 03:39 am</p>
+                <p className="font-semibold">
+                  {" "}
+                  {order.updatedAt
+                    ? format(new Date(order.updatedAt), "PPpp")
+                    : ""}
+                </p>
               </div>
-              <div className="flex gap-1 text-sm">
-                <p>Din-in Date :</p>{" "}
-                <p className="font-semibold"> 03 Dec 2024 04:09 pm</p>
-              </div>
+              {order?.delivaryOptions === "Dine In" && (
+                <div className="flex gap-1 text-sm">
+                  <p>Din-in Date :</p>{" "}
+                  <p className="font-semibold"> 03 Dec 2024 04:09 pm</p>
+                </div>
+              )}
               <div>
                 <button className="p-1 border border-[#006fbd] flex gap-1 rounded-md text-[#006fbd] items-center hover:bg-[#006fbd] hover:text-gray-100 duration-150">
                   <CiLocationOn />
@@ -82,20 +111,22 @@ const OrderView = () => {
                 <div className="flex justify-between">
                   <span>Status :</span>
                   <span className="text-blue-600 p-1 rounded-md font-semibold bg-blue-50">
-                    Pending
+                    {order.status}
                   </span>
                 </div>
                 <div className="flex justify-between gap-1">
                   <span>Payment method :</span>
-                  <span className="font-semibold">Cash on delivery</span>
+                  <span className="font-semibold">{order.paymentMethod}</span>
                 </div>
                 <div className="flex justify-between gap-1">
                   <span> Payment status :</span>
-                  <span className="text-red-500 font-semibold">Unpaid </span>
+                  <span className="text-red-500 font-semibold">
+                    {order.paymentStatus}{" "}
+                  </span>
                 </div>
                 <div className="flex justify-between gap-1">
                   <span>Order Type : </span>
-                  <span className="font-semibold">Dine In</span>
+                  <span className="font-semibold">{order.delivaryOption}</span>
                 </div>
                 <div className="flex justify-between gap-1">
                   <span>Cutlery :</span>
@@ -104,49 +135,64 @@ const OrderView = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 py-4">
+          <div className="grid grid-cols-3 py-4">
             <div>
               <div className="font-semibold p-5 bg-blue-50">Item Details</div>
-              <div className="flex text-base gap-3 px-5 pt-2">
-                <img
-                  src="/assets/img/food1.png"
-                  alt="foodImg"
-                  className="h-20 w-20 scale-90 rounded-md"
-                />
-                <div>
-                  <h1 className="font-semibold">Chicken Swarma</h1>
-                  <h1 className="font-semibold">Size - </h1>
-                  <div className="ml-3">
-                    Small : <span className="font-semibold">$ 210.00</span>{" "}
-                  </div>
-                  <div className="ml-3">
-                    Medium : <span className="font-semibold">$ 310.00</span>{" "}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Price : </span> $ 730.00
-                  </div>
-                  <div>
-                    <span className="font-semibold">Qty : </span> 1
-                  </div>
-                </div>
-              </div>
             </div>
-            <div className=" grid grid-cols-2">
-              <div>
-                <h1 className="font-semibold p-5 bg-blue-50 text-right">
-                  Addons
-                </h1>
-              </div>
-              <div className="">
-                <h1 className="font-semibold flex justify-end p-5 bg-blue-50">
-                  Price
-                </h1>
-                <div className="flex text-base justify-end gap-3 px-5 pt-2 font-semibold">
-                  <h1>$ 730.00</h1>
-                </div>
-              </div>
+            <div>
+              <h1 className="font-semibold p-5 bg-blue-50 text-right">
+                Addons
+              </h1>
+            </div>
+            <div className="">
+              <h1 className="font-semibold flex justify-end p-5 bg-blue-50">
+                Price
+              </h1>
             </div>
           </div>
+          {order.orderItems?.map(
+            ({ _id, addons, food, variations, quantity, totalPrice }) => (
+              <div key={_id} className="grid grid-cols-4 ">
+                <div className="flex text-base gap-3 px-5 col-span-2 pt-2">
+                  <img
+                    src={food.image || null}
+                    alt="foodImg"
+                    className="h-20 w-20 scale-90 rounded-md"
+                  />
+                  <div>
+                    <h1 className="font-semibold">{food.name}</h1>
+                    {variations?.map((variation, index) => {
+                      <div key={index}>
+                        <h1 className="font-semibold">{variation.name} - </h1>
+                        {variation.options?.map((option, index) => {
+                          <div key={index}>
+                            <div className="ml-3">
+                              {option.name} :{" "}
+                              <span className="font-semibold">
+                                $ {food.unitPrice + option.price}
+                              </span>{" "}
+                            </div>
+                          </div>;
+                        })}
+                        <div>
+                          <span className="font-semibold">Price : </span> ${" "}
+                          {food.unitPrice}
+                        </div>
+                        <div>
+                          <span className="font-semibold">Qty : </span>{" "}
+                          {quantity}
+                        </div>
+                      </div>;
+                    })}
+                  </div>
+                </div>
+                <div>{}</div>
+                <div className="flex text-base justify-end gap-3 px-5 pt-2 font-semibold">
+                  <h1>$ {totalPrice}</h1>
+                </div>
+              </div>
+            )
+          )}
           <div className=" grid grid-cols-2 p-4">
             <div></div>
             <div className="flex flex-col gap-2">
@@ -239,7 +285,7 @@ const OrderView = () => {
             </div>
             <div className="flex gap-3 text-sm">
               <img
-                src=""
+                src={"" || null}
                 alt="profile pic"
                 className="h-20 w-20 rounded-full"
               />

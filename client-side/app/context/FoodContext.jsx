@@ -17,7 +17,7 @@ export function FoodProvider({ children }) {
     nutrition: "",
     allegren: "",
     isItHalal: false,
-    addon: "",
+    addons: [],
     availableTimeStarts: "",
     availableTimeEnds: "",
     unitPrice: 0,
@@ -26,13 +26,7 @@ export function FoodProvider({ children }) {
     purchaseLimit: "",
     stockType: "",
     variationRequired: false,
-    variations: [
-      {
-        variationName: "",
-        required: false,
-        options: [{ name: "", additionalPrice: "" }],
-      },
-    ],
+    variations: [],
   });
   console.log(foodData);
   return (

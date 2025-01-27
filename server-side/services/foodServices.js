@@ -82,7 +82,6 @@ const createMenuItemExcel = async (data) => {
 
 // Update an existing menu item
 const updateMenuItem = async (id, menuItemData) => {
-  console.log(menuItemData);
   try {
     const menuItem = await MenuItem.findByIdAndUpdate(id, menuItemData, {
       new: true,

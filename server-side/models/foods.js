@@ -9,12 +9,13 @@ const variationSchema = new mongoose.Schema({
   variationName: { type: String, required: false }, // e.g., "Size"
   required: { type: Boolean, default: false }, // If the variation is mandatory
   options: [variationOptionSchema], // List of options
+  selectionType: { type: String, required: false },
 });
 
 const menuItemSchema = new mongoose.Schema({
   name: { type: String, required: true }, // Item name
   description: { type: String, required: true }, // Item description
-  image: { type: String, required: true }, // Image file path or URL
+  image: { type: String }, // Image file path or URL
   category: {
     // type: mongoose.Schema.Types.ObjectId,
     // required: true,
@@ -36,9 +37,8 @@ const menuItemSchema = new mongoose.Schema({
   isItHalal: { type: Boolean, default: false }, // Is the item Halal?
   addons: [
     {
-      // type: mongoose.Schema.Types.ObjectId, // Add-ons can reference another schema
-      // ref: "Addon",
-      type: String,
+      type: mongoose.Schema.Types.ObjectId, // Add-ons can reference another schema
+      ref: "Addon",
       required: false,
     },
   ],
@@ -48,7 +48,9 @@ const menuItemSchema = new mongoose.Schema({
   discountType: {
     type: String,
     enum: ["Percent", "Amount"],
-    default: "Percent",
+    default: "",
+    default: "",
+    required: false,
   }, // Discount type
   discount: { type: String, default: 0 }, // Discount value
   purchaseLimit: { type: String, default: 0 }, // Purchase limit per customer

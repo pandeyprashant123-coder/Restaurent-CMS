@@ -45,9 +45,8 @@ const Login = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-
       toast.success("Login Successful");
-      login(response.data.token, rememberMe); // Pass token and rememberMe to AuthContext
+      login(response.data.token, response.data.user, rememberMe); // Pass token and rememberMe to AuthContext
       router.push("/vendor-dashboard");
     } catch (error) {
       toast.error(

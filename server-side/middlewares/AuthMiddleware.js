@@ -106,41 +106,26 @@ export const authenticate = (req, res, next) => {
 };
 // isAdmin middleware
 export const isAdmin = (req, res, next) => {
-  try {
-    const { user_type } = req.user;
-    // Check if user type is admin
-    if (user_type !== "admin") {
-      return res.status(403).json({
-        status: "error",
-        message: "Not authorized. Admin access required",
-      });
-    }
-    next();
-  } catch (err) {
-    console.error("Admin check middleware error:", err);
-    return res.status(500).json({
-      status: "error",
-      message: "Internal server error during authentication",
-    });
+  const { user_type } = req.user;
+
+  if (user_type === "admin") {
+    return next(); // Ensure no response is sent after calling next()
   }
+
+  return res.status(403).json({
+    message: "Access forbidden: Not an admin",
+  });
 };
 export const isRestroAdmin = (req, res, next) => {
-  try {
-    const { user_type } = req.user;
-    if (user_type !== "vendor") {
-      return res.status(403).json({
-        status: "error",
-        message: "Not authorized. Admin access required",
-      });
-    }
-    next();
-  } catch (err) {
-    console.error("Admin check middleware error:", err);
-    return res.status(500).json({
-      status: "error",
-      message: "Internal server error during authentication",
-    });
+  const { user_type } = req.user;
+
+  if (user_type === "vendor") {
+    return next(); // Ensure no response is sent after calling next()
   }
+
+  return res.status(403).json({
+    message: "Access forbidden: not a restaurant admin",
+  });
 };
 
 export const isAdminOrRestroAdmin = (req, res, next) => {
