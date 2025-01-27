@@ -162,7 +162,7 @@ const Dropdown = () => {
 
 const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-
+  <time datetime="2016-10-25" suppressHydrationWarning />;
   // Set initial theme based on system preference or saved preference
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");

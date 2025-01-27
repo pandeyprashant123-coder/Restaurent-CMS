@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -9,7 +9,7 @@ const categorySchema = new mongoose.Schema(
     },
     cDescription: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     cStatus: {
@@ -19,7 +19,7 @@ const categorySchema = new mongoose.Schema(
     },
     parentCategory: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'categories', // Reference to the same collection for hierarchical structure
+      ref: "categories", // Reference to the same collection for hierarchical structure
       default: null,
     },
     level: {
@@ -35,7 +35,8 @@ const categorySchema = new mongoose.Schema(
           if (!v) return true;
           return /^https?:\/\/.+\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(v);
         },
-        message: 'Please enter a valid image URL (jpg, jpeg, png, webp, avif, gif, svg)',
+        message:
+          "Please enter a valid image URL (jpg, jpeg, png, webp, avif, gif, svg)",
       },
     },
   },
@@ -43,6 +44,6 @@ const categorySchema = new mongoose.Schema(
 );
 
 // Create and export the model
-const categoryModel = mongoose.model('categories', categorySchema);
+const categoryModel = mongoose.model("categories", categorySchema);
 
 export default categoryModel;

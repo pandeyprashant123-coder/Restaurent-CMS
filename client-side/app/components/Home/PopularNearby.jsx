@@ -109,7 +109,7 @@ const PopularNearby = () => {
           slidesPerView={5}
           centeredSlides={true}
           loop={true} // Enable infinite loop
-          loopedSlides={trendsData.length} // Set number of duplicated slides
+          loopedslides={trendsData.length} // Set number of duplicated slides
           navigation
           autoplay={{
             delay: 3000,
