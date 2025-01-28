@@ -7,7 +7,6 @@ import DashboardNav from "../components/VendorDashboard/DashboardNav";
 import { useAuth } from "../context/AuthContext";
 import "./global.css";
 import { redirect } from "next/navigation";
-import { FoodProvider } from "../context/FoodContext";
 
 import { LiaHomeSolid } from "react-icons/lia";
 import { RiShoppingBagFill } from "react-icons/ri";
@@ -325,17 +324,15 @@ const layout = ({ children }) => {
   }
   return (
     <div className="flex">
-      <FoodProvider>
-        <DashboardSidebar
-          hideSideNav={hideSideNav}
-          sethideSideNav={sethideSideNav}
-          sidebarItems={sidebarItems}
-        />
-        <div className={`relative ${hideSideNav ? "w-full" : "w-4/5"}`}>
-          <DashboardNav />
-          {children}
-        </div>
-      </FoodProvider>
+      <DashboardSidebar
+        hideSideNav={hideSideNav}
+        sethideSideNav={sethideSideNav}
+        sidebarItems={sidebarItems}
+      />
+      <div className={`relative ${hideSideNav ? "w-full" : "w-4/5"}`}>
+        <DashboardNav />
+        {children}
+      </div>
     </div>
   );
 };

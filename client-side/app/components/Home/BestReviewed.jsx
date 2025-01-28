@@ -12,16 +12,27 @@ import { FaPlus } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 
 import trendsData from "../../data/productData";
+import { useFood } from "../../context/FoodContext";
+import FoodForm from "../FoodForm";
+import { ToastContainer } from "react-toastify";
 
 const Bestreviewed = () => {
-  const [popup, setPopup] = useState(false);
-  const [foodId, setfoodId] = useState(1);
+  const { foodData } = useFood();
+
+  const [showForm, setShowForm] = useState(false);
+  const [foodId, setfoodId] = useState(foodData._id);
 
   return (
     <div className="py-2 mx-28 dark:bg-background">
-      {/* {popup && (
-        <BestReviewed popup={popup} setPopup={setPopup} foodId={foodId} />
-      )} */}
+      <ToastContainer />
+      {showForm && (
+        <FoodForm
+          setShowForm={setShowForm}
+          showForm={showForm}
+          foodId={foodId}
+          foods={foodData}
+        />
+      )}
       <div className="flex justify-between items-center">
         <h2 className="flex flex-shrink-0 text-[18px] font-bold text-black mb-1 dark:text-white">
           Best Reviewed Food
@@ -47,13 +58,13 @@ const Bestreviewed = () => {
         }}
         className="mb-10"
       >
-        {trendsData.map((item, index) => (
+        {foodData?.map((item, index) => (
           <SwiperSlide
             key={index}
             className="flex justify-center"
             onClick={() => {
-              setPopup(true);
-              setfoodId(item.id);
+              setShowForm(true);
+              setfoodId(item._id);
             }}
           >
             <div className="p-1 relative w-11/12 h-72 bg-white dark:bg-black max-w-xs overflow-hidden rounded-lg cursor-pointer transform transition-transform duration-300 hover:bg-red-50 ">
@@ -67,7 +78,7 @@ const Bestreviewed = () => {
               <div className=" relative overflow-hidden">
                 <img
                   src={item.image}
-                  alt={item.title}
+                  alt={item.name}
                   className="w-full h-40 rounded-md object-cover transform transition-transform duration-300 hover:scale-125 z-0"
                 />
                 <FaPlus className="absolute bottom-2 right-4 text-red-400 bg-white rounded-full p-1 text-[20px]" />
@@ -75,11 +86,11 @@ const Bestreviewed = () => {
 
               <div className="p-2">
                 <p className="text-sm font-normal text-gray-400">
-                  {item.restaurant}
+                  {/* {item.restaurant} */}
                 </p>
                 <div className="flex relative items-center space-x-2">
                   <h3 className="w-3/4 text-base font-semibold text-gray-800 dark:text-white truncate max-w-xs">
-                    {item.title}
+                    {item.name}
                   </h3>
                   <FaCircle
                     className={`text-[10px] items-end ${
@@ -91,16 +102,16 @@ const Bestreviewed = () => {
                 </div>
                 <div className=" flex items-center text-sm text-black ">
                   <span className="text-black px-2 py-1 rounded-full">
-                    {item.rating}⭐<span className=" ml-1">(3)</span>
+                    2⭐<span className=" ml-1">(3)</span>
                   </span>
                 </div>
 
                 <div className="flex items-center">
                   <span className="text-sm line-through text-gray-400">
-                    ${item.oldPrice}
+                    ${item.unitPrice}
                   </span>
                   <span className="text-lg font-semibold dark:text-white">
-                    ${item.price}
+                    ${item.unitPrice}
                   </span>
                 </div>
               </div>

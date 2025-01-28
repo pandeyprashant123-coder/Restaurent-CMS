@@ -47,7 +47,7 @@ const ImageSlider = () => {
     }
   };
   return (
-    <div className="flex-col dark:bg-black items-center justify-center h-full">
+    <div className="flex-col bg-black items-center justify-center h-full">
       <div className="relative mx-32 py-6 overflow-hidden">
         {/* Swiper Slider */}
         <Swiper

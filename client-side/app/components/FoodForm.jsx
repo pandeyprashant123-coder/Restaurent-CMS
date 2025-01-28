@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { IoMdCart } from "react-icons/io";
-import { v4 as uuidv4 } from "uuid";
-import axios from "../../../axios";
+import axios from "../axios";
 import { toast, ToastContainer } from "react-toastify";
 
-const PosForm = ({
+const FoodForm = ({
   setShowForm,
   foods,
   foodId,
+  showForm,
   // setCart,
   // cartData,
   // setCartData,
@@ -170,7 +170,11 @@ const PosForm = ({
   if (!food) return null;
 
   return (
-    <>
+    <div
+      className={`flex items-center justify-center w-full h-full bg-[#555252b5] fixed top-0 left-0 z-50 transition-all duration-300 ease-in ${
+        showForm ? "opacity-100 max-h-full" : "opacity-0 max-h-0"
+      }`}
+    >
       <div
         className="flex relative flex-col gap-3 bg-white p-8 rounded-lg shadow-md w-5/12 h-4/5 overflow-y-scroll"
         ref={formRef}
@@ -207,6 +211,19 @@ const PosForm = ({
         </div>
         <h1 className="text-lg font-semibold">Description</h1>
         <p>{food.description}</p>
+        {food.nutrition && (
+          <>
+            <h1 className="text-lg font-semibold">Nutrition Details</h1>
+            <p>{food.nutrition}</p>
+          </>
+        )}
+        {food.allergen && (
+          <>
+            <h1 className="text-lg font-semibold">Allergic Ingredients</h1>
+            <p>{food.allergen}</p>
+          </>
+        )}
+
         {food.variations[0].variationName &&
           food.variations?.map((variation, variationIndex) => (
             <div key={variationIndex}>
@@ -396,7 +413,7 @@ const PosForm = ({
 
         <div className="flex justify-center text-white font-semibold text-lg">
           <div
-            className="flex items-center justify-center gap-3 w-2/5 bg-blue-800 text-center p-2 rounded-lg cursor-pointer"
+            className="btnOrange flex items-center justify-center gap-3 w-2/5 text-center p-2 rounded-lg cursor-pointer"
             onClick={HandleCart}
           >
             <IoMdCart />
@@ -404,8 +421,8 @@ const PosForm = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default PosForm;
+export default FoodForm;

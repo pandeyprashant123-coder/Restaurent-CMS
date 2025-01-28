@@ -24,7 +24,6 @@ export default {
         trendsdark: "#3d2f25",
         mild: "#f6e9e1",
         restaurantcardhover: "#f3e6de",
-        blue: "#2b48ab",
       },
       backgroundImage: {
         darkmiddle: "linear-gradient(to top, #93501f, #93501f)",

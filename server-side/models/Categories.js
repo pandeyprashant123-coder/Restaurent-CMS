@@ -16,6 +16,7 @@ const categorySchema = new mongoose.Schema(
       type: String,
       enum: ["active", "inactive"],
       default: "active",
+      required: false,
     },
     parentCategory: {
       type: mongoose.Schema.Types.ObjectId,

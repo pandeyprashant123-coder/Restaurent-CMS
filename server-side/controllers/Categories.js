@@ -130,7 +130,6 @@ class Category {
       const newCategory = new categoryModel({
         cName: toTitleCase(cName),
         cDescription,
-        cStatus,
         parentCategory: parentCategory || null,
         cImage: cImageUrl || null,
       });

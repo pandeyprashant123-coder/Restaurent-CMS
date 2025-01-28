@@ -58,6 +58,9 @@ input[type="number"] {
 .btnBlue{
   @apply bg-[#006fbd] hover:bg-[#145482] duration-150 text-white rounded-md;
 }
+.btnOrange{
+  @apply bg-[#f6773b] hover:bg-[#f86c2b] duration-150 text-white rounded-md;
+}
 
 .advertise::before{
   top: -30px;

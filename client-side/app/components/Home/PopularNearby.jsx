@@ -98,7 +98,7 @@ const PopularNearby = () => {
   };
 
   return (
-    <div className=" mx-20 h-96 bg-gray-100 scale-105">
+    <div className=" mx-20 h-96 bg-gray-100 dark:bg-black scale-105">
       <h2 className="text-center text-2xl font-semibold mb-6 ">
         Popular Foods Nearby
       </h2>
