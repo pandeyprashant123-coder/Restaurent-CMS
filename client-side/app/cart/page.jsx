@@ -23,7 +23,7 @@ const Cart = () => {
 
     fetchData();
   }, []);
-  console.log(cart);
+  // console.log(JSON.stringify(cart));
 
   const handleQuantityChange = async (type, quantity, id) => {
     let newQuantity = 0;
@@ -100,17 +100,33 @@ const Cart = () => {
       return totalDiscount + discount * item.quantity;
     }, 0);
   };
+  const variationsPrice = () => {
+    return cart.reduce((total, cartItem) => {
+      const variationOptionsPrice =
+        cartItem.variations?.reduce((sum, variation) => {
+          const optionsPrice = variation.options?.reduce(
+            (optionSum, option) => {
+              return optionSum + (option.additionalPrice || 0);
+            },
+            0
+          );
+          return sum + optionsPrice;
+        }, 0) || 0;
+      return total + variationOptionsPrice;
+    }, 0);
+  };
 
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
+    const variationAdditionalPrice = variationsPrice();
     const addonPrice = totalAddonPrice();
     const discount = calculateDiscount();
-    return subtotal + addonPrice - discount;
+    return subtotal + variationAdditionalPrice + addonPrice - discount;
   };
+  console.log(cart);
 
   return (
     <>
-      <Navbar />
       <div className="flex flex-col md:flex-row p-4 space-y-4 md:space-y-0 md:space-x-6">
         {/* Left Section: Cart Items */}
         <div className="w-full md:w-2/3 bg-white rounded-lg shadow-lg p-4">
@@ -132,10 +148,37 @@ const Cart = () => {
                     {/* Item Details */}
                     <div>
                       <p className="font-medium">{item.food.name}</p>
-                      <p className="font-medium">{item.food.unit}</p>
-                      <p className="font-medium"></p>
-                      <p className="text-sm text-gray-500">Variations:</p>
-                      <p className="text-sm text-gray-700">$</p>
+                      <p className="font-medium">${item.food.unitPrice}</p>
+                      {item.addons.length > 0 && (
+                        <div className="font-medium flex gap-2 items-center">
+                          Addons:{" "}
+                          {item.addons.map((addon, index) => (
+                            <div
+                              key={index}
+                              className="font-normal text-gray-600 text-base"
+                            >
+                              {addon.addon.name}({addon.quantity})
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {item.variations.length > 0 && (
+                        <div className="font-medium flex gap-2 items-center">
+                          Variations:{" "}
+                          {item.variations.map((variation, index) => (
+                            <div
+                              key={index}
+                              className="font-normal text-gray-600 text-base"
+                            >
+                              {variation.name}(
+                              {variation.options?.map((option) => (
+                                <>{option.name}</>
+                              ))}
+                              )
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                   {/* Quantity and Remove Controls */}
@@ -189,17 +232,21 @@ const Cart = () => {
               <p>${calculateSubtotal()}</p>
             </div>
             <div className="flex justify-between">
+              <p>Varations</p>
+              <p>(+) ${variationsPrice()}</p>
+            </div>
+            <div className="flex justify-between">
               <p>Discount</p>
-              <p>-${calculateDiscount()}</p>
+              <p>(-) ${calculateDiscount()}</p>
             </div>
             <div className="flex justify-between">
               <p>Addons</p>
-              <p>${totalAddonPrice()}</p>
+              <p>(+) ${totalAddonPrice()}</p>
             </div>
           </div>
           <hr className="my-4" />
-          <div className="flex justify-between text-lg font-semibold">
-            <p>Total</p>
+          <div className="flex justify-between text-lg font-semibold text-orange-500">
+            <p>Subtotal</p>
             <p>${calculateTotal()}</p>
           </div>
           <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 mt-4 rounded">
@@ -207,7 +254,6 @@ const Cart = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

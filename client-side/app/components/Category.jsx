@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "../axios";
+import Link from "next/link";
 const image1 = "/assets/img/image1.jpg";
 const image2 = "/assets/img/image2.jpg";
 
@@ -38,6 +39,13 @@ const Category = () => {
     fetchData();
   }, []);
   console.log(categories);
+  // const handleCategoryClick =async()=>{
+  //   try {
+  //     const res =
+  //   } catch (error) {
+
+  //   }
+  // }
   return (
     <div>
       <div className="p-4 py-6 bg-red-50 dark:bg-[#3d2f25] dark:text-white text-black font-sans font-semibold text-[14px] text-center justify-center">
@@ -46,7 +54,8 @@ const Category = () => {
       <div className=" bg-slate-100 dark:bg-[#272727] ">
         <div className="mx-28 flex flex-wrap">
           {categories?.map((item, index) => (
-            <div
+            <Link
+              href={`/categories/category?category=${item.cName}`}
               key={item._id}
               className="h-[180px] w-[180px] flex-shrink-0 flex flex-col items-center justify-center p-8 mx-1.5 my-2 rounded-lg shadow outline-[#323232] bg-white dark:bg-[#141313] dark:hover:bg-[#272727] hover:bg-red-50 hover:cursor-pointer transition-colors duration-300"
             >
@@ -64,7 +73,7 @@ const Category = () => {
               <div className="text-black dark:text-white text-[12px] font-bold mt-2">
                 <h3>{item.cName}</h3>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

@@ -57,21 +57,22 @@ const Navbar = () => {
         <div></div>
       </div>
 
-      <div className="px-32 py-2 bg-white dark:bg-black flex max-w-maxContent items-center justify-between ">
+      <div className="px-32 py-3 bg-white dark:bg-black flex max-w-maxContent items-center justify-between ">
         <nav className=" text-black dark:text-white">
-          <ul className="flex justify-around mt-4">
-            <Link href="/">
+          <ul className="flex justify-around items-center ">
+            <Link href="/" className="flex gap-2 items-center">
               <img
                 src="/assets/img/favicon.png"
                 alt=""
                 className="w-fit h-[33px]"
               />
+              <p className="text-orange-500 font-bold">Foodi</p>
             </Link>
             {subLinks?.map((item, index) => (
               <li key={index} className="group relative">
                 <Link
                   href={item.link}
-                  className={`px-4 py-1 font-medium text-[16px] hover:text-red-500 `}
+                  className={`px-4 py-1 text-lg text-[16px] hover:text-red-500 `}
                 >
                   {item.title}
                 </Link>

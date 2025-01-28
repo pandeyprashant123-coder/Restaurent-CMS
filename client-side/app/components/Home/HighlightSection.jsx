@@ -87,12 +87,15 @@ const HighlightSection = () => {
           <SwiperSlide key={index}>
             <div className="bg-white dark:bg-slate-800 outline outline-2 outline-slate-200 mt-4 h-full rounded-lg shadow-md transition-all duration-300">
               {/* Card Image with Hover Zoom */}
-              <div className="overflow-hidden rounded-md h-full">
+              <div className="overflow-hidden relative  rounded-t-md h-full">
                 <img
                   src={highlight.image}
                   alt={highlight.title}
                   className="w-full h-40 object-cover transition-transform duration-300 hover:scale-110"
                 />
+                <div className="absolute bottom-2 font-semibold right-4 text-white bg-orange-500 px-1 py-[0.1rem] rounded-full border-2 border-white">
+                  <span>⭐4.7 </span> <span>(3+)</span>
+                </div>
               </div>
 
               {/* Card Content */}
@@ -118,10 +121,6 @@ const HighlightSection = () => {
                       {highlight.description}
                     </p>
                   </div>
-                  <span className="absolute -top-16 right-2 bg-orange-500 text-white text-lg px-2 py-1 mb-4 rounded-full outline outline-white outline-2">
-                    ⭐{highlight.rating}
-                    <span className="text-white text-lg ml-1">(3)</span>
-                  </span>
                 </div>
               </div>
             </div>
