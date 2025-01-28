@@ -56,6 +56,7 @@ export default function Home() {
   }, []);
   return (
     <>
+      <Navbar />
       <div className="bg-[#f5f6f8] dark:bg-background ">
         <div className=" flex-col text-start space-y-10 bg-slate-100  pt-7 pb-5 rounded items-center justify-center dark:bg-slate-800">
           <div className="mx-28 text-[18px] font-bold dark:text-white">
@@ -107,6 +108,7 @@ export default function Home() {
         <SpecialToday />
         <AllRestaurants />
       </div>
+      <Footer />
     </>
   );
 }

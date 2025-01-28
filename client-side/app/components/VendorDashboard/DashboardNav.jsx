@@ -41,7 +41,7 @@ const DashboardNav = () => {
             </div>
           </div>
           <Link
-            href="/vendor-dashboard/settings"
+            href="/restaurant-panel/settings"
             className="py-3 px-5 border-b hover:bg-gray-300 duration-150 cursor-pointer"
           >
             Settings

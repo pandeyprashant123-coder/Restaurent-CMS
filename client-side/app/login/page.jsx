@@ -21,7 +21,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/vendor-dashboard");
+      router.push("/restaurant-panel");
     }
   }, [isAuthenticated, router]);
 

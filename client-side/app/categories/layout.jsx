@@ -1,16 +1,15 @@
 import React from "react";
-import Restaurant from "../components/Restaurant";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const Categories = () => {
+const Layout = ({ children }) => {
   return (
     <div>
       <Navbar />
-      <Restaurant />
+      {children}
       <Footer />
     </div>
   );
 };
 
-export default Categories;
+export default Layout;

@@ -95,7 +95,7 @@ const List = () => {
           Out of Stock Foods{" "}
         </button>
         <Link
-          href="/vendor-dashboard/food-management/foods/add-new"
+          href="/restaurant-panel/food-management/foods/add-new"
           replace={true}
           className="flex gap-2 items-center bg-indigo-400 p-2 rounded-md"
         >
