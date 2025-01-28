@@ -29,12 +29,12 @@ const sidebarItems = [
   {
     title: "Dashboard",
     icon: <LiaHomeSolid />,
-    link: "/vendor-dashboard",
+    link: "/restaurant-panel",
   },
   {
     title: "Pos",
     icon: <RiShoppingBagFill />,
-    link: "/vendor-dashboard/pos",
+    link: "/restaurant-panel/pos",
   },
   {
     section: "Promotions",
@@ -45,18 +45,18 @@ const sidebarItems = [
         dropdown: [
           {
             title: "Basic Campaign",
-            link: "/vendor-dashboard/promotions/campaign/basic-campaign",
+            link: "/restaurant-panel/promotions/campaign/basic-campaign",
           },
           {
             title: "Food Campaign",
-            link: "/vendor-dashboard/promotions/campaign/food-campaign",
+            link: "/restaurant-panel/promotions/campaign/food-campaign",
           },
         ],
       },
       {
         title: "Coupons",
         icon: <AiOutlineTag />,
-        link: "/vendor-dashboard/promotions/coupons",
+        link: "/restaurant-panel/promotions/coupons",
       },
     ],
   },
@@ -66,7 +66,7 @@ const sidebarItems = [
       {
         title: "New Advertisement",
         icon: <AiOutlinePlusSquare />,
-        link: "/vendor-dashboard/ad-management/new-advertisement",
+        link: "/restaurant-panel/ad-management/new-advertisement",
       },
       {
         title: "Advertisement List",
@@ -74,11 +74,11 @@ const sidebarItems = [
         dropdown: [
           {
             title: "Pending",
-            link: "/vendor-dashboard/ad-management/advertisement-list/pending",
+            link: "/restaurant-panel/ad-management/advertisement-list/pending",
           },
           {
             title: "Ad List",
-            link: "/vendor-dashboard/ad-management/advertisement-list/ad-list",
+            link: "/restaurant-panel/ad-management/advertisement-list/ad-list",
           },
         ],
       },
@@ -93,63 +93,63 @@ const sidebarItems = [
         dropdown: [
           {
             title: "All",
-            link: "/vendor-dashboard/order-management/orders",
+            link: "/restaurant-panel/order-management/orders",
             number: "12",
           },
           {
             title: "Pending",
-            link: "/vendor-dashboard/order-management/pending",
+            link: "/restaurant-panel/order-management/pending",
           },
           {
             title: "Confirmed",
-            link: "/vendor-dashboard/order-management/confirmed",
+            link: "/restaurant-panel/order-management/confirmed",
           },
           {
             title: "Accepted",
-            link: "/vendor-dashboard/order-management/accepted",
+            link: "/restaurant-panel/order-management/accepted",
           },
           {
             title: "Cooking",
-            link: "/vendor-dashboard/order-management/cooking",
+            link: "/restaurant-panel/order-management/cooking",
           },
           {
             title: "Ready for Delivery",
-            link: "/vendor-dashboard/order-management/ready-for-delivery",
+            link: "/restaurant-panel/order-management/ready-for-delivery",
           },
           {
             title: "Food on the Way",
-            link: "/vendor-dashboard/order-management/food-on-the-way",
+            link: "/restaurant-panel/order-management/food-on-the-way",
           },
           {
             title: "Delivered",
-            link: "/vendor-dashboard/order-management/delivered",
+            link: "/restaurant-panel/order-management/delivered",
           },
           {
             title: "Refunded",
-            link: "/vendor-dashboard/order-management/refunded",
+            link: "/restaurant-panel/order-management/refunded",
           },
           {
             title: "Refund Requested",
-            link: "/vendor-dashboard/order-management/refund-request",
+            link: "/restaurant-panel/order-management/refund-request",
           },
           {
             title: "Scheduled",
-            link: "/vendor-dashboard/order-management/scheduled",
+            link: "/restaurant-panel/order-management/scheduled",
           },
           {
             title: "Payment Failed",
-            link: "/vendor-dashboard/order-management/payment-failed",
+            link: "/restaurant-panel/order-management/payment-failed",
           },
           {
             title: "Canceled",
-            link: "/vendor-dashboard/order-management/canceled",
+            link: "/restaurant-panel/order-management/canceled",
           },
         ],
       },
       {
         title: "Order Subscription",
         icon: <AiOutlineTag />,
-        link: "/vendor-dashboard/order-management/subscription",
+        link: "/restaurant-panel/order-management/subscription",
       },
     ],
   },
@@ -162,11 +162,11 @@ const sidebarItems = [
         dropdown: [
           {
             title: "Category",
-            link: "/vendor-dashboard/food-management/categories/category",
+            link: "/restaurant-panel/food-management/categories/category",
           },
           {
             title: "Sub Category",
-            link: "/vendor-dashboard/food-management/categories/sub-category",
+            link: "/restaurant-panel/food-management/categories/sub-category",
           },
         ],
       },
@@ -176,26 +176,26 @@ const sidebarItems = [
         dropdown: [
           {
             title: "Add New",
-            link: "/vendor-dashboard/food-management/foods/add-new",
+            link: "/restaurant-panel/food-management/foods/add-new",
           },
           {
             title: "List",
-            link: "/vendor-dashboard/food-management/foods/list",
+            link: "/restaurant-panel/food-management/foods/list",
           },
           {
             title: "Bulk Import",
-            link: "/vendor-dashboard/food-management/foods/bulk-import",
+            link: "/restaurant-panel/food-management/foods/bulk-import",
           },
           {
             title: "Bulk Export",
-            link: "/vendor-dashboard/food-management/foods/bulk-export",
+            link: "/restaurant-panel/food-management/foods/bulk-export",
           },
         ],
       },
       {
         title: "Addons",
         icon: <AiOutlinePlusSquare />,
-        link: "/vendor-dashboard/food-management/addons",
+        link: "/restaurant-panel/food-management/addons",
       },
     ],
   },
@@ -205,47 +205,47 @@ const sidebarItems = [
       {
         title: "Restaurant Config",
         icon: <RiShoppingBagFill />,
-        link: "/vendor-dashboard/business-management/config",
+        link: "/restaurant-panel/business-management/config",
       },
       {
         title: "Notification Setup",
         icon: <AiOutlineTag />,
-        link: "/vendor-dashboard/business-management/notification-setup",
+        link: "/restaurant-panel/business-management/notification-setup",
       },
       {
         title: "My Shop",
         icon: <LiaHomeSolid />,
-        link: "/vendor-dashboard/business-management/my-shop",
+        link: "/restaurant-panel/business-management/my-shop",
       },
       {
         title: "My Qr Code",
         icon: <AiOutlinePlusSquare />,
-        link: "/vendor-dashboard/business-management/my-qr-code",
+        link: "/restaurant-panel/business-management/my-qr-code",
       },
       {
         title: "My Business Plan",
         icon: <BiCrown />,
-        link: "/vendor-dashboard/business-management/my-business-plan",
+        link: "/restaurant-panel/business-management/my-business-plan",
       },
       {
         title: "My Wallet",
         icon: <BiWalletAlt />,
-        link: "/vendor-dashboard/business-management/my-wallet",
+        link: "/restaurant-panel/business-management/my-wallet",
       },
       {
         title: "Wallet Method",
         icon: <RiBankFill />,
-        link: "/vendor-dashboard/business-management/wallet-method",
+        link: "/restaurant-panel/business-management/wallet-method",
       },
       {
         title: "Reviews",
         icon: <AiOutlineStar />,
-        link: "/vendor-dashboard/business-management/reviews",
+        link: "/restaurant-panel/business-management/reviews",
       },
       {
         title: "Chat",
         icon: <AiOutlineMessage />,
-        link: "/vendor-dashboard/business-management/chat",
+        link: "/restaurant-panel/business-management/chat",
       },
     ],
   },
@@ -255,17 +255,17 @@ const sidebarItems = [
       {
         title: "Expense Report",
         icon: <AiOutlineFileText />,
-        link: "/vendor-dashboard/report-section/expense-report",
+        link: "/restaurant-panel/report-section/expense-report",
       },
       {
         title: "Transaction Report",
         icon: <AiOutlinePieChart />,
-        link: "/vendor-dashboard/report-section/transaction-report",
+        link: "/restaurant-panel/report-section/transaction-report",
       },
       {
         title: "Disbursement Report",
         icon: <AiOutlineCreditCard />,
-        link: "/vendor-dashboard/report-section/disbursement-report",
+        link: "/restaurant-panel/report-section/disbursement-report",
       },
       {
         title: "Order Report",
@@ -273,18 +273,18 @@ const sidebarItems = [
         dropdown: [
           {
             title: "Monthly Orders",
-            link: "/vendor-dashboard/report-section/order-report/monthly",
+            link: "/restaurant-panel/report-section/order-report/monthly",
           },
           {
             title: "Annual Orders",
-            link: "/vendor-dashboard/report-section/order-report/annual",
+            link: "/restaurant-panel/report-section/order-report/annual",
           },
         ],
       },
       {
         title: "Food Report",
         icon: <BiFoodMenu />,
-        link: "/vendor-dashboard/report-section/food-report",
+        link: "/restaurant-panel/report-section/food-report",
       },
     ],
   },
@@ -294,7 +294,7 @@ const sidebarItems = [
       {
         title: "Employee Role",
         icon: <AiOutlineFileText />,
-        link: "/vendor-dashboard/employee-section/employee-role",
+        link: "/restaurant-panel/employee-section/employee-role",
       },
       {
         title: "Employees",
@@ -302,11 +302,11 @@ const sidebarItems = [
         dropdown: [
           {
             title: "Add New Employee",
-            link: "/vendor-dashboard/employee-section/employee/add-new-employee",
+            link: "/restaurant-panel/employee-section/employee/add-new-employee",
           },
           {
             title: "List",
-            link: "/vendor-dashboard/employee-section/employee/list",
+            link: "/restaurant-panel/employee-section/employee/list",
           },
         ],
       },
