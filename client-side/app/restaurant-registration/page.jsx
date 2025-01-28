@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
 
 const RestaurantRegistration = () => {
   const [step, setStep] = useState(1);
@@ -42,7 +40,6 @@ const RestaurantRegistration = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="p-8 bg-gray-100 min-h-screen">
         <h1 className="text-2xl font-bold mb-4">Join as a Restaurant</h1>
         <div className="flex justify-between mb-6">
@@ -181,7 +178,6 @@ const RestaurantRegistration = () => {
           </div>
         )}
       </div>
-      <Footer />
     </div>
   );
 };

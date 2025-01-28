@@ -56,19 +56,17 @@ export default function Home() {
   }, []);
   return (
     <>
-      <Navbar />
       <div className="bg-[#f5f6f8] dark:bg-background ">
-        <div className=" flex-col text-start space-y-10 bg-slate-100  py-10 rounded items-center justify-center dark:bg-slate-800">
+        <div className=" flex-col text-start space-y-10 bg-slate-100  pt-7 pb-5 rounded items-center justify-center dark:bg-slate-800">
           <div className="mx-28 text-[18px] font-bold dark:text-white">
             What's on Your Mind?
           </div>
 
-          {/* Scrollable Container */}
-          <div className="ml-28 flex gap-4 overflow-x-auto scrollbar-hide  mt-4">
+          <div className="ml-32 flex gap-4 mt-0">
             {categories?.map((item, index) => (
               <div
                 key={item._id}
-                className="flex-shrink-0 flex flex-col items-center justify-center rounded-md p-0.5 transform transition-transform duration-300 hover:bg-slate-200 "
+                className="flex-shrink-0 flex flex-col items-center justify-center rounded-md p-0.5 transform transition-all duration-300 hover:bg-slate-200 cursor-pointer "
               >
                 {/* Dynamic Background Color */}
                 <div
@@ -108,7 +106,6 @@ export default function Home() {
         <NewonStack />
         <SpecialToday />
         <AllRestaurants />
-        <Footer />
       </div>
     </>
   );

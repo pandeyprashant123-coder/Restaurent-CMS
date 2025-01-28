@@ -1,6 +1,7 @@
 import menuItemService from "../services/foodServices.js";
 import xlsx from "xlsx";
 import upload from "../middlewares/multer.js";
+import MenuItem from "../models/foods.js";
 
 // Create a new menu item
 const createMenuItem = async (req, res) => {
@@ -63,6 +64,20 @@ const getMenuItemById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const getMenuItemByCategories = async (req, res) => {
+  const { category } = req.params;
+  try {
+    const menuItem = await MenuItem.find({ category }).populate(
+      "category subCategory addons"
+    );
+    if (!menuItem) {
+      res.status(404).json({ message: "Food Not available" });
+    }
+    res.status(200).json(menuItem);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 // Get all menu items
 const getAllMenuItems = async (req, res) => {
@@ -91,6 +106,7 @@ export default {
   createMenuItem,
   updateMenuItem,
   getMenuItemById,
+  getMenuItemByCategories,
   getAllMenuItems,
   deleteMenuItem,
 };

@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 const DeliveryManRegistration = () => {
   return (
     <div className="bg-slate-100 min-h-screen">
-      <Navbar />
       <div className="bg-white mx-10 px-10 py-10 h-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Left Section - Two Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 col-span-1 lg:col-span-2">
@@ -56,7 +55,6 @@ const DeliveryManRegistration = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
 
     // <div>
