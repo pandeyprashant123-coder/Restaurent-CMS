@@ -9,8 +9,25 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 import Link from "next/link";
 import list from "../../../../data/addedFood.json";
+import useSWR from "swr";
+import { format } from "date-fns";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const AdsList = () => {
+  const { data, error } = useSWR(
+    `${process.env.API_BASE_URL}/advertisement`,
+    fetcher
+  );
+  //  const highlights = data.filter((item) => item.status === "Approved");
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/advertisement/${id}`);
+      toast("Ad deleted successfully");
+    } catch (error) {
+      toast("Error deleting Ad:", error);
+    }
+  };
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
       <div className="flex items-center justify-between gap-2 p-6 font-bold ">
@@ -82,19 +99,26 @@ const AdsList = () => {
               </tr>
             </thead>
             <tbody>
-              {list.map((item, index) => (
+              {data?.map((item, index) => (
                 <tr key={index} className="border-b">
                   <td className="pl-2 text-center">{index}</td>
                   <td className="pl-2 text-center text-blue-500 text-base ">
-                    <h1>{item.name}</h1>
+                    <h1>{item._id.slice(4, 9)}</h1>
                   </td>
-                  <td className="pl-2 text-center">{item.category}</td>
-                  <td className="pl-2 text-center ">{item.unitPrice}</td>
-                  <td className="pl-2 text-center"></td>
-                  <td className="pl-2 text-center"></td>
+                  <td className="pl-2 text-center">{item.adType}</td>
+                  <td className="pl-2 text-center">{item.title}</td>
+                  <td className="pl-2 text-center ">
+                    {format(new Date(item.startDate), "PPpp")}-
+                    {format(new Date(item.endDate), "PPpp")}
+                  </td>
+                  <td className="pl-2 text-center">{item.status}</td>
+
                   <td className="text-center flex justify-center gap-2">
-                    <button className="p-1 my-5 border  rounded-md">
-                      <BsThreeDotsVertical className="text-xl" />
+                    <button
+                      className="text-red-500 p-1 my-5 border border-red-300 hover:bg-red-500 hover:text-white  duration-150 rounded-md"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      <MdDeleteForever className="text-xl" />
                     </button>
                   </td>
                 </tr>

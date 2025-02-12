@@ -1,5 +1,3 @@
-"use client";
-import React, { useEffect, useState } from "react";
 import axios from "../axios";
 import Link from "next/link";
 const image1 = "/assets/img/image1.jpg";
@@ -24,28 +22,9 @@ const imageData = [
   "bg-orange-500",
 ];
 
-const Category = () => {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("/categories");
-        setCategories(res.data.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  console.log(categories);
-  // const handleCategoryClick =async()=>{
-  //   try {
-  //     const res =
-  //   } catch (error) {
-
-  //   }
-  // }
+const Category = async () => {
+  const res = await axios.get("/categories");
+  const categories = res.data.data;
   return (
     <div>
       <div className="p-4 py-6 bg-red-50 dark:bg-[#3d2f25] dark:text-white text-black font-sans font-semibold text-[14px] text-center justify-center">

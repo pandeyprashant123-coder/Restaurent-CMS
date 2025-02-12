@@ -6,44 +6,47 @@ import Restaurant from "../models/Restaurant.js";
 
 // Controller to create a new restaurant
 const createRestaurant = async (req, res) => {
-  const uploadFields = [
-    { name: "logo", maxCount: 1 },
-    { name: "coverPhoto", maxCount: 1 },
-    { name: "excelData", maxCount: 1 },
-  ];
+  // const uploadFields = [
+  //   { name: "logo", maxCount: 1 },
+  //   { name: "coverPhoto", maxCount: 1 },
+  //   { name: "panCard", maxCount: 1 },
+  //   { name: "excelData", maxCount: 1 },
+  // ];
 
-  upload.fields(uploadFields)(req, res, async (err) => {
-    if (err) {
-      return res.status(400).json({ message: err.message });
-    }
+  // upload.fields(uploadFields)(req, res, async (err) => {
+  //   if (err) {
+  //     return res.status(400).json({ message: err.message });
+  //   }
 
-    try {
-      if (req.files && req.files.excelData && req.files.excelData.length > 0) {
-        const excelFile = req.files.excelData[0];
-        const workbook = xlsx.read(excelFile.buffer, { type: "buffer" });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const data = xlsx.utils.sheet_to_json(worksheet);
-        // console.log("Rows from Excel:", data);
-        if (data && data.length > 0) {
-          const newRestaurant =
-            await restaurantService.createRestaurantFromExcel(data);
-          return res.status(201).json(newRestaurant);
-        } else {
-          return res
-            .status(400)
-            .json({ message: "No valid data found in the Excel file." });
-        }
+  try {
+    if (req.files && req.files.excelData && req.files.excelData.length > 0) {
+      const excelFile = req.files.excelData[0];
+      const workbook = xlsx.read(excelFile.buffer, { type: "buffer" });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const data = xlsx.utils.sheet_to_json(worksheet);
+      // console.log("Rows from Excel:", data);
+      if (data && data.length > 0) {
+        const newRestaurant = await restaurantService.createRestaurantFromExcel(
+          data
+        );
+        return res.status(201).json(newRestaurant);
+      } else {
+        return res
+          .status(400)
+          .json({ message: "No valid data found in the Excel file." });
       }
-      // Handle case where there is no Excel file
-      const newRestaurant = await restaurantService.createRestaurant(
-        req.body,
-        req.files || {} // Contains the uploaded files
-      );
-      return res.status(201).json(newRestaurant);
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
     }
-  });
+    // Handle case where there is no Excel file
+    const newRestaurant = await restaurantService.createRestaurant(
+      req.body,
+      req.files || {}, // Contains the uploaded files
+      req.restaurant
+    );
+    return res.status(201).json(newRestaurant);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+  // });
 };
 
 // Controller to get all restaurants

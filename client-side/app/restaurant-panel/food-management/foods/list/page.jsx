@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 
 import { LuListFilter } from "react-icons/lu";
 import { FaCirclePlus, FaPen } from "react-icons/fa6";
@@ -14,31 +15,35 @@ import { toast, ToastContainer } from "react-toastify";
 import { useFood } from "../../../../context/FoodContext";
 import { redirect, useRouter } from "next/navigation";
 
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
 const List = () => {
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
   const { setFoodData } = useFood();
   const router = useRouter();
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("/foods");
-        setList(res.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const { data, error } = useSWR(`${process.env.API_BASE_URL}/foods`, fetcher);
+  const list = data;
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const res = await axios.get("/foods");
+  //       setList(res.data);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleRecommended = async (id) => {
-    const updatedList = list.map((item) =>
+    const updatedList = list?.map((item) =>
       item._id === id ? { ...item, recommended: !item.recommended } : item
     );
     setList(updatedList);
-    const updatedData = updatedList.find((item) => item._id === id);
+    const updatedData = updatedList?.find((item) => item._id === id);
     try {
       await axios.put(`/foods/${id}`, updatedData);
       toast("Recommended status updated successfully");
@@ -48,7 +53,7 @@ const List = () => {
   };
 
   const handleStatus = async (id) => {
-    const updatedList = list.map((item) =>
+    const updatedList = list?.map((item) =>
       item._id === id
         ? {
             ...item,
@@ -57,7 +62,7 @@ const List = () => {
         : item
     );
     setList(updatedList);
-    const updatedData = updatedList.find((item) => item._id === id);
+    const updatedData = updatedList?.find((item) => item._id === id);
 
     try {
       await axios.put(`/foods/${id}`, updatedData);
@@ -67,12 +72,12 @@ const List = () => {
     }
   };
   const handleEdit = async (id) => {
-    const editFood = list.find((item) => item._id === id);
+    const editFood = list?.find((item) => item._id === id);
     // setFoodData(editFood);
     router.push(`list/edit?id=${id}`);
   };
   const handleDelete = async (id) => {
-    const updatedList = list.filter((item) => item._id !== id);
+    const updatedList = list?.filter((item) => item._id !== id);
     setList(updatedList);
 
     try {
@@ -147,10 +152,10 @@ const List = () => {
             </thead>
             <tbody>
               {list
-                .filter((food) =>
+                ?.filter((food) =>
                   food.name.toLowerCase()?.includes(search.toLowerCase())
                 )
-                .map((item, index) => (
+                ?.map((item, index) => (
                   <tr key={index} className="border-b">
                     <td className="pl-2 text-center">{index}</td>
                     <td className="pl-2 text-center">

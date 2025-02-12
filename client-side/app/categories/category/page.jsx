@@ -2,32 +2,27 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../axios";
 import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
 import Bestreviewed from "../../components/Home/BestReviewed";
 import { IoMdHeart } from "react-icons/io";
 import { FaCircle, FaPlus } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 import FoodForm from "../../components/FoodForm";
 
-const page = () => {
-  const [foods, setFoods] = useState([]);
+// TODO:# #12 Implement SWR or react query
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+function page() {
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
 
   const [showForm, setShowForm] = useState(false);
   const [foodId, setfoodId] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`foods/categories/${category}`);
-        console.log(res.data);
-        setFoods(res.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { data } = useSWR(
+    `${process.env.API_BASE_URL}/foods/categories/${category}`,
+    fetcher
+  );
+  const foods = data;
   return (
     <>
       {showForm && (
@@ -102,6 +97,6 @@ const page = () => {
       </div>
     </>
   );
-};
+}
 
 export default page;

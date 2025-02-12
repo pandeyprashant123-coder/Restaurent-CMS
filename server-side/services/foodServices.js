@@ -1,6 +1,7 @@
 import cloudinary from "../config/cloudinaryConfig.js";
 import stream from "stream";
 import MenuItem from "../models/foods.js";
+import Restaurant from "../models/Restaurant.js";
 
 // Create a new menu item
 
@@ -26,9 +27,13 @@ const uploadToCloudinary = (file, folder) => {
     bufferStream.pipe(uploadStream);
   });
 };
-const createMenuItem = async (menuItemData, files) => {
+const createMenuItem = async (menuItemData, files, user) => {
   try {
-    const menuItem = new MenuItem(menuItemData);
+    const restaurant = await Restaurant.findOne({ user });
+    const menuItem = new MenuItem({
+      ...menuItemData,
+      restaurant: restaurant._id,
+    });
     // Handle logo upload
 
     if (files.foodImage && files.foodImage.length > 0) {
@@ -113,7 +118,9 @@ const getMenuItemById = async (id) => {
 // Get all menu items
 const getAllMenuItems = async () => {
   try {
-    return await MenuItem.find().populate("category subCategory addons");
+    return await MenuItem.find()
+      .populate("category subCategory addons")
+      .populate({ path: "restaurant", select: "restaurantName " });
   } catch (error) {
     throw new Error("Error retrieving menu items: " + error.message);
   }

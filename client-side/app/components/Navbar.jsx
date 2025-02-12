@@ -15,6 +15,17 @@ import { IoMenu } from "react-icons/io5";
 import { FaLock } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 
+//auth
+import { PiPerson } from "react-icons/pi";
+import { ImProfile } from "react-icons/im";
+import { AiFillProfile } from "react-icons/ai";
+import { GoPersonFill } from "react-icons/go";
+import useSWR from "swr";
+import axios from "../axios";
+import { toast } from "react-toastify";
+import SignUp from "./Signup";
+import SignIn from "./Signin";
+
 const subLinks = [
   {
     title: "Home",
@@ -35,8 +46,23 @@ const subLinks = [
 ];
 const Navbar = () => {
   const [popup, setPopup] = useState("false");
+  const [showSignup, setShowSignup] = useState(false);
+  const [showSignin, setShowSignin] = useState(false);
+
   return (
     <div className="sticky top-0  flex flex-col z-50 dark:bg-slate-800">
+      {showSignup && (
+        <SignUp
+          setShowSignup={setShowSignup}
+          onClose={() => setShowSignup(false)}
+        />
+      )}
+      {showSignin && (
+        <SignIn
+          setShowSignup={setShowSignin}
+          onClose={() => setShowSignin(false)}
+        />
+      )}
       <div className="flex text-black bg-[#f6efec] dark:bg-slate-800 dark:text-white justify-between">
         <div
           className="px-32 my-1 py-2 text-[12px] flex items-center dark:bg-slate-800 dark:text-white w-fit cursor-pointer "
@@ -100,12 +126,35 @@ const Navbar = () => {
             className=' hover:text-red-500 transition-colors duration-300'
             /> 
           </Link> */}
-          <Link href="/" className=" flex flex-row items-center space-x-2">
-            <FaLock className="text-[10px] dark:text-white" />
-            <span className="text-[12px] font-normal dark:text-white hover:cursor-pointer">
-              Sign in
-            </span>
-          </Link>
+          <div className=" flex flex-row items-center font-semibold space-x-2">
+            {/* {session ? (
+              <div className="flex gap-2">
+                <div className="text-[12px] font-medium text-gray-700 flex items-center">
+                  <GoPersonFill className="text-base dark:text-white" />
+                  <h1>{session.user.name}</h1>
+                </div>
+                <button
+                  onClick={handleSignOut}
+                  className=" font-normal dark:text-white hover:cursor-pointer"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : ( */}
+            <button
+              className="text-base flex items-center pr-4 border-r-2 border-black hover:text-gray-500 gap-2 dark:text-white hover:cursor-pointer"
+              onClick={() => setShowSignup(true)}
+            >
+              <h1>Sign UP</h1>
+            </button>
+            <button
+              className="text-base flex items-center pl-2 gap-2 hover:text-gray-500 dark:text-white hover:cursor-pointer"
+              onClick={() => setShowSignin(true)}
+            >
+              <h1>Sign IN</h1>
+            </button>
+            {/* )} */}
+          </div>
 
           <Link href="/">
             <IoMenu className="hover:rounded-full hover:text-red-500 hover:bg-slate-200 transition-colors duration-300 dark:text-white dark:hover:text-orange-500 dark:hover:bg-gray-400" />

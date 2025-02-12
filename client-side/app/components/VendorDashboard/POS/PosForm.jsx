@@ -207,7 +207,7 @@ const PosForm = ({
         </div>
         <h1 className="text-lg font-semibold">Description</h1>
         <p>{food.description}</p>
-        {food.variations[0].variationName &&
+        {food?.variations[0]?.variationName &&
           food.variations?.map((variation, variationIndex) => (
             <div key={variationIndex}>
               <h1

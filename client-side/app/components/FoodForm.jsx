@@ -224,7 +224,7 @@ const FoodForm = ({
           </>
         )}
 
-        {food.variations[0].variationName &&
+        {food?.variations[0]?.variationName &&
           food.variations?.map((variation, variationIndex) => (
             <div key={variationIndex}>
               <h1

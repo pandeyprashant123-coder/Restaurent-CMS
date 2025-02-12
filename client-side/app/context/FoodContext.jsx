@@ -8,29 +8,7 @@ export function useFood() {
 }
 
 export function FoodProvider({ children }) {
-  const [foodData, setFoodData] = useState([
-    {
-      name: "",
-      description: "",
-      category: "",
-      image: null,
-      subCategory: "",
-      foodType: "",
-      nutrition: "",
-      allegren: "",
-      isItHalal: false,
-      addons: [],
-      availableTimeStarts: "",
-      availableTimeEnds: "",
-      unitPrice: 0,
-      discountType: "",
-      discount: "",
-      purchaseLimit: "",
-      stockType: "",
-      variationRequired: false,
-      variations: [],
-    },
-  ]);
+  const [foodData, setFoodData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {

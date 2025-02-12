@@ -9,5 +9,19 @@ const adsSchema = new mongoose.Schema({
     default: "Restaurant Promotion",
     required: false,
   },
-  dateRange: Date,
+  startDate: Date,
+  endDate: Date,
+  review: String,
+  rating: String,
+  profileImage: String,
+  coverImage: String,
+  status: {
+    type: String,
+    enum: ["Approved", "Pending", "Expired"],
+    default: "Pending",
+    required: false,
+  },
 });
+
+const Ads = mongoose.model("Ads", adsSchema);
+export default Ads;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import DashboardSidebar from "../components/VendorDashboard/DashboardSidebar";
 // import DashboardNav from "@/components/VendorDashboard/DashboardNav";
 import DashboardNav from "../components/VendorDashboard/DashboardNav";
@@ -24,6 +24,7 @@ import {
 } from "react-icons/ai";
 import { BiCrown, BiWalletAlt, BiFoodMenu } from "react-icons/bi";
 import { RiBankFill } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 const sidebarItems = [
   {
@@ -98,51 +99,51 @@ const sidebarItems = [
           },
           {
             title: "Pending",
-            link: "/restaurant-panel/order-management/pending",
+            link: "/restaurant-panel/order-management/orders?status=Pending",
           },
           {
             title: "Confirmed",
-            link: "/restaurant-panel/order-management/confirmed",
+            link: "/restaurant-panel/order-management/orders?status=Confirmed",
           },
           {
             title: "Accepted",
-            link: "/restaurant-panel/order-management/accepted",
+            link: "/restaurant-panel/order-management/orders?status=Accepted",
           },
           {
             title: "Cooking",
-            link: "/restaurant-panel/order-management/cooking",
+            link: "/restaurant-panel/order-management/orders?status=Cooking",
           },
           {
             title: "Ready for Delivery",
-            link: "/restaurant-panel/order-management/ready-for-delivery",
+            link: "/restaurant-panel/order-management/orders?status=ready-for-delivery",
           },
           {
             title: "Food on the Way",
-            link: "/restaurant-panel/order-management/food-on-the-way",
+            link: "/restaurant-panel/order-management/orders?status=food-on-the-way",
           },
           {
             title: "Delivered",
-            link: "/restaurant-panel/order-management/delivered",
+            link: "/restaurant-panel/order-management/orders?status=Delivered",
           },
           {
             title: "Refunded",
-            link: "/restaurant-panel/order-management/refunded",
+            link: "/restaurant-panel/order-management/orders?status=Refunded",
           },
           {
             title: "Refund Requested",
-            link: "/restaurant-panel/order-management/refund-request",
+            link: "/restaurant-panel/order-management/orders?status=refund-request",
           },
           {
             title: "Scheduled",
-            link: "/restaurant-panel/order-management/scheduled",
+            link: "/restaurant-panel/order-management/orders?status=scheduled",
           },
           {
             title: "Payment Failed",
-            link: "/restaurant-panel/order-management/payment-failed",
+            link: "/restaurant-panel/order-management/orders?status=payment-failed",
           },
           {
             title: "Canceled",
-            link: "/restaurant-panel/order-management/canceled",
+            link: "/restaurant-panel/order-management/orders?status=Canceled",
           },
         ],
       },
@@ -317,6 +318,7 @@ const sidebarItems = [
 const layout = ({ children }) => {
   const [hideSideNav, sethideSideNav] = useState(false);
   const { isAuthenticated } = useAuth();
+  const router = useRouter();
   // console.log(isAuthenticated);
 
   if (!isAuthenticated) {

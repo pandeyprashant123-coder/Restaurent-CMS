@@ -1,0 +1,1090 @@
+/* Home Page Container */
+.home-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    width: 100%;
+}
+
+.home-sub-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Welcome Section */
+.welcome-section {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.welcome-section-head {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    position: relative;
+    display: flex;
+}
+
+.welcome-section p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Zone Section */
+
+.zone-left select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 300px;
+}
+
+/* Statistics Section */
+.statistics-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.statistics-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.statistics-left {
+    width: 300px;
+    padding: 10px;
+}
+
+.statistics-left h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.selected-zone {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+    padding: 10px;
+    border-radius: 10px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: lighter;
+    height: 50px;
+    width: 50px;
+}
+
+.statistics-right select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+/* Cards Section */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 15px;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 10px;
+    border: none !important;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+
+.card p {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.card img {
+    height: 25px;
+    width: 25px;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.type-1-image {
+    position: relative;
+    left: 80px;
+}
+
+
+
+/* Specific Card Colors */
+.card-1 {
+    background-color: #1abc9c37;
+    height: 120px;
+}
+
+.card-1 h3 {
+    color: green;
+    margin-right: auto;
+    font-size: 25px;
+    margin-bottom: -5px;
+    font-weight: bold;
+}
+
+.card-1 p {
+    margin-right: auto;
+}
+
+.card-2 {
+    background-color: #ffe2e28e;
+    height: 120px;
+}
+
+.card-2 h3 {
+    color: red;
+    margin-right: auto;
+    font-size: 25px;
+    margin-bottom: -5px;
+    font-weight: bold;
+}
+
+.card-2 p {
+    margin-right: auto;
+}
+
+.card-3 {
+    background-color: #fffdec8c;
+    height: 120px;
+}
+
+.card-3 h3 {
+    color: black;
+    margin-right: auto;
+    font-size: 25px;
+    margin-bottom: -5px;
+    font-weight: bold;
+}
+
+.card-3 p {
+    margin-right: auto;
+}
+
+.card-4 {
+    background-color: #FFCFCF;
+    height: 120px;
+}
+
+.card-4 h3 {
+    color: black;
+    margin-right: auto;
+    font-size: 25px;
+    margin-bottom: -5px;
+    font-weight: bold;
+}
+
+.card-4 p {
+    margin-right: auto;
+}
+
+.card-5 {
+    background-color: #a1d6cbb7;
+    height: 90px;
+}
+
+.card-5 h3 {
+    color: rgba(0, 0, 255, 0.632);
+    font-size: 25px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+
+.card-6 {
+    background-color: #cdc1ff69;
+    height: 90px;
+}
+
+.card-6 h3 {
+    color: rgba(128, 0, 128, 0.758);
+    font-size: 25px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+
+.card-7 {
+    background-color: #5db99627;
+    height: 90px;
+}
+
+.card-7 h3 {
+    color: rgba(0, 128, 0, 0.758);
+    font-size: 25px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+
+.card-8 {
+    background-color: #e3f0af75;
+    height: 90px;
+}
+
+.card-8 h3 {
+    color: rgba(255, 166, 0, 0.715);
+    font-size: 25px;
+    font-weight: bold;
+    padding: 20px;
+}
+
+/* Food Section */
+.food-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px;
+
+}
+
+.food-subsection-top-selling {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+}
+
+.top-selling-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-selling-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.top-selling-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.top-selling-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.top-selling-card h3 {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.subsection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.subsection-header h2 {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.subsection-header select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.bar-diagram {
+    padding: 15px;
+    border-radius: 10px;
+    height: 500px !important;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#bar-diagram-image {
+    width: 100% !important;
+    height: 70% !important;
+}
+
+.bar-diagram-content {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+}
+
+.bar-diagram-content p {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.admin-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.admin-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #A294F9;
+    border-radius: 50%;
+}
+
+.sell-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.sell-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #5DB996;
+    border-radius: 50%;
+}
+
+.subs-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.subs-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: orange;
+    border-radius: 50%;
+}
+
+.zone-section-container {
+    position: relative;
+    width: 100%;
+    height: 5vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.zone-section {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+    width: 120px;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+
+.bar-diagram-down-content {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-down-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.admin-down-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #A294F9;
+}
+
+.sell-down-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.sell-down-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #5DB996;
+}
+
+.subs-down-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.subs-down-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: orange;
+}
+
+/* Food Cards */
+.home-food-section {
+    display: flex;
+    margin-top: 15px;
+    width: 100%;
+    gap: 20px;
+}
+
+.food-subsection-top-rated {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+}
+
+.top-rated-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-rated-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toprated-image {
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+}
+
+.home-food-section-zone {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.food-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.food-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.food-card:hover {
+    transform: scale(1.05);
+}
+
+.food-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    object-fit: cover;
+    border: 1px solid salmon;
+}
+
+.food-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.food-details h3 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    justify-content: center;
+}
+
+.food-details p {
+    font-size: 14px;
+    color: #777;
+}
+
+.rating-number {
+    color: orange;
+    font-weight: bold;
+}
+
+.review-number {
+    font-size: 10px;
+    color: black;
+}
+
+
+.top-selling-zone {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.top-food-details img {
+    height: 150px;
+    width: 150px;
+    margin: 0px 30px 0px 30px;
+}
+
+.top-food-details h3 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.image-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+    width: 140px;
+}
+
+.image-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.image-container button {
+    position: absolute;
+    bottom: 10px;
+    width: 120px;
+    height: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.596);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.image-container button:hover {
+    background-color: #333;
+}
+
+.top-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Specific Styling for Right Subsection (Optional if needed) */
+.top-selling .food-card {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.top-selling .food-details h3 {
+    margin-bottom: 10px;
+}
+
+
+.delivery-restaurant-section {
+    display: flex;
+    margin-top: 15px;
+    width: 100%;
+    gap: 20px;
+}
+
+.top-deliveryman {
+    flex: 1;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin-left: 8px;
+}
+
+.top-restaurants {
+    flex: 1;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 50%;
+}
+
+.top-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header img {
+    height: 20px;
+    width: 20px;
+}
+
+.section-header span {
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.section-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.deliveryman-zone {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+}
+
+.deliveryman-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+}
+
+.delivery-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 15px);
+}
+
+.delivery-card:hover {
+    transform: scale(1.02);
+}
+
+.delivery-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    padding: 15px;
+}
+
+.delivery-card h3 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.delivery-card p {
+    font-size: 12px;
+    font-weight: 400;
+    color: black;
+}
+
+.delivery-card span {
+    color: orange;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.restaurant-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px;
+}
+
+.top-restaurant-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-restaurant-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.top-restaurants-zone {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+}
+
+.top-restaurant-card {
+    display: flex;
+    flex-direction: row;
+    height: 120px;
+    width: 250px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.top-restaurant-card:hover {
+    transform: scale(1.02);
+}
+
+.top-restaurant-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 20px 10px 10px 10px;
+    border: 1px solid salmon;
+}
+
+
+
+.restaurant-card h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+
+.restaurant-card p {
+    font-size: 14px;
+    color: #777;
+}
+
+.restaurant-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 35px;
+    align-items: flex-start;
+    gap: 0px;
+}
+
+.restaurant-info h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+
+.restaurant-info span {
+    font-weight: bold;
+    font-size: 14px;
+    color: orange;
+}
+
+.restaurant-info p {
+    font-size: 14px;
+    color: #777;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 3px;
+}
+
+.user-statistics-section {
+    display: flex;
+    margin-top: 15px;
+}
+
+.statistics-line {
+    height: 1px;
+    width: 100%;
+    display: block;
+    margin: 10px;
+    background: #33333384;
+}
+
+.statistics-left-section,
+.popular-restaurants-section {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.popular-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.popular-header h2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.popular-line {
+    height: 1px;
+    width: 100%;
+    display: block;
+    margin: 10px;
+    background: #33333384;
+}
+
+.popular-restaurant-zone {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+
+.statistics-sub-header h2 {
+    font-size: 14px;
+    font-weight: 550;
+}
+
+.statistics-sub-header img {
+    height: 20px;
+    width: 20px;
+}
+
+.statistics-zone-section {
+    background-color: rgba(0, 241, 255, 0.1);
+    color: #24bac3;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+
+.time-dropdown {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+    border-radius: 10px !important;
+    border: none !important;
+}
+
+.piechart-container {
+    max-width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pie-diagram-content {
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+}
+
+.pie-diagram-content p {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.customer-dot {
+    position: relative;
+    padding-left: 20px;
+
+}
+
+.customer-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: pink;
+    border-radius: 50%;
+}
+
+.restaurant-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.restaurant-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: skyblue;
+    border-radius: 50%;
+}
+
+.delivery-dot {
+    position: relative;
+    padding-left: 20px;
+}
+
+.delivery-dot::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: orange;
+    border-radius: 50%;
+}
+
+.restaurant-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.restaurant-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(245, 245, 245, 0.637);
+    cursor: pointer;
+}
+
+.restaurant-card:hover {
+    transform: scale(1.02);
+}
+
+.restaurant-card img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.restaurant-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.restaurant-details h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-left: 3px;
+}
+
+.restaurant-details p {
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+}
+
+.restaurant-details p i {
+    margin-right: 5px;
+    color: #ff6b6b;
+}

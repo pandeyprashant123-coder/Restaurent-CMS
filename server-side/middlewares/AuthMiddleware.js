@@ -73,7 +73,6 @@ export const authenticate = (req, res, next) => {
 
     // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
     // Attach decoded user info to request for further use
     req.user = {
       id: decoded.id,

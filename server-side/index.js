@@ -15,6 +15,7 @@ import EcommerceRoutes from "./routes/EcommerceRoutes.js";
 import RestaurantRoute from "./routes/RestaurantRoutes.js";
 import foodRoutes from "./routes/foodRoutes.js";
 import addonRoutes from "./routes/addonRoutes.js";
+import adRoutes from "./routes/adRoutes.js";
 
 const app = express();
 connectDB();
@@ -47,6 +48,7 @@ app.use(`${apiRoute}/v1`, [
   RestaurantRoute,
   foodRoutes,
   addonRoutes,
+  adRoutes,
 ]);
 app.use(`${apiRoute}/v1/payment`, PaymentRoute);
 app.use(`${apiRoute}/v1/user`, UserRoute);
