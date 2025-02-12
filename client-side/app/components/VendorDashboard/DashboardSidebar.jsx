@@ -8,7 +8,7 @@ import {
 
 import { PiArrowLineLeft, PiArrowLineLeftBold } from "react-icons/pi";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
 const DashboardSidebar = ({ hideSideNav, sethideSideNav, sidebarItems }) => {
@@ -17,6 +17,20 @@ const DashboardSidebar = ({ hideSideNav, sethideSideNav, sidebarItems }) => {
   const [hoverToggle, setHoverToggle] = useState(false);
 
   const currentPath = usePathname();
+  const searchParams = useSearchParams();
+
+  // Helper function: compare two URLSearchParams objects
+  const compareSearchParams = (params1, params2) => {
+    const entries1 = Array.from(params1.entries()).sort();
+    const entries2 = Array.from(params2.entries()).sort();
+    if (entries1.length !== entries2.length) return false;
+    return entries1.every(([key, value], index) => {
+      const [key2, value2] = entries2[index];
+      return key === key2 && value === value2;
+    });
+  };
+
+  const getPathname = (link) => link.split("?")[0];
 
   const toggleDropdown = (title) => {
     setOpenDropdown((prev) => ({
@@ -155,29 +169,54 @@ const DashboardSidebar = ({ hideSideNav, sethideSideNav, sidebarItems }) => {
                                 hideSideNav && handleHoverToggle
                               }
                             >
-                              {subItem.dropdown.map((dropdownItem, i) => (
-                                <Link
-                                  href={dropdownItem.link || ""}
-                                  key={i}
-                                  className={`flex justify-between items-center pl-10 py-1 pr-2 text-sm rounded transition duration-200 hover:text-orange-500  ${
-                                    currentPath === dropdownItem.link
-                                      ? "bg-[#efF6FF1A]  w-full text-orange-500 "
-                                      : " "
-                                  }`}
-                                >
-                                  <div className="[&>*:nth-child(odd)]:text-green-200">
-                                    <span className="mr-2 font-bold text-lg ">
-                                      •
-                                    </span>
-                                    <span>{dropdownItem.title}</span>
-                                  </div>
-                                  {dropdownItem.number && (
-                                    <p className="text-[#0096ff] font-semibold text-xs bg-[#139dff1f] py-1 px-2 rounded-full">
-                                      {dropdownItem.number}
-                                    </p>
-                                  )}
-                                </Link>
-                              ))}
+                              {subItem.dropdown.map((dropdownItem, i) => {
+                                let isActive = false;
+                                try {
+                                  // Create a URL object from the dropdown link.
+                                  const url = new URL(
+                                    dropdownItem.link,
+                                    window.location.origin
+                                  );
+                                  const linkPathname = url.pathname;
+                                  // Compare both pathname and query parameters.
+                                  isActive =
+                                    currentPath === linkPathname &&
+                                    compareSearchParams(
+                                      searchParams,
+                                      url.searchParams
+                                    );
+                                } catch (error) {
+                                  // Fallback: compare pathname only
+                                  const linkPathname = getPathname(
+                                    dropdownItem.link || ""
+                                  );
+                                  isActive = currentPath === linkPathname;
+                                }
+
+                                return (
+                                  <Link
+                                    href={dropdownItem.link || ""}
+                                    key={i}
+                                    className={`flex justify-between items-center pl-10 py-1 pr-2 text-sm rounded transition duration-200 hover:text-orange-500  ${
+                                      isActive
+                                        ? "bg-[#efF6FF1A]  w-full text-orange-500 "
+                                        : " "
+                                    }`}
+                                  >
+                                    <div className="[&>*:nth-child(odd)]:text-green-200">
+                                      <span className="mr-2 font-bold text-lg ">
+                                        •
+                                      </span>
+                                      <span>{dropdownItem.title}</span>
+                                    </div>
+                                    {dropdownItem.number && (
+                                      <p className="text-[#0096ff] font-semibold text-xs bg-[#139dff1f] py-1 px-2 rounded-full">
+                                        {dropdownItem.number}
+                                      </p>
+                                    )}
+                                  </Link>
+                                );
+                              })}
                             </ul>
                           </div>
                         )}

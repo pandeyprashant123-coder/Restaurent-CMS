@@ -14,7 +14,7 @@ img[alt]:not([src]) {
 }
 input:focus,textarea:focus,select:focus {
   outline: none;
-  @apply focus:outline-none focus:ring-0 shadow-sm shadow-sky-300 border-sky-500;
+  @apply focus:outline-none focus:ring-0 shadow-sm shadow-sky-50 border-sky-100;
 }
 
 input[type="search"] {

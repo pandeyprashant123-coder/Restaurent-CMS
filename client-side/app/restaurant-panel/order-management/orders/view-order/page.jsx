@@ -16,11 +16,13 @@ import { HiShoppingCart } from "react-icons/hi";
 import { format } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import axios from "../../../../axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const OrderView = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const [order, setOrder] = useState({});
+  const [delivaryManTips, setDelivaryManTips] = useState(2);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,9 +35,85 @@ const OrderView = () => {
 
     fetchData();
   }, []);
-  console.log(order);
+
+  const totalAddonPrice = () => {
+    return order.orderItems?.reduce(
+      (total, item) =>
+        total +
+        item.addons.reduce(
+          (addonTotal, addon) =>
+            addonTotal + parseInt(addon.addon.price, 10) * addon.quantity,
+          0
+        ),
+      0
+    );
+  };
+  const unitSubtotal = () => {
+    return order.orderItems?.reduce(
+      (acc, item) => acc + item.food.unitPrice * item.quantity,
+      0
+    );
+  };
+  const calculateDiscount = () => {
+    return order.orderItems?.reduce((totalDiscount, item) => {
+      const discount =
+        item.food.discountType === "Amount"
+          ? parseFloat(item.food.discount || 0)
+          : (item.food.unitPrice * parseFloat(item.food.discount || 0)) / 100;
+      return totalDiscount + discount * item.quantity;
+    }, 0);
+  };
+  const variationsPrice = () => {
+    return order.orderItems?.reduce((total, cartItem) => {
+      const variationOptionsPrice =
+        cartItem.variations?.reduce((sum, variation) => {
+          const optionsPrice = variation.options?.reduce(
+            (optionSum, option) => {
+              return optionSum + (option.additionalPrice || 0);
+            },
+            0
+          );
+          return sum + optionsPrice;
+        }, 0) || 0;
+      return total + variationOptionsPrice;
+    }, 0);
+  };
+
+  const subTotal = () => {
+    const subtotal = unitSubtotal();
+    const variationAdditionalPrice = variationsPrice();
+    const addonPrice = totalAddonPrice();
+    return subtotal + variationAdditionalPrice + addonPrice;
+  };
+  const calculateTotal = () => {
+    const subtotal = unitSubtotal();
+    const variationAdditionalPrice = variationsPrice();
+    const addonPrice = totalAddonPrice();
+    const discount = calculateDiscount();
+    return (
+      subtotal +
+      delivaryManTips +
+      variationAdditionalPrice +
+      addonPrice -
+      discount
+    );
+  };
+  const handleChangeStatus = async (status) => {
+    try {
+      const res = await axios.put(`/orders/${id}`, { status });
+      toast(res.data.message);
+      setOrder((prev) => ({
+        ...prev,
+        status: status,
+      }));
+    } catch (error) {
+      toast("cannot change the status");
+    }
+  };
+
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
+      <ToastContainer />
       <div className="flex items-center gap-2 p-6 justify-between font-semibold text-xl">
         <div className="flex items-center gap-2">
           <FcViewDetails />
@@ -161,29 +239,30 @@ const OrderView = () => {
                   />
                   <div>
                     <h1 className="font-semibold">{food.name}</h1>
-                    {variations?.map((variation, index) => {
+                    {variations?.map((variation, index) => (
                       <div key={index}>
                         <h1 className="font-semibold">{variation.name} - </h1>
-                        {variation.options?.map((option, index) => {
+                        {variation.options?.map((option, index) => (
                           <div key={index}>
                             <div className="ml-3">
                               {option.name} :{" "}
                               <span className="font-semibold">
-                                $ {food.unitPrice + option.price}
+                                ${" "}
+                                {Number(food.unitPrice) +
+                                  Number(option.additionalPrice)}
                               </span>{" "}
                             </div>
-                          </div>;
-                        })}
-                        <div>
-                          <span className="font-semibold">Price : </span> ${" "}
-                          {food.unitPrice}
-                        </div>
-                        <div>
-                          <span className="font-semibold">Qty : </span>{" "}
-                          {quantity}
-                        </div>
-                      </div>;
-                    })}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                    <div>
+                      <span className="font-semibold">Price : </span> ${" "}
+                      {food.unitPrice}
+                    </div>
+                    <div>
+                      <span className="font-semibold">Qty : </span> {quantity}
+                    </div>
                   </div>
                 </div>
                 <div>{}</div>
@@ -196,47 +275,51 @@ const OrderView = () => {
           <div className=" grid grid-cols-2 p-4">
             <div></div>
             <div className="flex flex-col gap-2">
-              <div className="flex justify-end gap-24">
-                <h1 className="font-semibold text-right">Delivery man tips:</h1>
-                <h1 className=" text-gray-500">$ 520.00</h1>
+              <div className="flex justify-between px-7 gap-24">
+                <h1 className="font-semibold text-right">Item Price:</h1>
+                <h1 className=" text-gray-500">$ {unitSubtotal()}</h1>
               </div>
-              <div className="flex justify-end gap-24">
+              <div className="flex justify-between px-7 gap-24">
                 <h1 className="font-semibold text-right">Addon Cost:</h1>
-                <h1 className=" text-gray-500">$ 520.00</h1>
+                <h1 className=" text-gray-500">$ {totalAddonPrice()}</h1>
+              </div>
+              <div className="flex justify-between px-7 gap-24">
+                <h1 className="font-semibold text-right">Variation Cost:</h1>
+                <h1 className=" text-gray-500">$ {variationsPrice()}</h1>
               </div>
               <hr className="ml-20" />
-              <div className="flex justify-end gap-24 mt-3">
+              <div className="flex justify-between px-7 gap-24 mt-3">
                 <h1 className="font-semibold text-right">Subtotal :</h1>
-                <h1 className=" text-gray-500">$ 520.00</h1>
+                <h1 className=" text-gray-500">$ {subTotal()}</h1>
               </div>
-              <div className="flex justify-end gap-24">
+              <div className="flex justify-between px-7 gap-24">
                 <h1 className="font-semibold text-right">Discount :</h1>
-                <h1 className=" text-gray-500">- $ 520.00</h1>
+                <h1 className=" text-gray-500">- $ {calculateDiscount()}</h1>
               </div>
-              <div className="flex justify-end gap-24">
+              <div className="flex justify-between px-7 gap-24">
                 <h1 className="font-semibold text-right">Coupon discount:</h1>
-                <h1 className=" text-gray-500">- $ 520.00</h1>
+                <h1 className=" text-gray-500">- $ 0.00</h1>
               </div>
-              <div className="flex justify-end gap-24">
+              <div className="flex justify-between px-7 gap-24">
                 <h1 className="font-semibold text-right">Vat/tax :</h1>
-                <h1 className=" text-gray-500">+$ 520.00</h1>
+                <h1 className=" text-gray-500">+$ 0.00</h1>
               </div>
-              <div className="flex justify-end gap-24">
+              <div className="flex justify-between px-7 gap-24">
                 <h1 className="font-semibold text-right">Delivery man tips</h1>
-                <h1 className=" text-gray-500">+$ 520.00</h1>
+                <h1 className=" text-gray-500">+$ {delivaryManTips}</h1>
               </div>
-              <div className="flex justify-end gap-24">
+              <div className="flex justify-between px-7 gap-24">
                 <h1 className="font-semibold text-right">Delivery fee :</h1>
-                <h1 className=" text-gray-500">+$ 520.00</h1>
+                <h1 className=" text-gray-500">+$ 0.00</h1>
               </div>
-              <div className="flex justify-end gap-24">
+              <div className="flex justify-between px-7 gap-24">
                 <h1 className="font-semibold text-right">Service Charge :</h1>
-                <h1 className=" text-gray-500">+$ 520.00</h1>
+                <h1 className=" text-gray-500">+$ 0.00</h1>
               </div>
               <hr className="ml-20" />
-              <div className="flex justify-end gap-24 mt-4">
+              <div className="flex justify-between px-7 gap-24 mt-4">
                 <h1 className="font-semibold text-right">Total :</h1>
-                <h1 className=" text-gray-500">$ 520.00</h1>
+                <h1 className=" text-gray-500">$ {calculateTotal()}</h1>
               </div>
             </div>
           </div>
@@ -244,40 +327,72 @@ const OrderView = () => {
         <div className="flex flex-col gap-3 w-1/3">
           <div className="border p-6 rounded-md flex flex-col gap-5 ">
             <button className="font-semibold border-b p-3">Order Setup</button>
-            <button className="bg-[#006fbd] hover:bg-[#145482] duration-150 text-white p-2 rounded-md">
-              Confirm Order
-            </button>
-            <button className="border border-red-500 text-red-500 p-2 hover:bg-red-500 hover:text-white duration-150 rounded-md">
-              Cancel Order
-            </button>
+            {order.status === "Pending" && (
+              <>
+                <button
+                  className="bg-[#006fbd] hover:bg-[#145482] duration-150 text-white p-2 rounded-md"
+                  onClick={() => handleChangeStatus("Confirmed")}
+                >
+                  Confirm Order
+                </button>
+                <button
+                  className="border border-red-500 text-red-500 p-2 hover:bg-red-500 hover:text-white duration-150 rounded-md"
+                  onClick={() => handleChangeStatus("Cancelled")}
+                >
+                  Cancel Order
+                </button>
+              </>
+            )}
+            {order.status === "Confirmed" && (
+              <>
+                <button
+                  className="bg-[#006fbd] hover:bg-[#145482] duration-150 text-white p-2 rounded-md"
+                  onClick={() => handleChangeStatus("Cooking")}
+                >
+                  Proceed For Cooking
+                </button>
+              </>
+            )}
+            {order.status === "Cooking" && (
+              <>
+                <button
+                  className="bg-[#006fbd] hover:bg-[#145482] duration-150 text-white p-2 rounded-md"
+                  onClick={() => handleChangeStatus("Handover")}
+                >
+                  Make Ready For Handover
+                </button>
+              </>
+            )}
           </div>
-          <div className="border p-6 rounded-md flex flex-col gap-5 ">
-            <div className="">
-              <label className="block text-sm font-medium text-gray-700">
-                Table Number
-              </label>
-              <input
-                type="number"
-                name="name"
-                placeholder="Ex: 10"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
-              />
+          {order?.delivaryOption === "Dine In" && (
+            <div className="border p-6 rounded-md flex flex-col gap-5 ">
+              <div className="">
+                <label className="block text-sm font-medium text-gray-700">
+                  Table Number
+                </label>
+                <input
+                  type="number"
+                  name="name"
+                  placeholder="Ex: 10"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
+                />
+              </div>
+              <div className="">
+                <label className="block text-sm font-medium text-gray-700">
+                  Token Number
+                </label>
+                <input
+                  type="number"
+                  name="name"
+                  placeholder="Ex:32"
+                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
+                />
+              </div>
+              <button className="bg-[#006fbd] hover:bg-[#145482] duration-150 text-white p-2 rounded-md">
+                Save
+              </button>
             </div>
-            <div className="">
-              <label className="block text-sm font-medium text-gray-700">
-                Token Number
-              </label>
-              <input
-                type="number"
-                name="name"
-                placeholder="Ex:32"
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm "
-              />
-            </div>
-            <button className="bg-[#006fbd] hover:bg-[#145482] duration-150 text-white p-2 rounded-md">
-              Save
-            </button>
-          </div>
+          )}
           <div className="border p-6 rounded-md ">
             <div className="flex items-center gap-2 text-gray-600 font-semibold p-2">
               <IoPerson />
@@ -290,13 +405,15 @@ const OrderView = () => {
                 className="h-20 w-20 rounded-full"
               />
               <div>
-                <h1 className="font-semibold">Jane Doe</h1>{" "}
+                <h1 className="font-semibold">
+                  {order?.user?.first_name} {order?.user?.last_name}
+                </h1>{" "}
                 <div>
                   {" "}
                   <span className="font-semibold">17</span>Orders
                 </div>
-                <h1 className="font-bold">+8**********</h1>
-                <span>j**********@example.com</span>
+                <h1 className="font-bold">{order?.user?.mobile}</h1>
+                <span>{order?.user?.email}</span>
               </div>
             </div>
           </div>

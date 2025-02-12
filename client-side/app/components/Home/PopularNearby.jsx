@@ -89,16 +89,16 @@ const PopularNearby = () => {
 
   const getCardClass = (index) => {
     if (index === activeIndex) {
-      return "w-[210px] h-[300px]  z-20 transform scale-100 transition-all duration-[800ms] [cubic-bezier(0.4, 0, 0.2, 1)] overflow-hidden";
+      return "w-[210px] h-[300px]  z-20 transform scale-100 transition-all duration-1000 [cubic-bezier(0.4, 0, 0.2, 1)] overflow-hidden";
     } else if (index === activeIndex - 1 || index === activeIndex + 1) {
-      return " z-10 transform scale-95 transition-all duration-[800ms] [cubic-bezier(0.4, 0, 0.2, 1)] overflow-hidden";
+      return " z-10 transform scale-95 transition-all duration-1000 [cubic-bezier(0.4, 0, 0.2, 1)] overflow-hidden";
     } else {
-      return " z-0 transform scale-90 transition-all duration-[800ms] [cubic-bezier(0.4, 0, 0.2, 1)] overflow-hidden";
+      return " z-0 transform scale-90 transition-all duration-1000 [cubic-bezier(0.4, 0, 0.2, 1)] overflow-hidden";
     }
   };
 
   return (
-    <div className=" mx-20 h-96 bg-gray-100 dark:bg-black scale-105">
+    <div className=" mx-20 h-96 bg-gray-100 dark:bg-black ">
       <h2 className="text-center text-2xl font-semibold mb-6 ">
         Popular Foods Nearby
       </h2>
@@ -111,6 +111,7 @@ const PopularNearby = () => {
           loop={true} // Enable infinite loop
           loopedslides={trendsData.length} // Set number of duplicated slides
           navigation
+          speed={1000}
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,
@@ -124,12 +125,12 @@ const PopularNearby = () => {
               className="flex justify-center items-center"
             >
               <div
-                className={`transition-all duration-500 bg-white rounded-lg shadow-md overflow-hidden transform ${getCardClass(
+                className={`transition-all duration-1000 bg-white rounded-xl shadow-md overflow-hidden transform ${getCardClass(
                   index
                 )}`}
               >
                 <div
-                  className="p-1 relative h-72 dark:bg-black max-w-xs overflow-hidden rounded-lg cursor-pointer transform transition-transform duration-300 "
+                  className="p-[0.4rem] relative h-72 dark:bg-black max-w-xs overflow-hidden rounded-xl cursor-pointer transform transition-transform duration-300 "
                   onClick={() => setPopup((prevPopup) => !popup)}
                 >
                   <span className="absolute top-2 left-0 bg-white text-black text-xs font-bold py-1 px-2 rounded-full z-10">
@@ -143,7 +144,7 @@ const PopularNearby = () => {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-40 rounded-md object-cover transform transition-transform duration-300 hover:scale-125 z-0"
+                      className="w-full h-40 rounded-xl object-cover transform transition-transform duration-300 hover:scale-125 z-0"
                     />
                     <FaPlus className="absolute bottom-2 right-4 text-red-400 bg-white rounded-full p-1 text-[20px]" />
                   </div>

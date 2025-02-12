@@ -104,7 +104,7 @@ const AllRestaurants = () => {
   };
 
   return (
-    <div className="mx-20 my-8 flex-col ">
+    <div className="mx-20 py-8 flex-col ">
       {/* Section Header */}
       <div className="flex justify-between items-center">
         <div>

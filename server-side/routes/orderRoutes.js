@@ -1,9 +1,12 @@
 import express from "express";
 import { Order } from "../models/order.js";
 import { OrderItem } from "../models/order-item.js";
-import AuthMiddleware from "../middlewares/AuthMiddleware.js";
+import AuthMiddleware, {
+  isAdminOrRestroAdmin,
+} from "../middlewares/AuthMiddleware.js";
 import Cart from "../models/Cart.js";
 import User from "../models/User.js";
+import Restaurant from "../models/Restaurant.js";
 
 const { isUser, authenticate, isAdmin, isRestroAdmin } = AuthMiddleware;
 
@@ -18,6 +21,7 @@ router.post("/orders", authenticate, async (req, res) => {
       paymentMethod,
       delivaryOption,
       totalPrice,
+      restaurant,
     } = req.body;
 
     // Validate cart
@@ -101,6 +105,7 @@ router.post("/orders", authenticate, async (req, res) => {
       cart: cartId,
       status: "Pending",
       delivaryOption,
+      restaurant,
     });
 
     const savedOrder = await order.save();
@@ -177,7 +182,7 @@ router.get(
 );
 
 // Get all orders (Requires admin access)
-router.get("/orders", authenticate, isRestroAdmin, async (req, res) => {
+router.get("/orders", authenticate, isAdmin, async (req, res) => {
   try {
     const orders = await Order.find()
       .populate("user", "name email mobile")
@@ -207,12 +212,11 @@ router.get("/orders/:id", authenticate, isRestroAdmin, async (req, res) => {
         populate: [
           { path: "food" }, // Populate orderItems.food
           {
-            path: "addons.addon", // Populate orderItems.addons.addon
-            select: "variations quantity food", // Include specific fields
+            path: "addons.addon", // Include specific fields
           },
         ],
       })
-      .populate("user", "name email mobile")
+      .populate("user", "first_name last_name email mobile")
       .sort("-createdAt");
 
     if (!order) {
@@ -230,9 +234,49 @@ router.get("/orders/:id", authenticate, isRestroAdmin, async (req, res) => {
     });
   }
 });
+// Get order by  restro ID (Requires user authentication)
+router.get(
+  "/orders/restaurants/:id",
+  authenticate,
+  isRestroAdmin,
+  async (req, res) => {
+    try {
+      const restro = await Restaurant.findOne({ user: req.params.id });
+
+      if (!restro) {
+        res.status(404).json({ message: "User Not available" });
+      }
+      const order = await Order.find({ restaurant: restro._id })
+        .populate({
+          path: "orderItems",
+          populate: [
+            { path: "food" }, // Populate orderItems.food
+            {
+              path: "addons.addon", // Include specific fields
+            },
+          ],
+        })
+        .populate("user", "name email mobile")
+        .sort("-createdAt");
+
+      if (!order) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Order not found" });
+      }
+      res.status(200).json({ success: true, data: order });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch order",
+        error: error.message,
+      });
+    }
+  }
+);
 
 // Update order status (Requires admin access)
-router.put("/orders/:id", isAdmin, async (req, res) => {
+router.put("/orders/:id", authenticate, isRestroAdmin, async (req, res) => {
   try {
     const { status } = req.body;
 
@@ -246,12 +290,7 @@ router.put("/orders/:id", isAdmin, async (req, res) => {
       req.params.id,
       { status },
       { new: true }
-    )
-      .populate("user", "name email")
-      .populate({
-        path: "orderItems",
-        populate: { path: "product", select: "name price image" },
-      });
+    );
 
     if (!order) {
       return res

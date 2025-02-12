@@ -13,14 +13,38 @@ import axios from "../../../../axios";
 import { useFood } from "../../../../context/FoodContext";
 import { toast, ToastContainer } from "react-toastify";
 import Select from "react-select";
+import { useAuth } from "../../../../context/AuthContext";
 
 const AddNew = () => {
-  const { foodData } = useFood();
+  const { user } = useAuth();
+  const { _id } = JSON.parse(user);
+  console.log(_id);
 
-  const [formData, setFormData] = useState(foodData);
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    category: "",
+    image: null,
+    subCategory: "",
+    foodType: "",
+    nutrition: "",
+    allegren: "",
+    isItHalal: false,
+    addons: [],
+    availableTimeStarts: "",
+    availableTimeEnds: "",
+    unitPrice: 0,
+    discountType: "",
+    discount: "Percent",
+    purchaseLimit: "",
+    stockType: "",
+    variationRequired: false,
+    variations: [],
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const [addons, setAddons] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -29,8 +53,9 @@ const AddNew = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get("/addons");
-
         setAddons(res.data);
+        const res1 = await axios.get("/categories");
+        setCategories(res1?.data?.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -42,7 +67,6 @@ const AddNew = () => {
     value: addon._id,
     label: addon.name,
   }));
-  console.log(formData);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
@@ -74,43 +98,48 @@ const AddNew = () => {
     setIsLoading(true);
     console.log(formData);
     try {
-      const response = await axios.post("foods", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "foods",
+        { ...formData, user: _id },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log(response.message);
       toast("form Submitted");
     } catch (error) {
       console.error("Error:", error);
       toast("unable to add food");
-    } finally {
-      setFormData({
-        name: "",
-        description: "",
-        image: null,
-        category: "",
-        subCategory: "",
-        foodType: "",
-        nutrition: "",
-        allegren: "",
-        isItHalal: false,
-        addon: "",
-        availableTimeStarts: "",
-        availableTimeEnds: "",
-        unitPrice: 0,
-        discountType: "",
-        discount: "",
-        purchaseLimit: "",
-        stockType: "",
-        variationRequired: false,
-        variations: [],
-      });
-
-      setImage(null);
-      setPreview(null);
-      setIsLoading(false);
     }
+    // } finally {
+    //   setFormData({
+    //     name: "",
+    //     description: "",
+    //     image: null,
+    //     category: "",
+    //     subCategory: "",
+    //     foodType: "",
+    //     nutrition: "",
+    //     allegren: "",
+    //     isItHalal: false,
+    //     addon: "",
+    //     availableTimeStarts: "",
+    //     availableTimeEnds: "",
+    //     unitPrice: 0,
+    //     discountType: "",
+    //     discount: "",
+    //     purchaseLimit: "",
+    //     stockType: "",
+    //     variationRequired: false,
+    //     variations: [],
+    //   });
+
+    //   setImage(null);
+    //   setPreview(null);
+    // }
+    setIsLoading(false);
   };
   const handleRemoveImage = () => {
     setImage(null);
@@ -151,19 +180,11 @@ const AddNew = () => {
         {
           variationName: "",
           required: false,
+          selectionType: "",
           options: [{ name: "", additionalPrice: "" }],
         },
       ],
     }));
-  };
-
-  const deleteVariation = (index) => {
-    setFormData((prevState) => {
-      const updatedVariations = prevState.variations.filter(
-        (_, i) => i !== index
-      );
-      return { ...prevState, variations: updatedVariations };
-    });
   };
 
   const addOptionToVariation = (index) => {
@@ -176,6 +197,15 @@ const AddNew = () => {
           { name: "", additionalPrice: "" },
         ],
       };
+      return { ...prevState, variations: updatedVariations };
+    });
+  };
+
+  const deleteVariation = (index) => {
+    setFormData((prevState) => {
+      const updatedVariations = prevState.variations.filter(
+        (_, i) => i !== index
+      );
       return { ...prevState, variations: updatedVariations };
     });
   };
@@ -205,6 +235,7 @@ const AddNew = () => {
       return { ...prevState, variations: updatedVariations };
     });
   };
+  console.log(formData);
 
   return (
     <div className="w-full flex flex-col bg-gray-50 p-3">
@@ -222,8 +253,8 @@ const AddNew = () => {
               </label>
               <input
                 type="text"
-                name="name"
                 placeholder="New Food"
+                name="name"
                 value={formData.name}
                 required
                 onChange={handleChange}
@@ -304,11 +335,15 @@ const AddNew = () => {
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                   >
                     <option value=""> ---Select Category---</option>
-                    <option value="Burger">Burger</option>
-                    <option value="Biryani">Biryani</option>
+                    {categories?.map((category) => (
+                      <option value={category.cName} key={category._id}>
+                        {category.cName}
+                      </option>
+                    ))}
+                    {/* <option value="Biryani">Biryani</option>
                     <option value="Asian">Asian</option>
                     <option value="Cake">Cake</option>
-                    <option value="Coffee&Drinks">Coffee&Drinks</option>
+                    <option value="Coffee&Drinks">Coffee&Drinks</option> */}
                   </select>
                 </div>
                 <div className="w-full">
@@ -322,11 +357,6 @@ const AddNew = () => {
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
                   >
                     <option value=""> ---Select Sub Category---</option>
-                    <option value="Burger">Burger</option>
-                    <option value="Biryani">Biryani</option>
-                    <option value="Asian">Asian</option>
-                    <option value="Cake">Cake</option>
-                    <option value="Coffee&Drinks">Coffee&Drinks</option>
                   </select>
                 </div>
                 <div className="w-full">
@@ -543,7 +573,7 @@ const AddNew = () => {
               </div>
             </div>
             <div className="">
-              {formData?.variations.map((variation, index) => (
+              {formData.variations?.map((variation, index) => (
                 <div
                   className="p-6 rounded-md bg-slate-50 flex flex-col gap-3 m-3"
                   key={index}
@@ -634,7 +664,7 @@ const AddNew = () => {
                       </div>
                     </div>
                     <div className="mr-auto flex flex-col gap-3 w-full p-6 bg-white shadow-sm rounded-lg">
-                      {variation.options.map((option, optionIndex) => (
+                      {variation?.options?.map((option, optionIndex) => (
                         <div
                           className="flex gap-4 items-center"
                           key={optionIndex}

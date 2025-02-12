@@ -1,8 +1,7 @@
 "use client";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
 import { GrLinkNext } from "react-icons/gr";
 import Link from "next/link";
+import useSWR from "swr";
 import ImageSlider from "./components/Home/ImageSlider";
 import HighlightSection from "./components/Home/HighlightSection";
 import TodaysTrends from "./components/Home/Trends";
@@ -39,21 +38,12 @@ const imageData = [
   "bg-gray-500",
   "bg-orange-500",
 ];
-
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 export default function Home() {
-  const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("/categories");
-        setCategories(res.data.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const { data } = useSWR(`${process.env.API_BASE_URL}/categories`, fetcher);
+  const categories = data?.data;
+  console.log(data);
 
-    fetchData();
-  }, []);
   return (
     <>
       <Navbar />
@@ -65,7 +55,8 @@ export default function Home() {
 
           <div className="ml-32 flex gap-4 mt-0">
             {categories?.map((item, index) => (
-              <div
+              <Link
+                href={`/categories/category?category=${item.cName}`}
                 key={item._id}
                 className="flex-shrink-0 flex flex-col items-center justify-center rounded-md p-0.5 transform transition-all duration-300 hover:bg-slate-200 cursor-pointer "
               >
@@ -83,7 +74,7 @@ export default function Home() {
                 <div className="text-black dark:text-white text-[14px] font-semibold my-4">
                   <h3>{item.cName}</h3>
                 </div>
-              </div>
+              </Link>
             ))}
             <div className="flex items-center justify-end p-4">
               <Link href="/categories">

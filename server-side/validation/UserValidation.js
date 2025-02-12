@@ -12,12 +12,6 @@ export const validateRegister = [
     .withMessage("Date of birth is required")
     .isDate()
     .withMessage("Invalid date format"),
-  body("password")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters"),
-  body("confirm_password")
-    .custom((value, { req }) => value === req.body.password)
-    .withMessage("Passwords do not match"),
 ];
 
 // Validation for user login

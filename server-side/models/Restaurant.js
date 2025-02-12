@@ -19,7 +19,18 @@ const restaurantSchema = new mongoose.Schema(
         message: "Invalid email address format",
       },
     },
-    cuisine: { type: [String], default: [] },
+    user: {
+      type: mongoose.Schema.Types.ObjectId, // Add-ons can reference another schema
+      ref: "User",
+      required: true,
+    },
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId, // Add-ons can reference another schema
+        ref: "categories",
+        required: false,
+      },
+    ],
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
     zone: { type: String, default: null },

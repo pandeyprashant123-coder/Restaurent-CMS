@@ -7,6 +7,8 @@ import "react-date-range/dist/theme/default.css"; // Theme CSS file
 
 import { RiUploadCloudFill } from "react-icons/ri";
 import { AiOutlineClose } from "react-icons/ai";
+import axios from "../../../axios";
+import { toast, ToastContainer } from "react-toastify";
 
 // interface DateRangeType {
 //   startDate: Date;
@@ -31,7 +33,7 @@ const NewAd = () => {
     },
   ]);
   const [showCalendar, setShowCalendar] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleApply = () => {
     setShowCalendar(false);
   };
@@ -101,13 +103,67 @@ const NewAd = () => {
     }));
   };
 
+  const handleReset = () => {
+    setFormData({
+      adTitle: "",
+      adDescription: "",
+      adType: "",
+      review: true,
+      rating: true,
+    });
+    setImageProfile(null);
+    setPreviewCover(null);
+    setImageProfile(null);
+    setPreviewProfile(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const newData = {
+      title: formData.adTitle,
+      description: formData.adDescription,
+      adType: formData.adType,
+      startDate: dateRange[0].startDate,
+      endDate: dateRange[0].endDate,
+      profileImage: imageProfile,
+      coverImage: imageCover,
+    };
+    console.log(newData);
+    try {
+      const response = await axios.post("advertisement", newData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response.data.message);
+      toast("form Submitted");
+    } catch (error) {
+      console.error("Error:", error);
+      toast(response.data.message);
+    } finally {
+      setFormData({
+        adTitle: "",
+        adDescription: "",
+        adType: "",
+        review: true,
+        rating: true,
+      });
+      setImageProfile(null);
+      setPreviewCover(null);
+      setImageProfile(null);
+      setPreviewProfile(null);
+    }
+  };
+
   return (
     <div className="w-full">
+      <ToastContainer />
       <div className="flex items-center gap-2 p-6 font-semibold text-xl">
         <h1>Create Advertisement</h1>
       </div>
       <div className="p-6 flex gap-5 border rounded-md m-6">
-        <div className="w-1/2 flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="w-1/2 flex flex-col gap-5">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Advertisement Title
@@ -296,8 +352,24 @@ const NewAd = () => {
                 </div>
               </div>
             </div>
+            <div className="flex gap-3 w-full justify-end pt-3">
+              <button
+                type="button"
+                className="bg-gray-300 py-1 font-semibold px-5 rounded-lg"
+                onClick={handleReset}
+              >
+                Reset
+              </button>
+              <button
+                type="submit"
+                className="bg-indigo-700 text-white py-1 font-semibold px-5 rounded-lg "
+                disabled={isLoading}
+              >
+                {isLoading ? "Loading..." : "Submit"}
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
         {/* card */}
         <div className="w-1/2">
           <div className=" flex flex-col gap-2 bg-gray-100 p-6 rounded-md  sticky top-20">
