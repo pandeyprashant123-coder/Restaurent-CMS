@@ -16,6 +16,11 @@ const menuItemSchema = new mongoose.Schema({
   name: { type: String, required: true }, // Item name
   description: { type: String, required: true }, // Item description
   image: { type: String }, // Image file path or URL
+  restaurant: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Restaurant",
+  },
   category: {
     // type: mongoose.Schema.Types.ObjectId,
     // required: true,
@@ -49,7 +54,6 @@ const menuItemSchema = new mongoose.Schema({
     type: String,
     enum: ["Percent", "Amount"],
     default: "",
-    default: "",
     required: false,
   }, // Discount type
   discount: { type: String, default: 0 }, // Discount value
@@ -58,7 +62,7 @@ const menuItemSchema = new mongoose.Schema({
   variationRequired: { type: Boolean, default: false }, // Are variations required?
   variations: [variationSchema], // List of variations
   recommended: { type: Boolean, default: false }, // Is the item recommended?
-  status: { type: String, enum: ["active", "inactive"], default: "active" }, // Status of the item
+  status: { type: String, enum: ["active", "inactive"], default: "inactive" }, // Status of the item
 });
 
 const MenuItem = mongoose.model("MenuItem", menuItemSchema);

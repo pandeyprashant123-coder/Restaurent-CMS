@@ -1,6 +1,8 @@
 import menuItemService from "../services/foodServices.js";
 import xlsx from "xlsx";
 import upload from "../middlewares/multer.js";
+import MenuItem from "../models/foods.js";
+import Restaurant from "../models/Restaurant.js";
 
 // Create a new menu item
 const createMenuItem = async (req, res) => {
@@ -30,9 +32,11 @@ const createMenuItem = async (req, res) => {
         }
       } else {
         // Handle case where there is no Excel file
+        const { user } = req.body;
         const newMenuItem = await menuItemService.createMenuItem(
           req.body,
-          req.files // Contains the uploaded files
+          req.files,
+          user
         );
         return res.status(201).json(newMenuItem);
       }
@@ -58,6 +62,35 @@ const getMenuItemById = async (req, res) => {
   const { id } = req.params;
   try {
     const menuItem = await menuItemService.getMenuItemById(id);
+    res.status(200).json(menuItem);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getMenuItemByRestro = async (req, res) => {
+  const { restroId } = req.params;
+  try {
+    const restro = await Restaurant.findOne({ user: restroId });
+    const menuItem = await MenuItem.find({ restaurant: restro._id }).populate(
+      "category subCategory addons"
+    );
+    if (!menuItem) {
+      res.status(404).json({ message: "Restaurant Not available" });
+    }
+    res.status(200).json(menuItem);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getMenuItemByCategories = async (req, res) => {
+  const { category } = req.params;
+  try {
+    const menuItem = await MenuItem.find({ category }).populate(
+      "category subCategory addons"
+    );
+    if (!menuItem) {
+      res.status(404).json({ message: "Food Not available" });
+    }
     res.status(200).json(menuItem);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -91,6 +124,8 @@ export default {
   createMenuItem,
   updateMenuItem,
   getMenuItemById,
+  getMenuItemByRestro,
+  getMenuItemByCategories,
   getAllMenuItems,
   deleteMenuItem,
 };

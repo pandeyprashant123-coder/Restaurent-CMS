@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { LuMails } from "react-icons/lu";
 import { MdOutlinePendingActions, MdPerson } from "react-icons/md";
 
-const DashboardNav = () => {
+const DashboardNav = ({ type }) => {
   const [showCard, setShowCard] = useState(false);
   const { logout, user } = useAuth();
   const userData = JSON.parse(user);
@@ -22,8 +22,10 @@ const DashboardNav = () => {
           onMouseOver={() => setShowCard(true)}
         >
           <div>
-            <h1 className="font-bold text-sm">{userData.name || "admin"}</h1>
-            <span>{userData.email}</span>
+            <h1 className="font-bold text-sm">
+              {userData?.first_name || "admin"}
+            </h1>
+            <span>{userData?.email}</span>
           </div>
           <MdPerson className="p-1 text-5xl border-4 border-white rounded-full bg-gray-200" />
         </div>
@@ -36,12 +38,12 @@ const DashboardNav = () => {
           <div className="py-3 px-5 border-b flex gap-3">
             <MdPerson className="p-1 text-5xl border-4 border-white rounded-full bg-gray-200" />
             <div>
-              <h1 className="font-bold text-sm">{userData.name || "admin"}</h1>
-              <span>{userData.email}</span>
+              <h1 className="font-bold text-sm">{userData?.name || "admin"}</h1>
+              <span>{userData?.email}</span>
             </div>
           </div>
           <Link
-            href="/vendor-dashboard/settings"
+            href={`/${type}/settings`}
             className="py-3 px-5 border-b hover:bg-gray-300 duration-150 cursor-pointer"
           >
             Settings

@@ -2,6 +2,8 @@ import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import * as AuthService from "../services/AuthServices.js";
 // JWT Token Generator
+import crypto from "crypto";
+
 const generateToken = (id, user_type) => {
   if (!process.env.JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined in the environment variables.");
@@ -22,9 +24,9 @@ export const register = async (req, res) => {
     password,
     confirm_password,
     email,
+    fullName,
     user_type = "user",
   } = req.body;
-
   if (password !== confirm_password) {
     return res.status(400).json({ message: "Passwords do not match" });
   }
@@ -45,6 +47,7 @@ export const register = async (req, res) => {
       password,
       user_type,
       email,
+      first_name: fullName,
     });
 
     const token = generateToken(user._id, user.user_type);

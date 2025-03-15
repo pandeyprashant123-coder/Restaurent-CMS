@@ -11,11 +11,20 @@ const generateToken = (id, user_type) => {
 };
 
 export const registerRestaurant = async (req, res, next) => {
+  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { phone, date_of_birth, password, confirm_password, email } = req.body;
+  const {
+    phone,
+    date_of_birth,
+    password,
+    confirm_password,
+    email,
+    ownerFirstName,
+    ownerLastName,
+  } = req.body;
 
   if (password !== confirm_password) {
     return res.status(400).json({ message: "Passwords do not match" });
@@ -37,8 +46,14 @@ export const registerRestaurant = async (req, res, next) => {
       password,
       user_type: "vendor",
       email,
+      first_name: ownerFirstName,
+      last_name: ownerLastName,
     });
-
+    console.log(user);
+    req.restaurant = {
+      id: user._id,
+      user_type: "vendor",
+    };
     // const token = generateToken(user._id, user.user_type);
     // res
     //   .status(201)

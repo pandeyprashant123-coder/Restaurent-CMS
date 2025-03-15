@@ -29,9 +29,9 @@ const uploadToCloudinary = (file, folder) => {
     bufferStream.pipe(uploadStream);
   });
 };
-const createRestaurant = async (restaurantData, files) => {
+const createRestaurant = async (restaurantData, files, user) => {
   try {
-    let restaurant = new Restaurant(restaurantData);
+    let restaurant = new Restaurant({ ...restaurantData, user: user.id });
 
     // Handle logo upload
     if (files.logo && files.logo.length > 0) {
@@ -46,6 +46,13 @@ const createRestaurant = async (restaurantData, files) => {
         "coverPhotos"
       );
       restaurant.CoverPhoto = coverPhotoUploadResult.secure_url; // Store the cover photo URL
+    }
+    if (files.panCard && files.panCard.length > 0) {
+      const panCardUploadResult = await uploadToCloudinary(
+        files.panCard[0],
+        "panCards"
+      );
+      restaurant.panCard = panCardUploadResult.secure_url; // Store the cover photo URL
     }
     //handle register
 
@@ -105,7 +112,7 @@ const createRestaurantFromExcel = async (data) => {
 // Service to get all restaurants
 const getAllRestaurants = async () => {
   try {
-    return await Restaurant.find({});
+    return await Restaurant.find({}).populate("categories");
   } catch (error) {
     throw new Error("Error fetching restaurant: " + error.message);
   }

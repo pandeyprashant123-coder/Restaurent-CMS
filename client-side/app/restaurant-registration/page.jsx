@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
-import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const RestaurantRegistration = () => {
   const [step, setStep] = useState(1);

@@ -7,6 +7,11 @@ const orderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Restaurant",
+      required: true,
+    },
     orderItems: [
       {
         type: mongoose.Schema.Types.ObjectId,

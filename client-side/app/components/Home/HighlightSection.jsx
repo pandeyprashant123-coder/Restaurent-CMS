@@ -5,55 +5,21 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import useSWR from "swr";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const HighlightSection = () => {
-  const highlights = [
-    {
-      image:
-        "https://img.freepik.com/free-photo/chicken-fajita-chicken-fillet-fried-with-bell-pepper-lavash-with-bread-slices-white-plate_114579-174.jpg?ga=GA1.1.1668910324.1734242616&semt=ais_tags_boosted",
-      title: "Taste the Flavor! Food Festkdskcm dcdkc dkdls dkdslk cdkd",
-      rating: 4.7,
-      discount: "45% Off",
-      description:
-        "Indulge in culinary delights at our Food Fest Extravaganza!",
-    },
-    {
-      image:
-        "https://img.freepik.com/free-photo/chicken-skewers-with-slices-apples-chili_2829-19992.jpg?ga=GA1.1.1668910324.1734242616&semt=ais_tags_boosted",
-      title: "Incredible Savings! Get 45% Off",
-      rating: 4.7,
-      discount: "UPTO 45% OFF",
-      description: "Discover unbeatable deals with our 45% off sale!",
-    },
-    {
-      image:
-        "https://img.freepik.com/free-photo/sauteed-mushrooms-with-pumpkin-sweet-pepper_2829-10315.jpg?ga=GA1.1.1668910324.1734242616&semt=ais_tags_boosted",
-      title: "Huge Savings Alert: 75% Off",
-      rating: 0.0,
-      discount: "75% Off",
-      description: "Enjoy a massive 75% discount on all items!",
-    },
-    {
-      image:
-        "https://img.freepik.com/premium-photo/indian-hindu-veg-thali-food-platter-selective-focus_466689-35665.jpg?ga=GA1.1.1668910324.1734242616&semt=ais_tags_boosted",
-      title: "Incredible Savings! Get 45% Off",
-      rating: 4.7,
-      discount: "UPTO 45% OFF",
-      description: "Discover unbeatable deals with our 45% off sale!",
-    },
-    {
-      image:
-        "https://img.freepik.com/premium-photo/indian-hindu-veg-thali-food-platter-selective-focus_466689-35665.jpg?ga=GA1.1.1668910324.1734242616&semt=ais_tags_boosted",
-      title: "Incredible Savings! Get 45% Off",
-      rating: 4.7,
-      discount: "UPTO 45% OFF",
-      description: "Discover unbeatable deals with our 45% off sale!",
-    },
-  ];
+  const { data, error } = useSWR(
+    `${process.env.API_BASE_URL}/advertisement`,
+    fetcher
+  );
+  const highlights = data?.filter((item) => item.status === "Approved");
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <div className="mx-28 my-4 space-y-2 bg-[#eff3f8] dark:bg-slate-500 px-4 py-8">
+    <div className="mx-28 my-6 space-y-2 bg-[#e7f1fe] dark:bg-slate-500 px-4 py-8">
       {/* Section Header */}
       <div className=" top-0 left-0">
         <h2 className="text-[16px] font-bold text-gray-800 dark:text-black">
@@ -83,31 +49,34 @@ const HighlightSection = () => {
         onSlideChange={(swiper) => setCurrentIndex(swiper.realIndex)} // Update current index
         className="mySwiper"
       >
-        {highlights.map((highlight, index) => (
-          <SwiperSlide key={index}>
-            <div className="bg-white dark:bg-slate-800 outline outline-2 outline-slate-200 mt-4 h-full rounded-lg shadow-md transition-all duration-300">
+        {highlights?.map((highlight, index) => (
+          <SwiperSlide key={highlight._id}>
+            <div className="bg-white dark:bg-slate-800 outline outline-2 outline-slate-200 mt-4 p-1 h-full rounded-lg shadow-md transition-all duration-300">
               {/* Card Image with Hover Zoom */}
-              <div className="overflow-hidden rounded-md h-full">
+              <div className="overflow-hidden relative  rounded-t-md h-full">
                 <img
-                  src={highlight.image}
+                  src={highlight.coverImage}
                   alt={highlight.title}
                   className="w-full h-40 object-cover transition-transform duration-300 hover:scale-110"
                 />
+                <div className="absolute bottom-2 font-semibold right-4 text-white bg-orange-500 px-1 py-[0.1rem] rounded-full border-2 border-white">
+                  <span>⭐4.7 </span> <span>(3+)</span>
+                </div>
               </div>
 
               {/* Card Content */}
-              <div className=" relative mt-3 h-full">
-                <div className="flex justify-between items-center">
+              <div className=" relative m-3 h-full">
+                <div className="flex gap-3 justify-between items-center">
                   {/* image halnu xa not happenning why? */}
-                  <div className="mx-4">
+                  <div className="">
                     <img
-                      src={highlight.image}
+                      src={highlight.profileImage}
                       alt={highlight.title}
-                      className="bg-slate-400 h-[50px] w-[50px] rounded-full mr-4"
+                      className="bg-slate-400 h-[60px] w-[60px] rounded-full mr-4"
                     />
                   </div>
 
-                  <div className="flex-col m-2">
+                  <div className="flex-col">
                     <div className="flex relative">
                       <h3 className="w-3/4 text-lg font-bold text-gray-800 dark:text-white truncate max-w-xs">
                         {highlight.title}
@@ -118,10 +87,6 @@ const HighlightSection = () => {
                       {highlight.description}
                     </p>
                   </div>
-                  <span className="absolute -top-16 right-2 bg-orange-500 text-white text-lg px-2 py-1 mb-4 rounded-full outline outline-white outline-2">
-                    ⭐{highlight.rating}
-                    <span className="text-white text-lg ml-1">(3)</span>
-                  </span>
                 </div>
               </div>
             </div>
@@ -131,7 +96,7 @@ const HighlightSection = () => {
 
       {/* Dynamic Image Indicator */}
       <div className="flex justify-center mt-4 text-black text-[10px] font-medium ">
-        {`${currentIndex + 1}/${highlights.length}`}
+        {`${currentIndex + 1}/${highlights?.length}`}
       </div>
     </div>
   );

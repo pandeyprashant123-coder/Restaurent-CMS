@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
 import { toast, ToastContainer } from "react-toastify";
 import { BsEye } from "react-icons/bs";
 import { FaEyeSlash } from "react-icons/fa6";
@@ -16,12 +17,14 @@ const Login = () => {
     rememberMe: false,
   });
 
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/vendor-dashboard");
+    if (isAuthenticated && JSON.parse(user).user_type === "vendor") {
+      router.push("/restaurant-panel");
+    } else if (isAuthenticated && JSON.parse(user).user_type === "admin") {
+      router.push("/admin");
     }
   }, [isAuthenticated, router]);
 
